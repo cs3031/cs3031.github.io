@@ -1,0 +1,362 @@
+# Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture
+
+
+## 1. ALU Positioning & Architecture
+
+The **Arithmetic Logic Unit (ALU)** serves as the primary computational engine of the processor. In the **Gajendra-1** microarchitecture, the 8-bit ALU is directly wired between two general-purpose registers (**Register A / Accumulator** and **Register B**) and outputs to the 8-bit **Common System Bus**.
+
+```text
+                  ═════════════════════════════════════════
+                              COMMON SYSTEM BUS (8-bit)
+                  ═════════▲══════════════════════▲════════
+                           │                      │
+                  RegA_out │                      │ RegB_out
+                           │                      │
+                     ┌─────┴─────┐          ┌─────┴─────┐
+                     │ Register  │          │ Register  │
+                     │    A      │          │    B      │
+                     └─────┬─────┘          └─────┬─────┘
+                           │ 8-bit                │ 8-bit
+                           │                      │
+                           ▼                      ▼
+                     ┌──────────────────────────────────┐
+                     │          GAJENDRA 8-BIT          │
+                     │      ARITHMETIC LOGIC UNIT       │
+                     └────────────────┬─────────────────┘
+                                      │ ALU_out (Tri-State Enable)
+                                      ▼
+                  ═════════════════════════════════════════
+                              COMMON SYSTEM BUS
+                  ═════════════════════════════════════════
+
+```
+
+### Key Structural Attributes
+
+* **Direct Register Feeding:** Registers A and B feed the ALU directly without bus latency or control gating. Any state change in $Reg_A$ or $Reg_B$ immediately updates the combinational output of the ALU.
+
+
+* **Bus Tri-State Isolation:** The ALU output connects to the common bus via a tri-state buffer controlled by the `ALU_out` signal, ensuring it drives the bus *only* during active write-back clock cycles.
+
+
+* **Operation Selection:**
+* **Generic Multipurpose ALU:** Uses an $n$-bit selection vector fed through a $k$-to-$2^k$ decoder to select functions (e.g., ADD, SUB, AND, NOT).
+
+
+* **Gajendra-1 Minimal ALU:** Uses a 1-bit control line $S$ ($S=0 \implies \text{ADD}$, $S=1 \implies \text{SUB}$).
+
+
+
+
+* **Status Flags (Flags Register):** Combinational outputs from the ALU set conditions in a 4-bit Status Register:
+
+
+* **Zero Flag ($Z / \bar{Z}$):** Set to $1$ if the 8-bit result equals `0x00`.
+
+
+* **Carry Flag ($C / \bar{C}$):** Set to $1$ if the operation produces an arithmetic carry/borrow out of the MSB.
+
+
+
+
+## 2. Binary Subtraction & Two's Complement Derivation
+
+Because designing separate physical circuits for addition and subtraction increases silicon area and gate cost, processors execute subtraction $A - B$ as the addition of a negative number: $A + (-B)$.
+
+### Flaw of Sign-Magnitude Representation
+
+In Sign-Magnitude, the MSB denotes sign ($0 = +, 1 = -$) and the remaining bits denote magnitude.
+
+#### Step-by-Step Failure Example: Calculate $5_{10} - 1_{10}$ in 4-bit Sign-Magnitude
+
+1. $+5_{10} \implies \text{Sign}=0, \text{Mag}=101_2 \implies 0101_2$
+
+2. $-1_{10} \implies \text{Sign}=1, \text{Mag}=001_2 \implies 1001_2$
+
+3. Binary Addition:
+
+$$\begin{array}{rl}      0101_2 & (+5_{10}) \\    + 1001_2 & (-1_{10}) \\    \hline      1110_2 & (\text{Sign}=1, \text{Mag}=110_2 = -6_{10} \quad \mathbf{\text{FAIL!}})    \end{array}$$
+
+
+
+### Mathematical Proof of Two's Complement
+
+To map subtraction onto an adder, we draw inspiration from base-$10$ $10$'s complement arithmetic.
+
+For a $K$-bit binary system with base $r = 2$:
+
+
+$$A - B = A + B' - 2^K$$
+
+Where $B'$ is an offset representation satisfying $B' - 2^K = -B \implies B' = 2^K - B$.
+
+By decomposing $2^K - B$:
+
+
+$$B' = (2^K - 1 - B) + 1$$
+
+1. **One's Complement ($\bar{B}$):** The term $(2^K - 1 - B)$ in binary evaluates to subtracting $B$ from a sequence of all $1$s, which is logically equivalent to inverting every bit of $B$ ($\bar{B}$).
+
+
+2. **Two's Complement ($B'$):** Adding $1$ to the One's Complement completes the equivalence:
+
+
+
+$$B' = \bar{B} + 1$$
+
+
+
+
+Thus, subtraction reduces to:
+
+
+$$A - B = A + \bar{B} + 1$$
+
+
+### Step-by-Step Two's Complement Arithmetic Worked Examples
+
+#### Example 1: Positive Result ($12_{10} - 7_{10} = +5_{10}$) in 4-bit
+
+1. **Represent Operands:**
+* $A = 12_{10} = 1100_2$
+
+* $B = 7_{10} = 0111_2$
+
+
+
+2. **Calculate Two's Complement of $B$ ($-7_{10}$):**
+* Bitwise Inversion ($\bar{B}$): $\overline{0111_2} = 1000_2$
+
+* Add $1$: $1000_2 + 1 = 1001_2$
+
+
+
+3. **Perform Binary Addition ($A + \bar{B} + 1$):**
+
+$$\begin{array}{rl}      1100_2 & (12_{10}) \\    + 1001_2 & (-7_{10}) \\    \hline     (1)0101_2 & (\text{Discard end-around carry } 1)    \end{array}$$
+
+
+
+4. **Result:** $0101_2 = \mathbf{+5_{10}}$ (MSB $= 0$, indicating a positive number).
+
+
+
+#### Example 2: Negative Result ($7_{10} - 12_{10} = -5_{10}$) in 4-bit
+
+1. **Represent Operands:**
+* $A = 7_{10} = 0111_2$
+
+* $B = 12_{10} = 1100_2$
+
+
+
+2. **Calculate Two's Complement of $B$ ($-12_{10}$):**
+* Bitwise Inversion ($\bar{B}$): $\overline{1100_2} = 0011_2$
+
+* Add $1$: $0011_2 + 1 = 0100_2$
+
+
+
+3. **Perform Binary Addition:**
+
+$$\begin{array}{rl}      0111_2 & (+7_{10}) \\    + 0100_2 & (-12_{10}) \\    \hline      1011_2 & (\text{MSB } = 1 \implies \text{Negative result in 2's complement})    \end{array}$$
+
+
+
+4. **Magnitude Recovery ($R_{mag} = \bar{R} + 1$):**
+* Invert Result: $\overline{1011_2} = 0100_2$
+
+* Add $1$: $0100_2 + 1 = 0101_2 = 5_{10}$
+
+
+
+5. **Final Output Interpretation:** $\mathbf{-5_{10}}$.
+
+
+## 3. Unified Hardware Adder/Subtractor Circuit
+
+Using the identity $A - B = A + \bar{B} + 1$, an $N$-bit Ripple Carry Adder is modified into a unified Adder/Subtractor by placing XOR gates on the $B$ operand inputs and driving the initial carry-in ($C_{in}$) using the operation selection line $S$.
+
+```text
+                      Select Line (S)
+           (0 = ADD, 1 = SUB) ──┬────────────────────────┐
+                                │                        │
+                                │                        ▼
+       A_i ─────────────────────┼──────────────┐    ┌──────────┐
+                                │              ├───►│  FULL    ├──► Sum_i
+       B_i ───►[ XOR ]──────────┼─────────────►│    │ ADDER i  │
+                  ▲             │              └────┤          ├──► C_{out}
+                  │             │                   └▲─────────┘
+                  └─────────────┘                    │ C_{in}
+                                                     └─────────── (From C_{i-1} / S)
+
+```
+
+### Mode Behavior
+
+1. **Addition Mode ($S = 0$):**
+* $B_i \oplus 0 = B_i$ (Operand $B$ passes unchanged).
+
+
+* Initial Carry-In $C_{in} = S = 0$.
+
+
+* Full Adder computes: $A + B + 0 = \mathbf{A + B}$.
+
+
+
+
+2. **Subtraction Mode ($S = 1$):**
+* $B_i \oplus 1 = \bar{B}_i$ (Bitwise invert $B$).
+
+
+* Initial Carry-In $C_{in} = S = 1$ (Adds the required $+1$).
+
+
+* Full Adder computes: $A + \bar{B} + 1 = \mathbf{A - B}$.
+
+
+
+## 4. Control Logic & Micro-Instruction Sequences
+
+Executing a single high-level assembly instruction requires breaking it down into a sequence of atomic hardware operations called **Micro-operations**.
+
+### Key Terminology
+
+* **Instruction Cycle:** The total time required to fetch, decode, and execute a complete instruction.
+
+
+* **Timing State ($T$-State):** A single clock cycle within the instruction cycle during which one micro-operation control word is issued.
+
+
+* **Control Word / Micro-instruction:** An $N$-bit binary vector where each bit directly enables or disables a specific hardware pin (e.g., $RegA_{in}$, $PC_{out}$).
+
+
+### Gajendra-1 13-Bit Control Word Bit Vector
+
+```text
+ ┌─────┬────────┬───────┬────────┬────────┬───────┬───────┬────────┬────────┬────────┬────────┬────────┬────────┐
+ │ Bit │   12   │  11   │   10   │   9    │   8   │   7   │   6    │   5    │   4    │   3    │   2    │   1    │   0    │
+ ├─────┼────────┼───────┼────────┼────────┼───────┼───────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+ │ Sig │ Inc_PC │ PC_out│ PC_load│ Mem_in │Mem_out│ IR_in │ IR_out │ MAR_in │RegA_in │RegA_out│RegB_in │RegB_out│ALU_out │
+ └─────┴────────┴───────┴────────┴────────┴───────┴───────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
+
+```
+
+
+### Micro-Operation Execution Tables
+
+#### 1. Load Accumulator (`LDA addr`)
+
+* **Syntax:** `LDA 0xC` $\implies Reg_A \leftarrow \text{RAM}[\text{0xC}]$
+
+
+| $T$-State | Micro-Operation | Active Signals | Control Word (Binary) | Hex |
+| --- | --- | --- | --- | --- |
+| **$T_0$** | $MAR \leftarrow PC$ | $PC_{out}=1, MAR_{in}=1$ | `0 1 0 0 0 0 0 1 0 0 0 0 0` | `0x0820`<br> |
+| **$T_1$** | $IR \leftarrow \text{RAM}[MAR], PC \leftarrow PC+1$ | $Mem_{out}=1, IR_{in}=1, Inc_{PC}=1$ | `1 0 0 0 1 1 0 0 0 0 0 0 0` | `0x1180`<br> |
+| **$T_2$** | $MAR \leftarrow IR[3:0]$ | $IR_{out}=1, MAR_{in}=1$ | `0 0 0 0 0 0 1 1 0 0 0 0 0` | `0x0060`<br> |
+| **$T_3$** | $Reg_A \leftarrow \text{RAM}[MAR]$ | $Mem_{out}=1, RegA_{in}=1$ | `0 0 0 0 1 0 0 0 1 0 0 0 0` | `0x0110`<br> |
+
+
+#### 2. Add Memory to Accumulator (`ADD addr`)
+
+* **Syntax:** `ADD 0xC` $\implies Reg_A \leftarrow Reg_A + \text{RAM}[\text{0xC}]$
+
+
+| $T$-State | Micro-Operation | Active Signals | Control Word (Binary) | Hex |
+| --- | --- | --- | --- | --- |
+| **$T_0$** | $MAR \leftarrow PC$ | $PC_{out}=1, MAR_{in}=1$ | `0 1 0 0 0 0 0 1 0 0 0 0 0` | `0x0820`<br> |
+| **$T_1$** | $IR \leftarrow \text{RAM}[MAR], PC \leftarrow PC+1$ | $Mem_{out}=1, IR_{in}=1, Inc_{PC}=1$ | `1 0 0 0 1 1 0 0 0 0 0 0 0` | `0x1180`<br> |
+| **$T_2$** | $MAR \leftarrow IR[3:0]$ | $IR_{out}=1, MAR_{in}=1$ | `0 0 0 0 0 0 1 1 0 0 0 0 0` | `0x0060`<br> |
+| **$T_3$** | $Reg_B \leftarrow \text{RAM}[MAR]$ | $Mem_{out}=1, RegB_{in}=1$ | `0 0 0 0 1 0 0 0 0 0 1 0 0` | `0x0104`<br> |
+| **$T_4$** | $Reg_A \leftarrow ALU(Reg_A + Reg_B)$ | $ALU_{out}=1, RegA_{in}=1$ | `0 0 0 0 0 0 0 0 1 0 0 0 1` | `0x0011`<br> |
+
+> 💡 **ARCHITECTURAL INSIGHT:** The control word sequence for `SUB addr` is **100% identical** to `ADD addr` across $T_0 \dots T_4$! The control unit issues the exact same bus-transfer vector; the only difference is that the ALU's mode selection bit $S$ is set to $1$ externally via opcode decoding.
+> 
+> 
+
+
+## 5. Hardware Control Unit & Timing Optimization
+
+The **Control Unit** is the state-machine sequencer responsible for generating control words at every clock cycle.
+
+```text
+                     INSTRUCTION REGISTER (Opcode Bits)
+                                    │
+                                    ▼
+                          ┌──────────────────┐
+                          │ 3-to-8 DECODER   │
+                          └────────┬─────────┘
+                                   │ Decoded Opcode Line
+                                   ▼
+  CLK ─►[ 5-bit Ring ]──► ┌──────────────────┐
+        [  Counter   ]    │ HARDWARE CONTROL │ ──► Control Word Vector
+          (T0..T4) ──────►│  LOGIC MATRIX    │     (13-bit Output Bus)
+                          └──────────────────┘
+
+```
+
+### Control Logic Inputs & Outputs
+
+* **Inputs:**
+1. Decoded Opcode from Instruction Register $IR[7:4]$.
+
+
+2. Active Timing State ($T_0, T_1, T_2, T_3, T_4$) from a 5-bit Ring Counter.
+
+
+
+
+* **Outputs:** 13 individual control signals driving tri-state enables and register write inputs across the system.
+
+
+### Hardware Timing Optimization: Negative-Edge Ring Counter Triggering
+
+A primary challenge in hardware control design is race conditions and clock domain skew.
+
+```text
+                  Rising Edge: Datapath Executes Transfer!
+                                │
+   CLK     : ───0───┐       ┌───1───┐       ┌───0───
+                    │       │       │       │
+                    └───0───┘       └───0───┘
+                        ▲
+                        │
+                 Falling Edge: Control Signals Settle!
+
+```
+
+#### Why the Ring Counter uses Falling-Edge (Negative) Triggering:
+
+* **Datapath Registers:** Triggered on the **Positive Clock Edge** ($0 \to 1$) to read/write data.
+
+
+* **Control Unit Ring Counter:** Triggered on the **Negative Clock Edge** ($1 \to 0$) to transition $T$-states.
+
+
+
+>  **TIMING HACK:** By changing $T$-states on the falling edge, control signals are generated and allowed to fully propagate and stabilize across the bus during the LOW phase of the clock. When the next positive clock edge arrives, the control signals are already stable, eliminating setup time violations and preventing glitches on the common bus!
+> 
+> 
+
+
+## 6. Executive Summary & Quick Reference
+
+1. **ALU Architecture:** The ALU uses full adders combined with XOR logic ($B \oplus S$) to execute both Addition ($S=0$) and Subtraction ($S=1$) without separate subtractor hardware.
+
+
+2. **Two's Complement Math:** Represented mathematically as $A - B = A + \bar{B} + 1$. Negative outputs are stored in two's complement form; magnitude is recovered by taking $\bar{R} + 1$.
+
+
+3. **Fetch Phase Uniformity:** Every instruction executes an identical 2-cycle fetch phase:
+* $T_0$: $MAR \leftarrow PC$
+
+* $T_1$: $IR \leftarrow \text{RAM}[MAR], PC \leftarrow PC + 1$
+
+
+
+4. **Control Word Identity:** `ADD` and `SUB` share identical micro-instruction control sequences. Only the internal ALU Mode Select pin ($S$) differs.
+
+
+5. **Phase-Shifted Clocking:** Driving the control unit's ring counter on the **Negative Clock Edge** guarantees control signals stabilize on the bus prior to **Positive Clock Edge** datapath executions.

@@ -1,0 +1,155 @@
+# Week 7: Introduction to Sequential Logic & Memory Elements
+
+## 1. Combinational vs. Sequential Logic
+
+* **Combinational Logic:** "Memoryless" circuits where the output is strictly a function of the *current* inputs. Examples include adders, comparators, multiplexers, and decoders.
+
+
+* **Sequential Logic:** Circuits with "memory" where the current output depends on both the *current* inputs and the *previous* outputs (state).
+
+
+
+### Example of Sequential Behavior: The Counter
+
+A 3-bit up-counter cycles from $000$ ($0_{10}$) to $111$ ($7_{10}$) and wraps around. The next output (e.g., $4$) is entirely determined by the previous output ($3$), establishing a temporal state dependency not found in combinational circuits.
+
+---
+
+## 2. Fundamental Storage: Cross-Coupled Inverters & SRAM
+
+The most basic storage element is formed by cross-coupling two NOT gates (inverters), where the output of each gate feeds the input of the other.
+
+```
+       ┌───────[NOT 1]◄──────┐
+       │                     │
+       ▼                     │
+(Q) ◄──┴───────►[NOT 2]──────┴──► (Q̄)
+
+```
+
+* **Stable States:** The circuit holds one of two stable states indefinitely as long as it is powered:
+* State 0: $Q = 0, \bar{Q} = 1$
+
+* State 1: $Q = 1, \bar{Q} = 0$
+
+
+
+* **Limitation:** It lacks a direct control mechanism to reliably write or change the stored state. Forcing a change can lead to transient oscillation or metastability.
+
+
+
+### Static RAM (SRAM) Cell
+
+SRAM cells build upon cross-coupled inverters by adding access transistors controlled by a **Word Line (WL)** and data pathways called **Bit Lines (BL)**.
+
+* When $WL = 0$, the cell is isolated and holds its memory state.
+
+
+* When $WL = 1$, the cell is connected to the Bit Lines, allowing reading or overwriting of the stored bit ($Q$ and $\bar{Q}$).
+
+
+
+---
+
+## 3. The RS (Reset-Set) Latch
+
+The RS (or SR) Latch adds control inputs to the cross-coupled structure, replacing inverters with NAND (or NOR) gates.
+
+### NAND-Based RS Latch Truth Table
+
+| $S$ (Set) | $R$ (Reset) | Next State ($Q_{next}$) | Action |
+| --- | --- | --- | --- |
+| 1 | 1 | $Q_{current}$ | **Hold / Memory:** Retains previous state. |
+| 0 | 1 | 1 | **Set:** Forces output $Q = 1$. |
+| 1 | 0 | 0 | **Reset:** Forces output $Q = 0$. |
+| **0** | **0** | **Invalid** | **Forbidden State:** Forces both $Q = 1$ and $\bar{Q} = 1$. |
+
+
+
+* **The Forbidden State:** Setting both $S=0$ and $R=0$ violates the fundamental assumption that $Q$ and $\bar{Q}$ must be logical complements. Furthermore, if both inputs transition back to $1$ simultaneously, the circuit enters a metastable, oscillating state where the final settled value is non-deterministic, relying entirely on microscopic variations in gate propagation delays.
+
+
+
+## 4. The Gated D-Latch
+
+To prevent the forbidden $S=0, R=0$ state and add explicit control over *when* data is written, the RS Latch is modified into a **Gated D-Latch**.
+
+### Architecture
+
+1. A single Data input ($D$) is used.
+
+
+2. $D$ is fed directly to the Set input, while an inverted version ($\bar{D}$) is fed to the Reset input. This guarantees $S$ and $R$ are always complementary, preventing the $00$ forbidden state.
+
+
+3. A **Write Enable (WE)** or Clock input gates the incoming data.
+
+
+
+### Level-Sensitive Operation
+
+* **Enabled / Open ($WE = 1$):** The output $Q$ continuously mirrors the input $D$ ($Q_{next} = D$).
+
+
+* **Disabled / Closed ($WE = 0$):** The latch isolates the input and **holds** its previous state, regardless of how $D$ fluctuates.
+
+
+* **Limitation (Asynchronicity):** Because it is *level-sensitive*, any glitch or fluctuation on the $D$ line while $WE = 1$ will asynchronously ripple directly to the output $Q$, creating timing and synchronization vulnerabilities in complex circuits.
+
+
+
+## 5. Clocks and Edge-Triggered Flip-Flops
+
+To solve the synchronization issues of level-sensitive latches, sequential circuits utilize **Clocks** and **Edge-Triggered Flip-Flops**.
+
+### The Clock Signal
+
+A clock is an oscillating input signal oscillating between logic HIGH and logic LOW at a predetermined frequency.
+
+* **Rising Edge (Positive Edge):** The instantaneous transition from LOW ($0$) to HIGH ($1$).
+
+
+* **Falling Edge (Negative Edge):** The transition from HIGH ($1$) to LOW ($0$).
+
+
+
+### The D Flip-Flop (Master-Slave Configuration)
+
+A D Flip-Flop is **edge-sensitive** (not level-sensitive). It is constructed by cascading two D-Latches in series with opposite clock polarities.
+
+```
+  Data (D) ──►[ Master D-Latch ]──(Q_L1)──►[ Slave D-Latch ]──► Output (Q)
+                     ▲                             ▲
+  Clock ─────────────┴───────────[NOT]─────────────┘
+
+```
+
+* **Operation (Positive Edge Trigger):**
+* When $CLK = 0$: Master is enabled and tracks $D$. Slave is disabled.
+
+
+* At the **Rising Edge** ($CLK \to 1$): Master locks its value, taking a rapid "snapshot" of $D$. Slave becomes enabled and passes this locked snapshot to the final output $Q$.
+
+
+
+
+* **Result:** Data $D$ is copied to $Q$ *only* at the precise instant of the clock edge. At all other times, $Q$ holds its value, guaranteeing perfect synchronicity.
+
+
+
+## 6. The JK Flip-Flop
+
+The **JK Flip-Flop** resolves the RS Latch's forbidden state problem while restoring the two-input flexibility lost in the single-input D Flip-Flop.
+
+### Architecture
+
+The JK Flip-Flop builds upon the edge-triggered SR framework by feeding the outputs $Q$ and $\bar{Q}$ back into the input NAND gates.
+
+### JK Flip-Flop Modes of Operation
+
+| $J$ | $K$ | Next State ($Q_{next}$) | Action Description |
+| --- | --- | --- | --- |
+| 0 | 0 | $Q_{current}$ | **Memory / Hold:** Output is retained. |
+| 0 | 1 | 0 | **Reset:** Forces output $Q$ to $0$. |
+| 1 | 0 | 1 | **Set:** Forces output $Q$ to $1$. |
+| 1 | 1 | $\bar{Q}_{current}$ | **Toggle:** Output flips its current state (0 to 1, or 1 to 0). *(Solves the SR forbidden state)*. |

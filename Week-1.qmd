@@ -1,0 +1,183 @@
+# Week 1: Foundations & Digital Logic Basics
+
+## 1. Introduction to Computer Systems Design
+
+### What is a Computer System?
+
+A computer system consists of internal digital processing units (CPUs) that execute instructions or programs.
+
+* **Spectrum of Complexity:** Ranges from fixed/pre-programmed embedded microcontrollers (e.g., washing machines, smart thermometers) to multi-sensor compute-intensive devices (e.g., smartphones, drones, self-driving cars).
+
+
+* **Core Abstraction (Von Neumann Architecture):**
+* **Computing Unit (CPU):** Processes data via arithmetic and logical operations.
+
+
+* **Storage Unit:** Houses temporary data (RAM, registers) and persistent data (hard disks).
+
+
+* **Communication Unit:** Transfers data between storage and compute units via read/write operations or networks.
+
+
+
+
+
+---
+
+## 2. The Transformation Hierarchy & Building Blocks
+
+Computers solve complex computational problems by manipulating physical phenomena (electrons) through structured abstraction layers.
+
+```
+  [ Computational Problem / Algorithm ]
+                   │
+    [ High-Level Language (C++, Python) ]
+                   │
+      [ System Software (Compiler, OS) ]
+                   │
+    [ Hardware/Software Interface (ISA) ]
+                   │
+           [ Microarchitecture ]
+                   │
+         [ Digital Logic Circuits ]
+                   │
+        [ Microelectronic Devices ]  (Transistors, Diodes)
+                   │
+               [ Electrons ]
+
+```
+
+### System Hierarchy (Bottom-Up Abstraction)
+
+1. **Transistors:** Electronic switches operating in `ON` (closed, current flows) or `OFF` (open, current restricted) states.
+
+
+2. **Logic Gates:** Transistor combinations implementing primitive logical operations (AND, OR, NOT, XOR).
+
+
+3. **Cells & Modules:** Gate collections performing specific tasks (e.g., Adders, Multipliers).
+
+
+4. **Integrated Circuits (ICs) & PCBs:** Packaging thousands to billions of transistors onto silicon dies and printed circuit boards.
+
+
+
+> **Historical Context — Moore’s Law:** Observation by Gordon Moore (1965) that transistor density on dense ICs doubles approximately every two years. In modern computing, physical limits like power dissipation and heat have led to the post-Moore era.
+> 
+> 
+
+---
+
+## 3. Information Representation: Analog vs. Digital
+
+### Physical Encoding Choices
+
+* **Electrical Voltage** is the primary choice for information encoding due to continuous engineering history, ease of generation/detection, and low power in steady states.
+
+
+* **Limitations of Analog Voltage Encoding:**
+* **Continuous States:** Analog signals can assume infinite voltage levels, making exact value retention impossible under hardware noise.
+
+
+* **Accumulated Noise:** Cascading multiple processing elements accumulates minor voltage degradations across the pipeline, distorting the final result.
+
+
+
+
+
+```
+Analog Pipeline:  Input V ──► [Copy] ──► V + Noise ──► [Invert] ──► Distorted Output
+
+```
+
+---
+
+### The Binary Digital System Abstraction
+
+Digital systems restore noisy inputs into discrete, legal values, preventing error accumulation across deep logic pipelines.
+
+#### Voltage Thresholding Schemes
+
+1. **Single Threshold ($V_{th}$):**
+* $V > V_{th} \implies 1$
+* $V \le V_{th} \implies 0$
+* *Issue:* Voltages near $V_{th}$ risk misclassification due to small environmental noise spikes.
+
+
+
+
+2. **Noise Margin / Band-Based Representation (Forbidden Zone):**
+* $V \ge V_H \implies 1$ (High)
+
+
+* $V \le V_L \implies 0$ (Low)
+
+
+* $V_L < V < V_H \implies \text{Forbidden / Illegal Zone}$ (Prevents false logic state transitions).
+
+
+
+
+
+```
+  5.0V ┌─────────────────────────┐  Logic 1 (HIGH)
+       │                         │
+  V_H  ├─────────────────────────┤
+       │     FORBIDDEN ZONE      │  (Illegal Region)
+  V_L  ├─────────────────────────┤
+       │                         │
+  0.0V └─────────────────────────┘  Logic 0 (LOW)
+
+```
+
+---
+
+## 4. Binary Positional Number Representation
+
+A binary digital system uses base $b = 2$. An $n$-bit binary integer spans $2^n$ unique states (from $0$ to $2^n - 1$).
+
+### Positional Evaluation Formula
+
+For an $n$-bit binary sequence $B = b_{n-1} b_{n-2} \dots b_1 b_0$:
+
+
+$$V(B) = \sum_{i=0}^{n-1} b_i \cdot 2^i$$
+
+* **Least Significant Bit (LSB):** Bit $b_0$ holding weight $2^0$.
+
+
+* **Most Significant Bit (MSB):** Bit $b_{n-1}$ holding weight $2^{n-1}$.
+
+
+
+#### Example: Binary to Decimal Conversion
+
+Convert the binary number $(1011)_2$ to decimal:
+
+
+$$\begin{aligned} (1011)_2 &= (1 \cdot 2^3) + (0 \cdot 2^2) + (1 \cdot 2^1) + (1 \cdot 2^0) \\ &= 8 + 0 + 2 + 1 \\ &= (11)_{10} \end{aligned}$$
+
+---
+
+## 5. Prelude to Digital Logic Design
+
+### Boolean Algebra & Circuit Design
+
+* Introduced by George Boole (1854) as a mathematical system for binary variable manipulation.
+
+
+* Claude Shannon (1930s) connected Boolean algebra directly to switching circuits, forming the foundation of modern digital circuit design.
+
+
+
+### Design Goal
+
+Given a computational specification:
+
+1. Express logic parameters using **Boolean Algebra**.
+
+
+2. Minimize logic expressions for resource/power efficiency.
+
+
+3. Map functions into **Combinational Logic** or **Sequential Logic** networks using hardware logic gates.
