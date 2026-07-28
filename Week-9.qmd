@@ -1,0 +1,386 @@
+# Week 9: Sequential Circuit Optimization, Counters, Registers & Memory Systems
+
+
+## 1. State Optimization: Decoupling State from Output
+
+When designing sequential circuits, beginner designers often make the mistake of equating the **internal machine states** directly with the **external physical outputs**. Decoupling internal state tracking from external output logic significantly reduces expensive hardware components like flip-flops.
+
+```text
+               ┌────────────────────────┐
+   Clock ─────►│  Internal State Logic  │ (k Flip-Flops)
+               │ (Tracks State Q1, Q0)  │
+               └───────────┬────────────┘
+                           │ 2-bit State
+                           ▼
+               ┌────────────────────────┐
+               │  Combinational Output  │ 
+               │   Decoder Logic Block  │
+               └───────────┬────────────┘
+                           │ 3-bit Physical Output
+                           ▼
+                       [ LEDs A, B, C ]
+
+```
+
+### Optimization Formula
+
+For a sequence requiring $N$ unique output patterns, the minimum number of flip-flops $k$ required is:
+
+
+$$k = \lceil \log_2 N \rceil$$
+
+### Step-by-Step Optimization Calculation: 3-LED Sequence
+
+Consider the 3-LED tail light sequence: $000 \to 001 \to 011 \to 111 \to 000$.
+
+1. **Count Unique States ($N$):** There are $N = 4$ unique output patterns.
+
+
+2. **Calculate Required Flip-Flops ($k$):** $k = \log_2(4) = 2$ flip-flops ($Q_1, Q_0$) instead of $3$ flip-flops.
+
+
+3. **Assign State Encodings:** Encode the 4 states using 2 bits ($00, 01, 10, 11$).
+
+
+
+#### State & Output Mapping Table
+
+| Sequence Step | Internal State ($Q_1 Q_0$) | Desired Output ($A B C$) |
+| --- | --- | --- |
+| **State A** | 0 0 | 0 0 0 |
+| **State B** | 0 1 | 0 0 1 |
+| **State C** | 1 0 | 0 1 1 |
+| **State D** | 1 1 | 1 1 1 |
+
+#### Step-by-Step Output Logic Derivation
+
+Treat $Q_1, Q_0$ as inputs to derive simple combinational equations for output lines $A, B, C$:
+
+* **Deriving Output $A$:**
+
+$$A = m_3 = Q_1 Q_0$$
+
+
+
+* **Deriving Output $B$:**
+
+$$B = m_2 + m_3 = Q_1 \bar{Q}_0 + Q_1 Q_0 = Q_1(\bar{Q}_0 + Q_0) = Q_1$$
+
+
+
+* **Deriving Output $C$:**
+
+$$C = m_1 + m_2 + m_3 = \bar{Q}_1 Q_0 + Q_1 \bar{Q}_0 + Q_1 Q_0 = Q_1 + Q_0$$
+
+
+
+
+> 💡 **PRO-TIP:** Using 2 flip-flops plus 2 simple logic gates ($\text{AND}, \text{OR}$) is drastically cheaper and consumes less silicon area than running 3 full flip-flops!
+> 
+> 
+
+
+## 2. Synchronous Counter Design Methodology
+
+A **Synchronous Counter** drives all internal flip-flops using a single, shared clock signal, preventing propagation delays from accumulating across bit stages (unlike asynchronous/ripple counters).
+
+```text
+               Shared Common Clock Line
+  CLK ─┬───────────────────┬───────────────────┐
+       │                   │                   │
+       ▼                   ▼                   ▼
+  ┌─────────┐         ┌─────────┐         ┌─────────┐
+  │  FF 2   │         │  FF 1   │         │  FF 0   │
+  └─────────┘         └─────────┘         └─────────┘
+
+```
+
+
+### Complete Worked Example: 3-Bit Synchronous Down Counter
+
+A 3-bit down counter counts backward continuously: $7 \to 6 \to 5 \to 4 \to 3 \to 2 \to 1 \to 0 \to 7$.
+
+#### Step 1: Complete State Transition & D-Flip-Flop Table
+
+For a D Flip-Flop, the excitation requirement is trivial: $D_i = Q_i^+$ (the required input equals the desired next state).
+
+| Present State ($Q_2 Q_1 Q_0$) | Next State ($Q_2^+ Q_1^+ Q_0^+$) | Required Inputs ($D_2 D_1 D_0$) |
+| --- | --- | --- |
+| **1 1 1** ($7_{10}$) | **1 1 0** ($6_{10}$) | $D_2=1, D_1=1, D_0=0$<br> |
+| **1 1 0** ($6_{10}$) | **1 0 1** ($5_{10}$) | $D_2=1, D_1=0, D_0=1$<br> |
+| **1 0 1** ($5_{10}$) | **1 0 0** ($4_{10}$) | $D_2=1, D_1=0, D_0=0$<br> |
+| **1 0 0** ($4_{10}$) | **0 1 1** ($3_{10}$) | $D_2=0, D_1=1, D_0=1$<br> |
+| **0 1 1** ($3_{10}$) | **0 1 0** ($2_{10}$) | $D_2=0, D_1=1, D_0=0$<br> |
+| **0 1 0** ($2_{10}$) | **0 0 1** ($1_{10}$) | $D_2=0, D_1=0, D_0=1$<br> |
+| **0 0 1** ($1_{10}$) | **0 0 0** ($0_{10}$) | $D_2=0, D_1=0, D_0=0$<br> |
+| **0 0 0** ($0_{10}$) | **1 1 1** ($7_{10}$) | $D_2=1, D_1=1, D_0=1$<br> |
+
+#### Step 2: K-Map Minimizations for Next-State Logic
+
+##### 1. Equation for $D_0$:
+
+$D_0 = 1$ for minterms $m(0, 2, 4, 6)$.
+
+
+$$D_0 = \bar{Q}_0$$
+
+##### 2. Equation for $D_1$:
+
+$D_1 = 1$ for minterms $m(0, 3, 4, 7)$.
+
+
+$$D_1 = Q_1 Q_0 + \bar{Q}_1 \bar{Q}_0 = \overline{Q_1 \oplus Q_0}$$
+
+##### 3. Equation for $D_2$:
+
+$D_2 = 1$ for minterms $m(0, 5, 6, 7)$.
+
+
+$$D_2 = Q_2 Q_1 + Q_2 Q_0 + \bar{Q}_2 \bar{Q}_1 \bar{Q}_0$$
+
+
+## 3. Specialized Sequential Counters
+
+```text
+                           COUNTER TAXONOMY
+                                  │
+    ┌─────────────────────────────┼─────────────────────────────┐
+    ▼                             ▼                             ▼
+Ring Counter              Johnson Counter                  BCD Counter
+(1-Hot Encoded)        (Twisted Ring: 2N States)        (Mod-10 Decimal)
+
+```
+
+
+### 1. Ring Counter
+
+A shift register where the output of the last stage ($Q_{N-1}$) is fed directly back into the input of the first stage ($D_0$).
+
+```text
+       ┌────────────────────────────────────────────────────────┐
+       │                                                        │
+       ▼                                                        │
+  ┌─────────┐  Q0   ┌─────────┐  Q1   ┌─────────┐  Q2   ┌─────────┐
+  │   FF0   ├──────►│   FF1   ├──────►│   FF2   ├──────►│   FF3   ├───► Q3
+  └─────────┘       └─────────┘       └─────────┘       └─────────┘
+
+```
+
+* **Characteristics:** An $N$-bit Ring Counter yields exactly $N$ unique states.
+
+
+* **One-Hot Encoding:** Exactly one bit is active ($1$) at any given time.
+
+
+* **4-Bit Sequence:** $1000 \to 0100 \to 0010 \to 0001 \to 1000$.
+
+
+* **Application:** Generating non-overlapping timing states ($T_0, T_1, T_2, T_3$) for CPU control units.
+
+
+
+### 2. Johnson (Twisted Ring) Counter
+
+A shift register where the **inverted output** of the last stage ($\bar{Q}_{N-1}$) is fed back into $D_0$.
+
+```text
+       ┌──────────────────────────────────────────────────┐
+       │                                                  │
+       │  ┌───────────────────────────────────────────────┼────────┐
+       │  │                                               │        │
+       ▼  ▼                                               │        │
+  ┌─────────┐  Q0   ┌─────────┐  Q1   ┌─────────┐  Q2   ┌─┴──────┐ │
+  │   FF0   ├──────►│   FF1   ├──────►│   FF2   ├──────►│  FF3   │ │
+  │         │       │         │       │         │       │     Q3̄ ┼─┘
+  └─────────┘       └─────────┘       └─────────┘       └────────┘
+
+```
+
+* **Characteristics:** An $N$-bit Johnson Counter yields $2N$ unique states.
+
+
+* **Gray Code Property:** Consecutive state transitions differ by only 1 bit.
+
+
+* **4-Bit Sequence (8 States):**
+
+$$0000 \to 1000 \to 1100 \to 1110 \to 1111 \to 0111 \to 0011 \to 0001 \to 0000$$
+
+
+
+### 3. BCD (Binary Coded Decimal / Mod-10) Counter
+
+Counts decimal digits from $0000_2$ ($0_{10}$) to $1001_2$ ($9_{10}$) and resets to $0000_2$ on the $10^{\text{th}}$ pulse.
+
+#### Multi-Digit Cascading Architecture
+
+To build a 2-digit counter ($00 \to 99$), the Units counter signals the Tens counter to increment whenever the Units digit hits $9$ ($1001_2$).
+
+```text
+                  UNITS BCD COUNTER (0-9)            TENS BCD COUNTER (0-9)
+                   ┌──────────────────┐               ┌──────────────────┐
+  CLK ────────────►│                  │               │                  │
+                   │  Q3  Q2  Q1  Q0  │               │  Q3  Q2  Q1  Q0  │
+                   └─┬─────────────┬──┘               └────────▲─────────┘
+                     │             │                           │
+                     └───[ AND ]───┴─────── Enable ────────────┘
+                    (Detects Q3·Q0 = 1001₂ = 9)
+
+```
+
+### Counter Types Comparison Table
+
+| Metric | Standard Binary Counter | Ring Counter | Johnson Counter | BCD Counter |
+| --- | --- | --- | --- | --- |
+| **Flip-Flops Needed ($N$)** | $\lceil \log_2(\text{States}) \rceil$<br> | $N$<br> | $N$<br> | $4$ per decade digit |
+| **Total States Supported** | $2^N$<br> | $N$<br> | $2N$<br> | $10$ per digit |
+| **Encoding Type** | Binary positional | One-Hot | Gray-code-like | BCD ($0-9$) |
+| **Feedback Connection** | Next-State Logic | $D_0 = Q_{N-1}$<br> | $D_0 = \bar{Q}_{N-1}$<br> | Modulo-10 Reset Logic |
+
+
+## 4. Registers & Memory Array Architecture
+
+A **Register** is an array of $N$ flip-flops sharing a common clock line and Write Enable ($WE$) signal, capable of reading and storing $N$ bits simultaneously.
+
+```text
+                     Parallel Data In (D3..D0)
+                         │   │   │   │
+                         ▼   ▼   ▼   ▼
+                      ┌─────────────────┐
+     Write Enable ───►│ 4-Bit Register  │◄─── Common Clock
+                      └────────┬────────┘
+                               │
+                               ▼
+                    Parallel Output (Q3..Q0)
+
+```
+
+### Memory System Definitions
+
+1. **Address Space ($2^k$):** The total number of unique, addressable locations in a memory block with $k$ address lines.
+
+
+2. **Addressability ($M$):** The number of stored data bits per unique address location (e.g., $M = 8$ for byte-addressable memory).
+
+
+3. **Total Memory Capacity:**
+
+$$\text{Capacity} = 2^k \times M \text{ bits}$$
+
+
+### Memory Read/Write Architecture
+
+To access a specific row in a memory array:
+
+* **Writing:** An **Address Decoder** converts $k$ address lines into $2^k$ word lines ($WL$), activating a single target row of flip-flops when $WE = 1$.
+
+
+* **Reading:** A **Multiplexer (MUX)** selects the bit output of the decoded row to drive the data output bus.
+
+
+
+```text
+  Address (k bits) ──► [ Address Decoder ] ──► Word Line (WL) Select
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ 2ᵏ × M Register │ ◄── Write Enable (WE)
+                    │     Matrix      │
+                    └────────┬────────┘
+                             │
+                             ▼
+  Read Out Bus ◄────── [ MUX Array ]
+
+```
+
+
+## 5. Shift Registers & Applications
+
+A **Shift Register** cascades flip-flops so that data moves by one bit position per clock cycle, either to the left or right.
+
+```text
+   Serial In ──►[ D-FF 3 ]──►[ D-FF 2 ]──►[ D-FF 1 ]──►[ D-FF 0 ]──► Serial Out
+
+```
+
+### Arithmetic Shifting Rules
+
+Bit shifts provide an ultra-fast hardware mechanism for multiplying or dividing integers by powers of 2:
+
+* **Logical Shift Left ($LSL$ by $n$ bits):** Shifts bits toward the MSB and inserts zeros at the LSB.
+
+
+
+$$\text{Value}_{\text{new}} = \text{Value}_{\text{old}} \times 2^n$$
+
+
+
+* **Logical Shift Right ($LSR$ by $n$ bits):** Shifts bits toward the LSB and inserts zeros at the MSB.
+
+
+
+$$\text{Value}_{\text{new}} = \lfloor \text{Value}_{\text{old}} / 2^n \rfloor$$
+
+
+
+
+#### Mathematical Example (Value = $5_{10} = 0101_2$)
+
+| Operation | Binary Value | Decimal Value | Arithmetic Equivalent |
+| --- | --- | --- | --- |
+| **Initial Register** | `0 1 0 1` | $5$ | Base value |
+| **Shift Left ($LSL$ 1)** | `1 0 1 0` | $10$ | $5 \times 2^1 = 10$<br> |
+| **Shift Right ($LSR$ 1)** | `0 0 1 0` | $2$ | $\lfloor 5 / 2^1 \rfloor = 2$<br> |
+
+
+### Parallel-In / Serial-Out (PISO) Shift Register
+
+A $Load/\overline{Shift}$ control line switches a multiplexer at each flip-flop input:
+
+* When $Load = 1$: Loads all $N$ data bits in parallel during a single clock cycle.
+
+
+* When $Load = 0$: Shifts data serially out one bit per clock cycle.
+
+
+
+```text
+                  Parallel Data Line (D_i)
+                            │
+                            ▼
+                     ┌─────────────┐
+   Serial Input ────►│ MUX (Load/  ├────► D-Flip-Flop ────► Shifted Out
+   From Prev FF      │    Shift)   │
+                     └─────────────┘
+
+```
+
+> **REAL-WORLD APPLICATION:** The Serial Peripheral Interface (SPI) protocol uses bidirectional shift registers to stream data between microcontrollers and sensors using a single data wire.
+> 
+> 
+
+
+## 6. Executive Summary / Quick Recap
+
+1. **State Minimization:** Decouple internal states from external outputs to design circuits with the minimal number of flip-flops ($\lceil \log_2 N \rceil$).
+
+
+2. **Synchronous Counters:** Avoid ripple delays by connecting a common clock line to all flip-flops simultaneously.
+
+
+3. **Specialized Counters:**
+* **Ring Counter:** $N$ states, one-hot encoded.
+
+
+* **Johnson Counter:** $2N$ states, Gray code sequence.
+
+
+* **BCD Counter:** Counts $0-9$ (Mod-10), cascading via $Q_3 \cdot Q_0$ active-high signals.
+
+
+
+
+4. **Memory Blocks:** Built using $2^k$ rows of registers, accessed via a $k$-to-$2^k$ Address Decoder and MUX read/write circuitry.
+
+
+5. **Shift Registers:** Shift Left multiplies by 2; Shift Right divides by 2. PISO mode converts parallel data into serial bitstreams.

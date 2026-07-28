@@ -1,0 +1,81 @@
+project:
+  type: website
+
+website:
+  title: "CSD [CS3031]"
+  search: true # search bar at the top of the sidebar
+  
+  sidebar:
+    style: "docked"
+    collapse-level: 1
+    contents:
+      - text: "About the Course"
+        href: index.qmd
+            
+      - text: "Week-1"
+        href: Week-1.qmd
+            
+      - text: "Week-2"
+        href: Week-2.qmd
+
+      - text: "Week-3"
+        href: Week-3.qmd
+
+      - text: "Week-4"
+        href: Week-4.qmd
+
+      - text: "Week-5"
+        href: Week-5.qmd
+
+      - text: "Week-6"
+        href: Week-6.qmd
+
+      - text: "Week-7"
+        href: Week-7.qmd
+
+      - text: "Week-8"
+        href: Week-8.qmd
+
+      - text: "Week-9"
+        href: Week-9.qmd
+
+      - text: "Week-10"
+        href: Week-10.qmd
+
+      - text: "Week-11"
+        href: Week-11.qmd
+
+      - text: "Week-12"
+        href: Week-12.qmd
+
+
+
+      # Continue adding weeks up to Week-12...
+      - section: Digital Logics For GATE
+        contents:
+          - text: "Introduction"
+            href: intro.qmd
+            
+          - text: "Number Systems"
+            href: Number_Systems.qmd
+            
+        
+
+
+format:
+  html:
+    # 2. Right Sidebar / Table of Contents (Sections within the page)
+    toc: true               # Enables the right-side section navigator
+    toc-location: right     # Docks it strictly to the right side
+    toc-title: "On this page" # The header text above the sections
+    
+    # 3. Dark Mode Toggle
+    # Giving it a list of themes automatically creates the toggle switch in the UI
+    theme:
+      light: cosmo
+      dark: superhero
+      
+    page-layout: article
+    grid:
+      body-width: 800px
+      margin-width: 250px   # Ensures enough space for both docks

@@ -1,0 +1,525 @@
+# Week 11 & 12: ALU Architecture, Control Logic, Microprogramming & System Synthesis
+
+
+## 1. ALU Architecture & Computer Arithmetic
+
+The **Arithmetic Logic Unit (ALU)** executes integer arithmetic and bitwise logical operations. In the **Gajendra-1** microarchitecture, the 8-bit ALU sits directly between **Register A** (Accumulator) and **Register B**, outputting directly to the shared 8-bit **Common System Bus**.
+
+```text
+                  ═════════════════════════════════════════
+                              COMMON SYSTEM BUS (8-bit)
+                  ═════════▲══════════════════════▲════════
+                           │                      │
+                  RegA_out │                      │ RegB_out
+                           │                      │
+                     ┌─────┴─────┐          ┌─────┴─────┐
+                     │ Register  │          │ Register  │
+                     │    A      │          │    B      │
+                     └─────┬─────┘          └─────┬─────┘
+                           │ 8-bit                │ 8-bit
+                           │                      │
+                           ▼                      ▼
+                     ┌──────────────────────────────────┐
+                     │          GAJENDRA 8-BIT          │
+                     │      ARITHMETIC LOGIC UNIT       │
+                     └────────────────┬─────────────────┘
+                                      │ ALU_out (Tri-State Enable)
+                                      ▼
+                  ═════════════════════════════════════════
+                              COMMON SYSTEM BUS
+                  ═════════════════════════════════════════
+
+```
+
+### Core Architectural Features
+
+* **Direct Feed Registers:** Registers A and B drive the ALU inputs continuously without passing through the bus, eliminating operand setup delays.
+
+
+* **Tri-State Bus Isolation:** The ALU output connects to the system bus through a tri-state buffer gated by the `ALU_out` control bit.
+
+
+* **Status Flags:** The ALU generates condition flags stored in a 4-bit **Status Register**:
+
+
+* **Zero Flag ($Z / \bar{Z}$):** Set to $1$ when the 8-bit ALU result evaluates to `0x00`.
+
+
+* **Carry Flag ($C / \bar{C}$):** Set to $1$ when an addition generates an overflow carry or a subtraction requires a borrow.
+
+
+
+
+### Mathematics of Two's Complement Subtraction
+
+Instead of building a separate subtractor circuit, digital processors compute subtraction $A - B$ by adding the **Two's Complement** of $B$: $A + (-B)$.
+
+For a $K$-bit binary number with base $r = 2$:
+
+
+$$A - B = A + B' - 2^K$$
+
+Where $B' = 2^K - B$. Expanding this yields:
+
+
+$$B' = (2^K - 1 - B) + 1$$
+
+1. **One's Complement ($\bar{B}$):** $(2^K - 1 - B)$ in binary subtracts $B$ from all $1$s, which is logically identical to inverting every bit of $B$ ($\bar{B}$).
+
+
+2. **Two's Complement:** Adding $1$ completes the derivation:
+
+
+
+$$B' = \bar{B} + 1$$
+
+
+
+
+Therefore, binary subtraction is executed on an adder using:
+
+
+$$A - B = A + \bar{B} + 1$$
+
+
+
+### Step-by-Step Computer Arithmetic Calculations
+
+#### Case 1: Positive Result ($12_{10} - 7_{10} = +5_{10}$) in 4-bit
+
+1. **Represent Operands:**
+* $A = 12_{10} = 1100_2$
+
+* $B = 7_{10} = 0111_2$
+
+
+
+2. **Compute Two's Complement of $B$ ($-7_{10}$):**
+* One's Complement ($\bar{B}$): $\overline{0111_2} = 1000_2$
+
+* Add $1$: $1000_2 + 0001_2 = 1001_2$
+
+
+
+3. **Execute Binary Addition ($A + \bar{B} + 1$):**
+
+$$\begin{array}{rl}      1100_2 & (12_{10}) \\    + 1001_2 & (-7_{10}) \\    \hline     (1)0101_2 & (\text{Discard end-around carry } 1)    \end{array}$$
+
+
+
+4. **Interpretation:** Output $0101_2 = \mathbf{+5_{10}}$ (MSB $= 0$ indicates a positive result).
+
+
+
+#### Case 2: Negative Result ($7_{10} - 12_{10} = -5_{10}$) in 4-bit
+
+1. **Represent Operands:**
+* $A = 7_{10} = 0111_2$
+
+* $B = 12_{10} = 1100_2$
+
+
+
+2. **Compute Two's Complement of $B$ ($-12_{10}$):**
+* One's Complement ($\bar{B}$): $\overline{1100_2} = 0011_2$
+
+* Add $1$: $0011_2 + 0001_2 = 0100_2$
+
+
+
+3. **Execute Binary Addition:**
+
+$$\begin{array}{rl}      0111_2 & (+7_{10}) \\    + 0100_2 & (-12_{10}) \\    \hline      1011_2 & (\text{MSB } = 1 \implies \text{Negative result in 2's complement})    \end{array}$$
+
+
+
+4. **Recover Signed Magnitude ($R_{mag} = \bar{R} + 1$):**
+* Invert Result: $\overline{1011_2} = 0100_2$
+
+* Add $1$: $0100_2 + 0001_2 = 0101_2 = 5_{10}$
+
+
+
+5. **Interpretation:** Output evaluates to $\mathbf{-5_{10}}$.
+
+
+
+### Unified Adder/Subtractor Hardware Circuit
+
+By pairing an $N$-bit Ripple Carry Adder with XOR gates on the $B$ inputs and connecting the operation select line $S$ to $C_{in}$, addition and subtraction are combined into a single circuit.
+
+```text
+                      Select Line (S)
+           (0 = ADD, 1 = SUB) ──┬────────────────────────┐
+                                │                        │
+                                │                        ▼
+       A_i ─────────────────────┼──────────────┐    ┌──────────┐
+                                │              ├───►│  FULL    ├──► Sum_i
+       B_i ───►[ XOR ]──────────┼─────────────►│    │ ADDER i  │
+                  ▲             │              └────┤          ├──► C_out
+                  │             │                   └▲─────────┘
+                  └─────────────┘                    │ C_in
+                                                     └─────────── (From C_{i-1} or S)
+
+```
+
+* **Addition Mode ($S = 0$):** $B_i \oplus 0 = B_i$, and $C_{in} = 0 \implies \mathbf{A + B}$.
+
+
+* **Subtraction Mode ($S = 1$):** $B_i \oplus 1 = \bar{B}_i$, and $C_{in} = 1 \implies A + \bar{B} + 1 = \mathbf{A - B}$.
+
+
+
+## 2. Control Unit Architecture & Micro-Instruction Sequences
+
+Executing an instruction requires dividing it into a sequence of clock-cycle operations called **Micro-operations**.
+
+### Key Terminology
+
+* **Timing State ($T$-State):** A single clock cycle within an instruction cycle during which a specific control word is active.
+
+
+* **Control Word (Micro-instruction):** An $N$-bit binary vector where each bit directly drives an enable, read, or write pin in the processor.
+
+
+
+### Gajendra-1 15-Bit Control Word Layout
+
+```text
+┌────┬────────┬────────┬────────┬────────┬────────┬───────┬───────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
+│Bit │   14   │   13   │   12   │   11   │   10   │   9   │   8   │   7    │   6    │   5    │   4    │   3    │   2    │   1    │   0    │
+├────┼────────┼────────┼────────┼────────┼────────┼───────┼───────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+│Sig │ Inc_PC │ PC_out │ PC_load│ Mem_in │Mem_out │ IR_in │ IR_out│ MAR_in │RegA_in │RegA_out│RegB_in │RegB_out│RegC_in │RegC_out│ALU_out │
+└────┴────────┴────────┴────────┴────────┴────────┴───────┴───────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
+
+```
+
+
+### Micro-Operation Execution Sequences
+
+#### 1. Load Accumulator (`LDA addr`) — `0x1`
+
+Fetches a data byte from a specified RAM address into Register A.
+
+| $T$-State | Micro-Operation | Active Signals | Binary Control Word | Hex |
+| --- | --- | --- | --- | --- |
+| **$T_0$** | $MAR \leftarrow PC$ | $PC_{out}=1, MAR_{in}=1$ | `010 00 001 00000 0` | `0x2080`<br> |
+| **$T_1$** | $IR \leftarrow \text{RAM}[MAR], PC \leftarrow PC+1$ | $Mem_{out}=1, IR_{in}=1, Inc_{PC}=1$ | `100 01 100 00000 0` | `0x4600`<br> |
+| **$T_2$** | $MAR \leftarrow IR[3:0]$ | $IR_{out}=1, MAR_{in}=1$ | `000 00 011 00000 0` | `0x0180`<br> |
+| **$T_3$** | $Reg_A \leftarrow \text{RAM}[MAR]$ | $Mem_{out}=1, RegA_{in}=1$ | `000 01 000 10000 0` | `0x0880`<br> |
+
+
+#### 2. Add Memory to Accumulator (`ADD addr`) — `0x3`
+
+Adds the contents of a RAM address to Register A and writes the sum back to Register A.
+
+| $T$-State | Micro-Operation | Active Signals | Binary Control Word | Hex |
+| --- | --- | --- | --- | --- |
+| **$T_0$** | $MAR \leftarrow PC$ | $PC_{out}=1, MAR_{in}=1$ | `010 00 001 00000 0` | `0x2080`<br> |
+| **$T_1$** | $IR \leftarrow \text{RAM}[MAR], PC \leftarrow PC+1$ | $Mem_{out}=1, IR_{in}=1, Inc_{PC}=1$ | `100 01 100 00000 0` | `0x4600`<br> |
+| **$T_2$** | $MAR \leftarrow IR[3:0]$ | $IR_{out}=1, MAR_{in}=1$ | `000 00 011 00000 0` | `0x0180`<br> |
+| **$T_3$** | $Reg_B \leftarrow \text{RAM}[MAR]$ | $Mem_{out}=1, RegB_{in}=1$ | `000 01 000 00100 0` | `0x0820`<br> |
+| **$T_4$** | $Reg_A \leftarrow ALU(Reg_A + Reg_B)$ | $ALU_{out}=1, RegA_{in}=1$ | `000 00 000 10000 1` | `0x0011`<br> |
+
+
+#### 3. Load Immediate (`LDI const`) — `0x5`
+
+Loads a 4-bit immediate constant directly into Register A without a memory access step.
+
+| $T$-State | Micro-Operation | Active Signals | Binary Control Word | Hex |
+| --- | --- | --- | --- | --- |
+| **$T_0$** | $MAR \leftarrow PC$ | $PC_{out}=1, MAR_{in}=1$ | `010 00 001 00000 0` | `0x2080`<br> |
+| **$T_1$** | $IR \leftarrow \text{RAM}[MAR], PC \leftarrow PC+1$ | $Mem_{out}=1, IR_{in}=1, Inc_{PC}=1$ | `100 01 100 00000 0` | `0x4600`<br> |
+| **$T_2$** | $Reg_A \leftarrow IR[3:0]$ | $IR_{out}=1, RegA_{in}=1$ | `000 00 010 10000 0` | `0x0110`<br> |
+| **$T_3, T_4$** | Unused ($NOP$) | None | `000 00 000 00000 0` | `0x0000`<br> |
+
+
+## 3. Hardware vs. Software (Microprogrammed) Control Units
+
+```text
+                           CONTROL UNIT DESIGNS
+                                    │
+          ┌─────────────────────────┴─────────────────────────┐
+          ▼                                                   ▼
+HARDWARE (HARDWIRED) CONTROL                         SOFTWARE (MICROPROGRAMMED) CONTROL
+• Fixed logic gate matrix                            • Control ROM (EPROM) lookup table
+• Fast, minimal gate delay                           • Flexible and easy to update/reconfigure
+• Complex & rigid to modify                          • Higher memory lookup latency
+
+```
+
+
+### Hardware Control Unit & Timing Synchronization
+
+A hardwired control unit uses a **3-to-8 Opcode Decoder** combined with a **5-bit Ring Counter** ($T_0 \dots T_4$) to drive logic gates.
+
+```text
+                   INSTRUCTION REGISTER (Opcode IR[7:4])
+                                    │
+                                    ▼
+                          ┌──────────────────┐
+                          │ 3-to-8 DECODER   │
+                          └────────┬─────────┘
+                                   │ Decoded Opcode Line
+                                   ▼
+  CLK ─►[ 5-bit Ring ]──► ┌──────────────────┐
+        [  Counter   ]    │ HARDWARE CONTROL │ ──► Control Bus (15 Signal Lines)
+          (T0..T4) ──────►│   LOGIC MATRIX   │
+                          └──────────────────┘
+
+```
+
+#### Critical Timing Optimization: Negative-Edge Triggering
+
+* **Datapath Registers:** Triggered on the **Positive Clock Edge** ($\uparrow$) to execute reads/writes.
+
+
+* **Ring Counter ($T$-State Generator):** Driven on the **Negative Clock Edge** ($\downarrow$).
+
+
+
+>  **TIMING HACK:** Driving the $T$-state ring counter on the falling edge allows control signals to propagate and settle on the bus during the clock's LOW phase. When the next positive clock edge arrives, all control signals are stable, eliminating race conditions and setup time violations!
+> 
+> 
+
+
+### Software-Based Microprogrammed Control Unit
+
+In a microprogrammed control unit, control words are pre-stored in a **Control EPROM**.
+
+```text
+           ┌──────────────────────────────────────────────┐
+           │        CONTROL ROM LOOKUP ADDRESS            │
+           ├──────────────┬────────────────┬──────────────┤
+           │ Flag Bit (Z) │ Opcode (4-bit) │ T-State (3-b)│
+           └──────┬───────┴───────┬────────┴──────┬───────┘
+                  │               │               │
+                  ▼               ▼               ▼
+           ┌──────────────────────────────────────────────┐
+           │           CONTROL EPROM (128 × 16-bit)       │
+           └──────────────────────┬───────────────────────┘
+                                  │
+                                  ▼
+                     Control Word Vector (15-bit)
+
+```
+
+#### ROM Address Layout Formula
+
+$$\text{ROM Address} = (\text{Zero Flag} \ll 7) \mid (\text{Opcode} \ll 3) \mid (\text{T-State Index})$$
+
+* **Address Space:** 4-bit Opcode + 3-bit $T$-State ($2^7 = 128$ words).
+
+
+* **Memory Alignment & Padding:** Because each instruction is allocated a fixed block of 8 $T$-state slots ($2^3$), unused states beyond $T_4$ (or $T_2$ for `LDI`) are padded with `0x0000` ($NOP$) to maintain structural alignment.
+
+
+
+
+### Programmatic Control Word Generation (C Code)
+
+Generating control ROM binaries manually is error-prone. The C code below constructs and formats control words programmatically:
+
+```c
+#include <stdio.h>
+
+// Define bit position indices
+#define PC_INC   14
+#define PC_OUT   13
+#define PC_LOAD  12
+#define MEM_IN   11
+#define MEM_OUT  10
+#define IR_IN    9
+#define IR_OUT   8
+#define MAR_IN   7
+#define REGA_IN  6
+#define REGA_OUT 5
+#define REGB_IN  4
+#define REGB_OUT 3
+#define REGC_IN  2
+#define REGC_OUT 1
+#define ALU_OUT  0
+
+unsigned short fetch_T0 = (1 << PC_OUT) | (1 << MAR_IN);                  // 0x2080
+unsigned short fetch_T1 = (1 << PC_INC) | (1 << MEM_OUT) | (1 << IR_IN); // 0x4600
+
+void generate_rom_table() {
+    unsigned short control_rom[128] = {0};
+    
+    // LDA (Opcode 0x1) Micro-sequence
+    control_rom[(1 << 3) | 0] = fetch_T0;
+    control_rom[(1 << 3) | 1] = fetch_T1;
+    control_rom[(1 << 3) | 2] = (1 << IR_OUT) | (1 << MAR_IN);              // 0x0180
+    control_rom[(1 << 3) | 3] = (1 << MEM_OUT) | (1 << REGA_IN);            // 0x0880
+    
+    // ADD (Opcode 0x3) Micro-sequence
+    control_rom[(3 << 3) | 0] = fetch_T0;
+    control_rom[(3 << 3) | 1] = fetch_T1;
+    control_rom[(3 << 3) | 2] = (1 << IR_OUT) | (1 << MAR_IN);              // 0x0180
+    control_rom[(3 << 3) | 3] = (1 << MEM_OUT) | (1 << REGB_IN);            // 0x0820
+    control_rom[(3 << 3) | 4] = (1 << ALU_OUT) | (1 << REGA_IN);            // 0x0011
+}
+
+```
+
+
+## 4. Gajendra-1 System Synthesis & Program Execution Trace
+
+### Complete Gajendra-1 Processor Interconnect
+
+```text
+ ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+ │ Program Ctr  │   │ Memory Addr  │   │ System RAM   │   │ Instruction  │
+ │ (4-bit PC)   │   │ Register(MAR)│   │ (16x8-bit)   │   │ Register(IR) │
+ └──────┬───────┘   └──────▲───────┘   └──────┬───────┘   └──────┬───────┘
+        │ PC_out           │ MAR_in           │ Mem_out          │ IR_out
+        ▼                  │                  ▼                  ▼
+ ══════════════════════════╧════════════════════════════════════════════════
+                             COMMON SYSTEM BUS (8-bit)
+ ══════════════════════════╤═════════════════════╤═══════════════╤═════════
+        ▲ RegA_out         │ RegA_in             │ RegB_in       │ ALU_out
+        │                  ▼                     ▼               │
+ ┌──────┴───────┐   ┌──────────────┐      ┌──────────────┐       │
+ │ Accumulator  │   │  Register C  │      │  Register B  │       │
+ │ (Register A) │   │ (Display LED)│      │   (8-bit)    │       │
+ └──────┬───────┘   └──────────────┘      └──────┬───────┘       │
+        │                                        │               │
+        └──────────────────┐  ┌──────────────────┘               │
+                           ▼  ▼                                  │
+                    ┌──────────────┐                             │
+                    │ Gajendra ALU ├─────────────────────────────┘
+                    └──────────────┘
+
+```
+
+
+### Special Hardware Components
+
+#### 1. Instruction Register (IR) & Operand Splitting
+
+* **Control Port ($IR[7:4]$):** Directly drives the Control Unit with opcode bits.
+
+
+* **Operand Port ($IR[3:0]$):** Outputs memory addresses or constants to the common bus.
+
+
+
+#### 2. Instruction Decoder & `LDI` Masking Logic
+
+* **Sub Line Generation:** Evaluates opcode bits to set $S = 1$ when executing `SUB`.
+
+
+* **`LDI` High-Nibble Stripping:** When executing `LDI` (`0x5`), the upper opcode bits ($IR[7:4]$) must be masked to zero before driving the bus. Without this masking, executing `LDI 7` (`0x57`) would incorrectly load `0x57` into $Reg_A$ instead of `0x07`.
+
+
+
+```text
+  IR Output (0x57) ──► [ MUX Masking Logic ] ──► Common Bus (0x07) ──► Reg A
+                            ▲
+                            │ Enabled during LDI (Opcode 0x5)
+
+```
+
+
+### Step-by-Step Execution Trace: Evaluating $5 + 3 + 10 - 6 - 4 = 8$
+
+#### RAM Memory Allocation
+
+| RAM Address | Memory Content | Description / Instruction |
+| --- | --- | --- |
+| `0x0` | `0x1A` | **`LDA 0xA`**: Load RAM[`0xA`] ($5$) into $Reg_A$. |
+| `0x1` | `0x3B` | **`ADD 0xB`**: Add RAM[`0xB`] ($3$) to $Reg_A$.|
+| `0x2` | `0x70` | **`OUT`**: Display $Reg_A$ on LEDs ($8_{10}$). |
+| `0x3` | `0x3C` | **`ADD 0xC`**: Add RAM[`0xC`] ($10$) to $Reg_A$ ($18_{10} = \text{0x12}$). |
+| `0x4` | `0x70` | **`OUT`**: Display $Reg_A$ on LEDs (`0x12`). |
+| `0x5` | `0x4D` | **`SUB 0xD`**: Subtract RAM[`0xD`] ($6$) from $Reg_A$ ($12_{10} = \text{0xC}$). |
+| `0x6` | `0x70` | **`OUT`**: Display $Reg_A$ on LEDs (`0xC`). |
+| `0x7` | `0x4E` | **`SUB 0xE`**: Subtract RAM[`0xE`] ($4$) from $Reg_A$ ($8_{10} = \text{0x8}$). |
+| `0x8` | `0x70` | **`OUT`**: Display $Reg_A$ on LEDs (`0x8`). |
+| `0x9` | `0x60` | **`JMP 0x0`**: Loop back to Start. |
+| `0xA` | `0x05` | Data Constant: $5_{10}$<br> |
+| `0xB` | `0x03` | Data Constant: $3_{10}$<br> |
+| `0xC` | `0x0A` | Data Constant: $10_{10}$ (`0xA`) |
+| `0xD` | `0x06` | Data Constant: $6_{10}$<br> |
+| `0xE` | `0x04` | Data Constant: $4_{10}$<br> |
+| `0xF` | `0x00` | Data Constant: Unused |
+
+
+
+#### Step-by-Step Hardware State Execution Table
+
+| Clock Cycle | Instruction | Active Micro-op | $Reg_A$ | $Reg_B$ | $Reg_C$ | System Bus | Output LED |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **$1-2$** | `LDA 0xA` | Fetch `0x1A` | `0x00` | `0x00` | `0x00` | `0x1A` | `--`<br> |
+| **$3-4$** | `LDA 0xA` | $Reg_A \leftarrow \text{RAM}[0xA]$ | **`0x05`** | `0x00` | `0x00` | `0x05` | `--`<br> |
+| **$5-6$** | `ADD 0xB` | Fetch `0x3B` | `0x05` | `0x00` | `0x00` | `0x3B` | `--`<br> |
+| **$7-8$** | `ADD 0xB` | $Reg_B \leftarrow 0x03, Reg_A \leftarrow 5+3$ | **`0x08`** | `0x03` | `0x00` | `0x08` | `--`<br> |
+| **$9-10$** | `OUT` | $Reg_C \leftarrow Reg_A$ | `0x08` | `0x03` | **`0x08`** | `0x08` | **`08`**<br> |
+| **$11-14$** | `ADD 0xC` | $Reg_B \leftarrow 0x0A, Reg_A \leftarrow 8+10$ | **`0x12`** | `0x0A` | `0x08` | `0x12` | `08`<br> |
+| **$15-16$** | `OUT` | $Reg_C \leftarrow Reg_A$ | `0x12` | `0x0A` | **`0x12`** | `0x12` | **`12`**<br> |
+| **$17-20$** | `SUB 0xD` | $Reg_B \leftarrow 0x06, Reg_A \leftarrow 18-6$ | **`0x0C`** | `0x06` | `0x12` | `0x0C` | `12`<br> |
+| **$21-22$** | `OUT` | $Reg_C \leftarrow Reg_A$ | `0x0C` | `0x06` | **`0x0C`** | `0x0C` | **`0C`**<br> |
+| **$23-26$** | `SUB 0xE` | $Reg_B \leftarrow 0x04, Reg_A \leftarrow 12-4$ | **`0x08`** | `0x04` | `0x0C` | `0x08` | `0C`<br> |
+| **$27-28$** | `OUT` | $Reg_C \leftarrow Reg_A$ | `0x08` | `0x04` | **`0x08`** | `0x08` | **`08`**<br> |
+| **$29-30$** | `JMP 0x0` | $PC \leftarrow 0x0$ | `0x08` | `0x04` | `0x08` | `0x00` | `08`<br> |
+
+
+
+## 5. Course Summary: The Complete Computing Stack
+
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 1: COMPUTATIONAL PROBLEM & ALGORITHM                 │
+ └──────────────────────────────┬──────────────────────────────┘
+                                │ Expressed in
+                                ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 2: HIGH-LEVEL LANGUAGE (C++ / Python)                │
+ └──────────────────────────────┬──────────────────────────────┘
+                                │ Compiled via OS & Compiler
+                                ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 3: INSTRUCTION SET ARCHITECTURE (ISA)                │
+ └──────────────────────────────┬──────────────────────────────┘
+                                │ Implemented by
+                                ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 4: MICROARCHITECTURE & DATAPATH                      │
+ └──────────────────────────────┬──────────────────────────────┘
+                                │ Constructed with
+                                ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 5: DIGITAL LOGIC (Combinational & Sequential)        │
+ └──────────────────────────────┬──────────────────────────────┘
+                                │ Synthesized from
+                                ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 6: LOGIC GATES (NAND, NOR, AND, OR, NOT)             │
+ └──────────────────────────────┬──────────────────────────────┘
+                                │ Built with
+                                ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │  LEVEL 7: TRANSISTORS & PHYSICAL ELECTRONICS (CMOS Switches)│
+ └─────────────────────────────────────────────────────────────┘
+
+```
+
+
+### Final Summary of Core Concepts
+
+1. **Information Encoding:** Binary logic abstracts noisy continuous analog voltages into two stable states ($0$ and $1$) bounded by noise margins.
+
+
+2. **Boolean Reduction:** Truth tables map system functions; K-Maps systematically simplify Boolean expressions using Gray Code adjacency.
+
+
+3. **Combinational Building Blocks:** Adders, Multiplexers, Decoders, and Encoders form memoryless datapath routing elements.
+
+
+4. **Sequential Memory:** Latches (level-sensitive) and Flip-Flops (edge-sensitive) use feedback loops to store state. Master-Slave setups eliminate race-around conditions.
+
+
+5. **Synchronous Design:** Registers, Counters, and Memory Arrays operate synchronously under a single shared clock.
+
+
+6. **Processor Synthesis:** Combining a Common Bus, an ALU, registers, and a Control Unit forms a complete general-purpose CPU capable of executing programs from memory.

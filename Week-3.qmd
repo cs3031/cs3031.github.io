@@ -1,0 +1,253 @@
+# Week 3: Canonical POS, Universal Gates & Circuit Optimization
+
+## 1. Product of Sums (POS) Canonical Form
+
+The **Product of Sums (POS)** representation is a canonical form constructed as a logical product (AND) of **Maxterms**. While Sum of Products (SOP) focuses on truth table outputs equal to $1$, POS constructs equations from rows where the output is $0$.
+
+### Key Concepts & Notation
+
+* **Maxterm ($M_i$):** A logical sum (OR) of all input literals in a function where the output equals $0$.
+
+
+* **Literal Assignment Convention for Maxterms:**
+* Input bit $= 0 \implies$ True variable ($X$).
+
+
+* Input bit $= 1 \implies$ Complemented variable ($\bar{X}$).
+
+
+
+
+* **Shorthand Notation ($\prod M$):** Uses the product symbol $\prod$ with uppercase $M$ to list row indices where $F = 0$.
+
+
+
+$$\text{POS Expression: } F(A, B, C) = \prod M(i_1, i_2, \dots)$$
+
+---
+
+### Example: Truth Table to POS Construction
+
+Given a 3-variable system ($A, B, C$):
+
+| Row ($i$) | $A$ | $B$ | $C$ | Output ($F$) | Maxterm ($M_i$) |
+| --- | --- | --- | --- | --- | --- |
+| **0** | **0** | **0** | **0** | **0** | $A + B + C$<br> |
+| **1** | **0** | **0** | **1** | **0** | $A + B + \bar{C}$<br> |
+| **2** | **0** | **1** | **0** | **0** | $A + \bar{B} + C$<br> |
+| 3 | 0 | 1 | 1 | 1 | — |
+| 4 | 1 | 0 | 0 | 1 | — |
+| 5 | 1 | 0 | 1 | 1 | — |
+| 6 | 1 | 1 | 0 | 1 | — |
+| 7 | 1 | 1 | 1 | 1 | — |
+
+
+
+* **Canonical POS Form:**
+
+$$F(A, B, C) = (A + B + C)(A + B + \bar{C})(A + \bar{B} + C)$$
+
+
+$$F(A, B, C) = \prod M(0, 1, 2)$$
+
+
+### SOP $\leftrightarrow$ POS Conversions
+
+For an $n$-variable function with $2^n$ total rows:
+
+1. **Index Complementarity:** If $F = \sum m(3, 4, 5, 6, 7)$, then $F = \prod M(0, 1, 2)$.
+
+
+2. **De Morgan's Duality:** The POS of a function $F$ is mathematically equivalent to applying De Morgan's Law to the SOP expansion of $\bar{F}$:
+
+
+
+$$F = \prod M_k = \overline{\sum m_k(\text{where } F = 0)}$$
+
+
+
+
+---
+
+## 2. Universal Gates (NAND & NOR)
+
+A gate type is **Universal** if any Boolean function can be implemented using *only* that specific gate type, eliminating the need for separate AND, OR, and NOT gates.
+
+```
+                  ┌─────────┐
+                  │   AND   │
+   Universal ───► │   OR    │
+    Gates         │   NOT   │
+                  └─────────┘
+
+```
+
+### Why Prefer NAND/NOR Gates?
+
+* **CMOS Manufacturing:** NAND gates are easier to fabricate on silicon dies, take less physical area, and exhibit superior power-delay characteristics.
+
+
+* **Homogeneity:** Using a single gate type across a circuit reduces design variability and timing asynchronous mismatches.
+
+
+
+---
+
+### Converting Two-Level Logic to Universal Gate Implementations
+
+#### 1. AND-OR (SOP) $\longrightarrow$ NAND-NAND
+
+Applying De Morgan's law twice converts an AND-OR SOP network directly into a 2-level NAND-NAND structure:
+
+
+$$\bar{\bar{F}} = \overline{\overline{P_1 + P_2 + \dots}} = \overline{\bar{P_1} \cdot \bar{P_2} \cdots}$$
+
+```
+  Standard SOP (AND-OR):              Universal (NAND-NAND):
+  Level 1: AND Gates                   Level 1: NAND Gates
+  Level 2: OR Gate      ──► Equivalent ──► Level 2: NAND Gate
+
+```
+
+#### 2. OR-AND (POS) $\longrightarrow$ NOR-NOR
+
+Similarly, a 2-level OR-AND POS structure converts directly into a 2-level NOR-NOR logic network.
+
+---
+
+## 3. Multilevel Logic vs. Two-Level Logic
+
+While SOP and POS guarantee two-level gate depth, expanding equations into **Multilevel Logic Networks** (> 2 gate stages) alters physical layout trade-offs.
+
+| Metric | Two-Level Logic (SOP / POS) | Multilevel Logic |
+| --- | --- | --- |
+| **Gate Count / Area** | Higher gate count; larger area | Compact; lower logic gate count |
+| **Cost & Power** | Higher power consumption | Lower overall cost and power |
+| **Propagation Delay** | Low latency ($2\Delta$ depth) | Higher cumulative gate delay ($> 2\Delta$) |
+
+### Decomposing Multi-Input Gates
+
+When physical hardware limits gate fan-in (e.g., executing a 4-input AND with 2-input gates), implementation structure impacts speed:
+
+```
+Serial Cascading (High Delay):            Parallel Tree (Low Delay):
+   A ──┐                                     A ──┐
+       ├──[AND]──┐                               ├──[AND]──┐
+   B ──┘         │                           B ──┘         │
+                 ├──[AND]──┐                               ├──[AND]──► Output
+   C ────────────┘         │                 C ──┐         │
+                           ├──[AND]──►       │   ├──[AND]──┘
+   D ──────────────────────┘                 D ──┘
+   Delay = 3Δ                                Delay = 2Δ
+
+```
+
+* **Serial Decomposition:** Adds gates sequentially, yielding $N - 1$ gate delays ($3\Delta$).
+
+
+* **Parallel Tree (Divide-and-Conquer):** Evaluates terms concurrently, scaling latency to $\lceil \log_2 N \rceil \Delta$ ($2\Delta$).
+
+
+
+---
+
+## 4. Canonical vs. Minimal Forms: Worked Example
+
+Canonical expressions provide a baseline, unoptimized implementation. Algebraic reduction yields significant resource savings.
+
+Given canonical SOP function:
+
+
+$$F(A, B, C) = \sum m(3, 4, 5, 6, 7) = \bar{A}BC + A\bar{B}\bar{C} + A\bar{B}C + AB\bar{C} + ABC$$
+
+### Algebraic Simplification Steps
+
+$$\begin{aligned} F &= \bar{A}BC + A\bar{B}(\bar{C} + C) + AB(\bar{C} + C) && \text{(Distributive Law)}[cite: 15] \\ &= \bar{A}BC + A\bar{B}(1) + AB(1) && \text{(Complementarity: } X + \bar{X} = 1\text{)}[cite: 15] \\ &= \bar{A}BC + A(\bar{B} + B) && \text{(Distributive Law)}[cite: 15] \\ &= \bar{A}BC + A(1) = A + \bar{A}BC && \text{(Identity)}[cite: 15] \\ &= A + BC && \text{(Elimination Law: } X + \bar{X}Y = X + Y\text{)}[cite: 15] \end{aligned}$$
+
+### Hardware Resource Reduction
+
+```
+Canonical Realization:                     Minimized Realization:
+• 5 × 3-input AND Gates                    • 1 × 2-input AND Gate
+• 1 × 5-input OR Gate       ──► Saves ──►  • 1 × 2-input OR Gate
+• 3 × NOT Gates                        • 0 × NOT Gates
+
+```
+
+---
+
+## 5. Circuit Analysis & Optimization Techniques
+
+### Analyzing Timing Diagrams
+
+Timing diagrams depict binary logic signals over time intervals.
+
+```
+        Chunk 1   Chunk 2   Chunk 3   Chunk 4
+X1   : ────0──── │ ────0──── │ ────1──── │ ────1────
+X2   : ────0──── │ ────1──── │ ────0──── │ ────1────
+F    : ────1──── │ ────1──── │ ────0──── │ ────1────
+Row  :     m0         m1         m2         m3
+
+```
+
+Extracting functional terms gives:
+
+
+$$F = \bar{X}_1\bar{X}_2 + \bar{X}_1 X_2 + X_1 X_2 = \sum m(0, 1, 3)$$
+
+---
+
+### Handling "Don't Care" Conditions ($X$)
+
+When certain input combinations cannot occur or output states do not impact system performance, they are designated as **Don't Care ($X$)** conditions.
+
+* In truth tables, $X$ terms can be set flexibly to either $0$ or $1$ during simplification to maximize term cancellation.
+
+
+
+---
+
+### Netlist Reduction Example
+
+Analyzing a given multi-gate netlist yields:
+
+
+$$F = X_1 X_2 + \bar{X}_1 X_2 + \bar{X}_1 \bar{X}_2$$
+
+Algebraic minimization:
+
+
+$$F = X_2(X_1 + \bar{X}_1) + \bar{X}_1 \bar{X}_2 = X_2 + \bar{X}_1 \bar{X}_2 = \bar{X}_1 + X_2$$
+
+```
+ Unoptimized Netlist (3 AND + 1 OR)         Optimized Netlist (1 NOT + 1 OR)
+           ┌─────┐                                     ┌─────┐
+ X1, X2 ──►│ AND │──┐                                  │     │
+           └─────┘  │  ┌────┐             X1 ──[NOT]──►│ OR  ├──► F
+ X1̄, X2 ──►[ AND ]──┼─►│ OR │──► F                     │     │
+           [ AND ]──┘  └────┘             X2 ─────────►│     │
+ X1̄, X2̄ ──►└─────┘                                     └─────┘
+
+```
+
+---
+
+### Application Puzzle: The 3-Door Light Switch System
+
+* **Problem:** A single room contains 1 light bulb and 3 independent door switches. Toggling *any* single switch must invert the light bulb's current state.
+
+
+* **System Type:** Memoryless combinational logic implementing odd parity across inputs.
+
+
+
+```
+  Switches (S1, S2, S3) ──► [ Combinational Logic ] ──► Bulb State (L)
+
+```
+
+Truth Table Formulation:
+
+
+$$L(S_1, S_2, S_3) = S_1 \oplus S_2 \oplus S_3 = \sum m(1, 2, 4, 7)$$

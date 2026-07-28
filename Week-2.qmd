@@ -1,0 +1,271 @@
+# Week 2: Foundations of Logic Circuits & Boolean Algebra
+
+## 1. Foundations of Logic Circuits
+
+Digital logic circuits process binary inputs to generate binary outputs using networks of transistors organized as logic gates.
+
+### Real-World Example: Abstraction in Tic-Tac-Toe
+
+To design a hardware circuit that detects a win condition in Tic-Tac-Toe:
+
+* **Input Mapping:** Map 9 grid cells ($a_{11}$ through $a_{33}$) into binary inputs. A cell marked $X$ is assigned $1$, while $O$ or empty cells are assigned $0$.
+
+
+* **Output:** Output $W = 1$ if a player forms 3 consecutive marks along any row, column, or diagonal; otherwise, $W = 0$.
+
+
+
+```
+  Board Layout           Binary Input Array
+  a11 │ a12 │ a13         [ a11, a12, a13,
+ ─────┼─────┼─────          a21, a22, a23,  ──► [ Logic Circuit ] ──► Output (W)
+  a21 │ a22 │ a23           a31, a32, a33 ]
+ ─────┼─────┼─────
+  a31 │ a32 │ a33
+
+```
+
+---
+
+### Circuit Specifications
+
+Any digital logic circuit requires two fundamental specifications:
+
+1. **Functional Specification:** Defines the unique, unambiguous mapping from input combinations to output states (memoryless for combinational systems). Expressed exhaustively via a truth table containing $2^n$ rows for $n$ inputs.
+
+
+2. **Timing Specification:** Defines the physical delay $\Delta$ between input transitions and output stabilization. Accounting for delays is critical when cascading multiple logic blocks to avoid synchronization errors.
+
+
+
+```
+              ┌─────────────────────┐
+  Inputs ────►│ Functional Mapping  │────► Outputs
+              │ Delay = Δ           │
+              └─────────────────────┘
+
+```
+
+---
+
+### Logic Types: Combinational vs. Sequential
+
+| Feature | Combinational Logic | Sequential Logic |
+| --- | --- | --- |
+| **Memory** | Memoryless | Retains past state/history |
+| **Output Dependency** | Strictly dependent on *current* inputs | Dependent on *current* inputs + *past* states |
+| **Primary Examples** | Adders, Multiplexers, Decoders | Registers, Counters, Memory cells |
+
+## 2. Boolean Algebra Fundamentals
+
+Formulated by George Boole and applied to switching circuits by Claude Shannon, Boolean algebra defines operations on the set $B = \{0, 1\}$.
+
+### Primitive Operators & Gate Symbols
+
+* **NOT (Complement):** $\bar{A}$, $A'$, or $\neg A$
+
+* **AND (Conjunction):** $A \cdot B$
+
+* **OR (Disjunction):** $A + B$
+
+
+---
+
+### Core Axioms and Simplification Theorems
+
+#### Basic Axioms
+
+* **Closure:** $A, B \in \{0, 1\} \implies (A \cdot B) \in \{0, 1\}$ and $(A + B) \in \{0, 1\}$.
+
+
+* **Commutativity:** $A + B = B + A$ and $A \cdot B = B \cdot A$.
+
+
+* **Identity:** $A + 0 = A$ and $A \cdot 1 = A$.
+
+
+* **Distributivity:**
+* $A \cdot (B + C) = (A \cdot B) + (A \cdot C)$
+
+* $A + (B \cdot C) = (A + B) \cdot (A + C)$ *(Unique to Boolean algebra)*
+
+
+
+* **Complementarity:** $A + \bar{A} = 1$ and $A \cdot \bar{A} = 0$.
+
+
+
+#### Algebraic Simplification Theorems
+
+* **Adjacency / Combining:** $X \cdot Y + X \cdot \bar{Y} = X$
+
+* **Absorption:** $X + X \cdot Y = X$
+
+* **Elimination:** $X + \bar{X} \cdot Y = X + Y$
+
+
+---
+
+### The Axiomatic Duality Principle
+
+Every valid Boolean algebraic identity has a **Dual Form** that remains valid.
+
+To obtain a dual expression:
+
+1. Swap all AND ($\cdot$) operators with OR ($+$) operators, and vice versa.
+
+
+2. Swap all logic constants $0$ with $1$, and vice versa.
+
+
+3. **Do NOT complement or change any literals/variables**.
+
+
+
+> **Example:**
+>
+> * Original: $X \cdot Y + X \cdot \bar{Y} = X$
+> 
+> * Dual: $(X + Y) \cdot (X + \bar{Y}) = X$
+> 
+> 
+> 
+
+---
+
+### De Morgan's Laws & Universal Gate Equivalences
+
+#### De Morgan's Laws
+
+De Morgan's laws convert sum terms to product terms and vice versa:
+
+
+$$\overline{A + B + C} = \bar{A} \cdot \bar{B} \cdot \bar{C}$$
+
+$$\overline{A \cdot B \cdot C} = \bar{A} + \bar{B} + \bar{C}$$
+
+* **Logical Intuition:** Saying *"At least one variable is true"* ($\overline{A+B+C}$) is logically equivalent to stating *"It is NOT the case that all variables are simultaneously false"* ($\bar{A}\bar{B}\bar{C}$).
+
+
+
+#### Gate Transformations
+
+Using De Morgan's laws, standard gates can be mapped into inverted-input logic:
+
+* **NOR Gate:** $\overline{X + Y} = \bar{X} \cdot \bar{Y}$ (Equivalent to an AND gate with inverted inputs).
+
+
+* **NAND Gate:** $\overline{X \cdot Y} = \bar{X} + \bar{Y}$ (Equivalent to an OR gate with inverted inputs).
+
+
+
+```
+  NAND Implementation:         Bubbled OR Equivalent:
+  X ──┐                         X ───►[o]─┐
+      ├──[ NAND ]──► X·Y                  ├──[ OR ]──► X + Y
+  Y ──┘                         Y ───►[o]─┘
+
+```
+
+---
+
+## 3. Standard Canonical Forms & Working of SOP
+
+To standardize switching functions into unique algebraic signatures, boolean equations are structured into canonical forms.
+
+### Basic Definitions
+
+* **Literal:** A variable in its primitive form ($A$) or complemented form ($\bar{A}$).
+
+
+* **Implicant:** A product term (AND operation) of literals.
+
+
+* **Minterm ($m_i$):** A product term containing **every** system variable exactly once. Evaluates to $1$ for a single specific truth table row.
+
+
+* **Maxterm ($M_i$):** A sum term containing **every** system variable exactly once. Evaluates to $0$ for a single specific truth table row.
+
+
+
+### Operator Precedence Rules
+
+1. **NOT** (Highest precedence)
+
+
+2. **AND**
+
+3. **OR** (Lowest precedence)
+
+
+
+---
+
+### Sum of Products (SOP) / Disjunctive Normal Form (DNF)
+
+The canonical SOP form represents a function as a logical OR ($\sum$) of all minterms where the output $F = 1$.
+
+#### Algorithm to Construct SOP from a Truth Table
+
+1. Identify all rows where output $F = 1$.
+
+
+2. For each identified row, construct a minterm:
+* Write variable as $X$ if input is $1$.
+
+
+* Write variable as $\bar{X}$ if input is $0$.
+
+
+
+
+3. Sum (OR) all the generated minterms together.
+
+
+
+#### Example Construction
+
+Given the truth table below with 3 inputs ($A, B, C$):
+
+| Row | $A$ | $B$ | $C$ | Output ($F$) | Minterm Term |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 0 | 0 | 0 | 0 | — |
+| 1 | 0 | 0 | 1 | 0 | — |
+| 2 | 0 | 1 | 0 | 0 | — |
+| **3** | **0** | **1** | **1** | **1** | $\bar{A} B C$<br> |
+| **4** | **1** | **0** | **0** | **1** | $A \bar{B} \bar{C}$<br> |
+| 5 | 1 | 0 | 1 | 0 | — |
+| **6** | **1** | **1** | **0** | **1** | $A B \bar{C}$<br> |
+| **7** | **1** | **1** | **1** | **1** | $A B C$<br> |
+
+**Canonical SOP Expression:**
+
+
+$$F(A, B, C) = \bar{A} B C + A \bar{B} \bar{C} + A B \bar{C} + A B C$$
+
+$$\text{Compact Notation: } F = \sum m(3, 4, 6, 7)$$
+
+---
+
+### Hardware Realization of SOP Expressions
+
+SOP expressions map directly onto a **two-level gate structure**:
+
+* **Level 1:** Parallel AND gates generating individual minterm product terms.
+
+
+* **Level 2:** A single multi-input OR gate collecting all AND outputs.
+
+
+
+```
+  A ──[NOT]──┐
+  B ─────────┼───[ AND ]─── (ĀBC) ──┐
+  C ─────────┼───────────────┘      │
+                                    ├───[ OR ]───► Output (F)
+  A ─────────┼───────────────┐      │
+  B ──[NOT]──┼───[ AND ]─── (AB̄C̄) ──┘
+  C ──[NOT]──┘
+
+```
+

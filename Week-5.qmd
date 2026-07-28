@@ -1,0 +1,305 @@
+# Week 5: Adders, PLAs & Karnaugh Map Logic Minimization
+
+## 1. Full Adders and Ripple Carry Adders
+
+While a Half Adder adds two 1-bit numbers without accommodating incoming carry bits, a **Full Adder** is a 3-input combinational logic block that adds two operand bits ($A_i, B_i$) alongside an incoming carry bit ($C_{in}$ or $C_i$).
+
+```
+                ┌──────────────────┐
+   A_i ────────►│                  ├────────► Sum (S_i)
+   B_i ────────►│    FULL ADDER    │
+  C_in ────────►│                  ├────────► C_out (C_{i+1})
+                └──────────────────┘
+
+```
+
+### Full Adder Truth Table and Equations
+
+| $A_i$ | $B_i$ | $C_{in}$ | $C_{out}$ | $S_i$ | Arithmetic Meaning |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 0 | 0 | 0 | 0 | $0 + 0 + 0 = 0$<br> |
+| 0 | 0 | 1 | 0 | 1 | $0 + 0 + 1 = 1$<br> |
+| 0 | 1 | 0 | 0 | 1 | $0 + 1 + 0 = 1$<br> |
+| 0 | 1 | 1 | 1 | 0 | $0 + 1 + 1 = 2_{10} = (10)_2$<br> |
+| 1 | 0 | 0 | 0 | 1 | $1 + 0 + 0 = 1$<br> |
+| 1 | 0 | 1 | 1 | 0 | $1 + 0 + 1 = 2_{10} = (10)_2$<br> |
+| 1 | 1 | 0 | 1 | 0 | $1 + 1 + 0 = 2_{10} = (10)_2$<br> |
+| 1 | 1 | 1 | 1 | 1 | $1 + 1 + 1 = 3_{10} = (11)_2$<br> |
+
+#### Derived Equations
+
+* **Sum Bit ($S_i$):** Odd parity function across the three inputs.
+
+
+
+$$S_i = A_i \oplus B_i \oplus C_{in} = \bar{A}_i \bar{B}_i C_{in} + \bar{A}_i B_i \bar{C}_{in} + A_i \bar{B}_i \bar{C}_{in} + A_i B_i C_{in}$$
+
+
+
+* **Carry Out ($C_{out}$):** Evaluates to $1$ whenever two or more inputs are $1$.
+
+
+
+$$C_{out} = A_i B_i + A_i C_{in} + B_i C_{in}$$
+
+
+
+
+---
+
+### $N$-Bit Ripple Carry Adder (RCA)
+
+To add two $N$-bit numbers ($A_{N-1} \dots A_0$ and $B_{N-1} \dots B_0$), $N$ Full Adders are cascaded in series. The carry output ($C_{i+1}$) of each stage is fed into the carry input of the next higher-order stage.
+
+```
+         A3  B3          A2  B2          A1  B1          A0  B0
+          │   │           │   │           │   │           │   │
+          ▼   ▼           ▼   ▼           ▼   ▼           ▼   ▼
+       ┌─────────┐     ┌─────────┐     ┌─────────┐     ┌─────────┐
+C_out ◄┤ Full    │◄────┤ Full    │◄────┤ Full    │◄────┤ Full    │◄── C_in = 0
+(C4)   │ Adder 3 │ C3  │ Adder 2 │ C2  │ Adder 1 │ C1  │ Adder 0 │
+       └────┬────┘     └────┬────┘     └────┬────┘     └────┬────┘
+            │               │               │               │
+            ▼               ▼               ▼               ▼
+            S3              S2              S1              S0
+
+```
+
+* **Propagation Delay (Latency Bottleneck):** The calculation at bit stage $i$ cannot finalize until the carry bit $C_i$ ripples through all lower stages $0 \dots i-1$.
+
+
+* **Latency Scaling:** Total delay is proportional to $N \times \Delta$ (where $\Delta$ is a single-stage gate delay). Advanced architectures like **Carry Lookahead Adders (CLA)** predict carries in parallel to break this sequential bottleneck.
+
+
+
+---
+
+## 2. Programmable Logic Arrays (PLAs)
+
+A **Programmable Logic Array (PLA)** is a reconfigurable combinational circuit capable of realizing any set of Boolean expressions directly in Sum-of-Products (SOP) form.
+
+```
+               Inputs (A, B, C...)
+                        │
+                        ▼
+          ┌───────────────────────────┐
+          │  Programmable AND-Array   │  ──► Generates Product Terms (Minterms)
+          └─────────────┬─────────────┘
+                        │
+                        ▼
+          ┌───────────────────────────┐
+          │   Programmable OR-Array   │  ──► Sums Selected Minterms
+          └─────────────┬─────────────┘
+                        │
+                        ▼
+              Outputs (F1, F2...)
+
+```
+
+### Architectural Components
+
+1. **Programmable AND-Array:** Computes required product terms (minterms) from input literals. For an $n$-variable input, array size accommodates up to $2^n$ product terms.
+
+
+2. **Programmable OR-Array:** Combines AND-array product outputs into target function outputs. The number of OR gates equals the number of output functions/columns in the truth table.
+
+
+
+### Key Advantages and Applications
+
+* **Logical Completeness:** Since $\{\text{AND}, \text{OR}, \text{NOT}\}$ forms a logically complete set, a PLA can implement *any* arbitrary truth table.
+
+
+* **Reconfigurability:** Hardware behavior is defined via Hardware Description Languages (HDLs like Verilog or VHDL) and flashed onto devices like **Field Programmable Gate Arrays (FPGAs)**, allowing rapid hardware debugging before silicon fabrication.
+
+
+
+---
+
+## 3. Logic Simplification & The Uniting Theorem
+
+Manual Boolean expression simplification relies on the **Uniting (Unification) Theorem**:
+
+
+$$X \cdot Y + X \cdot \bar{Y} = X \cdot (Y + \bar{Y}) = X \cdot 1 = X$$
+
+* **Core Insight:** If a variable $Y$ changes state ($0 \to 1$ or $1 \to 0$) across two output terms where $F = 1$ while all other literals ($X$) remain constant, $Y$ has no impact on the output and can be eliminated.
+
+
+* **Limitations of Algebraic Inspection:** For functions with $\ge 4$ variables, finding optimal variable pairs visually is heuristic, error-prone, and non-deterministic. Automated Electronic Design Automation (EDA) tools require systematic algorithms.
+
+
+
+---
+
+## 4. Karnaugh Maps (K-Maps) Foundations
+
+A **Karnaugh Map (K-Map)** maps a truth table onto a 2D geometric grid where physical spatial adjacency corresponds strictly to **logical adjacency** (differing by exactly 1 literal state).
+
+### Gray Code Labeling Rule
+
+Grid rows and columns MUST follow **Gray Code** sequence ($00, 01, 11, 10$) instead of standard binary sequence ($00, 01, 10, 11$). This guarantees that moving between any two adjacent cells flips exactly one bit.
+
+```
+             BC
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  0  │ m0  │ m1  │ m3  │ m2  │
+A    ├─────┼─────┼─────┼─────┤
+  1  │ m4  │ m5  │ m7  │ m6  │
+     └─────┴─────┴─────┴─────┘
+        3-Variable K-Map
+
+```
+
+```
+             CD
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  00 │ m0  │ m1  │ m3  │ m2  │
+     ├─────┼─────┼─────┼─────┤
+  01 │ m4  │ m5  │ m7  │ m6  │
+AB   ├─────┼─────┼─────┼─────┤
+  11 │ m12 │ m13 │ m15 │ m14 │
+     ├─────┼─────┼─────┼─────┤
+  10 │ m8  │ m9  │ m11 │ m10 │
+     └─────┴─────┴─────┴─────┘
+        4-Variable K-Map
+
+```
+
+### Wrap-Around (Toroidal) Adjacency
+
+Due to Gray code properties, boundary edges wrap around continuously:
+
+* Leftmost column ($00$) is logically adjacent to the Rightmost column ($10$).
+
+
+* Top row ($00$) is logically adjacent to the Bottom row ($10$).
+
+
+* The 4 extreme corners ($m_0, m_2, m_8, m_{10}$) form a single valid adjacent group of 4 cells.
+
+
+
+---
+
+## 5. K-Map Grouping Rules & Prime Implicants
+
+### Standard Grouping Rules
+
+1. **Group Geometry:** Groups must be rectangular blocks consisting of $1$s.
+
+
+2. **Group Size:** Must equal a power of two ($2^k \in \{1, 2, 4, 8, 16\}$). Groups of size 3, 5, or 6 are illegal.
+
+
+3. **Maximize Group Size:** Larger groups eliminate more variables ($2^k$ cells eliminate $k$ variables).
+
+
+4. **Minimize Group Count:** Cover all $1$s using the minimum total number of groups to yield fewer logic gates.
+
+
+5. **Overlapping:** $1$s can be included in multiple groups if doing so helps form a larger valid group.
+
+
+
+### Terminology
+
+* **Implicant:** Any product term formed by a valid group of $1$s.
+
+
+* **Prime Implicant (PI):** A valid group of $1$s that cannot be combined into any larger group.
+
+
+* **Essential Prime Implicant (EPI):** A Prime Implicant containing at least one $1$ that is not covered by any other PI.
+
+
+
+---
+
+### Worked Example: 2-Bit Magnitude Comparator
+
+Comparing two 2-bit numbers $A(A_1 A_0)$ and $B(B_1 B_0)$ generates three distinct output functions:
+
+* $F_1: A = B$
+
+* $F_2: A < B$
+
+* $F_3: A > B$
+
+
+For output $F_2$ ($A < B$), identified minterms are $m(1, 2, 3, 6, 7, 11)$.
+
+```
+             B1 B0
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  00 │  0  │  1  │  1  │  1  │  ──► Group 1 (m1,m3,m2): A1̄ A0̄ B0 + A1̄ A0̄ B1
+     ├─────┼─────┼─────┼─────┤
+  01 │  0  │  0  │  1  │  1  │  ──► Group 2 (m3,m7,m2,m6): A1̄ B1
+A1A0 ├─────┼─────┼─────┼─────┤
+  11 │  0  │  0  │  0  │  0  │
+     ├─────┼─────┼─────┼─────┤
+  10 │  0  │  0  │  1  │  0  │  ──► Group 3 (m7,m11): A0 B1 B0
+     └─────┴─────┴─────┴─────┘
+
+```
+
+**Minimized Output Expression for $F_2$:**
+
+
+$$F_2(A, B) = \bar{A}_1 B_1 + \bar{A}_1 \bar{A}_0 B_0 + \bar{A}_0 B_1 B_0$$
+
+---
+
+## 6. Don't Care Conditions ($X$) & BCD Incrementer
+
+### Concept of Don't Care States
+
+A **Don't Care ($X$)** represents an input combination that either cannot physically occur or whose output state has no impact on system operation.
+
+```
+  Don't Care State (X) ──► Assign to 1  (If it enlarges a K-Map group)
+                       ──► Assign to 0  (If it offers no grouping benefit)
+
+```
+
+---
+
+### Application Example: BCD Incrementer
+
+A Binary Coded Decimal (BCD) incrementer accepts digits $0_{10}$ to $9_{10}$ ($0000_2$ to $1001_2$) and outputs $(N+1)_{10}$. Input states $10_{10}$ to $15_{10}$ ($1010_2$ to $1111_2$) are invalid BCD digits and marked as **Don't Cares ($X$)**.
+
+```
+             CD
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  00 │  0  │  1  │  0  │  1  │
+     ├─────┼─────┼─────┼─────┤
+  01 │  0  │  1  │  0  │  1  │  (For LSB Output Z)
+AB   ├─────┼─────┼─────┼─────┤
+  11 │  X  │  X  │  X  │  X  │  ◄── Invalid BCD States (m10..m15)
+     ├─────┼─────┼─────┼─────┤
+  10 │  0  │  1  │  X  │  X  │
+     └─────┴─────┴─────┴─────┘
+
+```
+
+#### Impact of Don't Cares on Output $Z$ (Least Significant Bit)
+
+* **Without Don't Cares ($X = 0$):** $Z = \bar{A}\bar{B}\bar{C}D + \bar{A}B\bar{C}D + A\bar{B}\bar{C}D = \bar{C}D$.
+
+
+* **With Don't Cares ($X = 1$):** Combining active $1$s with adjacent $X$ cells forms a single 8-cell octet covering two full columns ($01$ and $10$):
+
+
+
+$$Z = \bar{D}$$
+
+
+
+
+> **Key Takeaway:** Treating invalid states as Don't Cares drastically reduces hardware complexity, saving gates and lowering propagation delay.
+> 
+>

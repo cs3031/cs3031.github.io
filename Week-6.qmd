@@ -1,0 +1,171 @@
+# Week 6: Circuit Simulation & 7-Segment Display Drivers
+
+## 1. Digital Logic Simulation (CircuitVerse)
+
+While physical breadboards use actual integrated circuits (ICs) for validation, simulators like **CircuitVerse** provide a rapid, browser-based environment for prototyping and verifying combinational logic circuits.
+
+### Core Simulator Components
+
+* **Inputs (Sources):** Toggles that provide boolean binary states (`0` or `1`) to the circuit.
+
+
+* Green wire = Logic HIGH (`1`)
+
+
+* Dark Green wire = Logic LOW (`0`)
+
+
+
+
+* **Logic Gates:** Standard primitive blocks (AND, OR, NOT, NAND, NOR, XOR, XNOR) used to build boolean expressions.
+
+
+* **MSI Modules:** Pre-packaged Medium Scale Integration blocks like Multiplexers, Decoders, and Priority Encoders.
+
+
+* **Outputs (Indicators):** LED elements used to visually confirm the logic state (LED glows red when input is Logic HIGH).
+
+
+
+### Prototyping Workflows
+
+1. **Validation:** Implement a Boolean expression (e.g., K-Map optimized output) and toggle input states to ensure the physical LED output perfectly matches the expected truth table.
+
+
+2. **Equivalence Checking:** Build an unoptimized circuit and an optimized circuit simultaneously on the canvas, feed them identical inputs, and verify that their LED outputs match under all conditions.
+
+
+
+---
+
+### Simulator Examples
+
+#### 1. Half Adder
+
+* **Sum:** Uses an XOR gate ($X \oplus Y$) or manually built using logic ($X\bar{Y} + \bar{X}Y$).
+
+
+* **Carry:** Uses an AND gate ($X \cdot Y$).
+
+
+
+#### 2. 2-to-4 Line Decoder
+
+* Uses two input lines ($A, B$), NOT gates to generate inverted literals ($\bar{A}, \bar{B}$), and four 2-input AND gates to compute the minterms.
+
+
+* **Behavior:** Input `00` lights LED 1 ($m_0$), `01` lights LED 2 ($m_1$), `10` lights LED 3 ($m_2$), and `11` lights LED 4 ($m_3$).
+
+
+
+#### 3. 2-to-1 Multiplexer (MUX)
+
+* **Inputs:** Two data lines ($A, B$) and one Select line ($S$).
+
+
+* **Logic:** Two AND gates pass the data, and one OR gate combines them: $Y = S \cdot A + \bar{S} \cdot B$.
+
+
+* **Behavior:** When $S = 1$, toggling $A$ affects the output while $B$ is ignored. When $S = 0$, toggling $B$ affects the output while $A$ is ignored.
+
+
+
+---
+
+## 2. The 7-Segment LED Display Driver
+
+A 7-segment display consists of seven individual Light Emitting Diodes arranged in a figure-eight pattern, allowing for the display of decimal numbers ($0-9$) and select alphabetical characters.
+
+### Display Architecture
+
+* **Segments:** Labeled $a$ through $g$ (and optionally $DP$ for decimal point).
+
+
+* **Total Patterns:** A 7-segment display can theoretically represent $2^7 = 128$ unique visual patterns.
+
+
+* **Application Scope:** Drivers are designed to output only the specific patterns required for a given application (e.g., $0-9$ for a digital clock, or custom letters for a vending machine).
+
+
+
+```
+       a
+     ─────
+  f │     │ b
+    │  g  │
+     ─────
+  e │     │ c
+    │  d  │
+     ─────
+
+```
+
+---
+
+### Designing a Custom Vending Machine Display
+
+**Objective:** Design a combinational logic driver that outputs the letters **P, E, S, I** based on a 2-bit input sequence.
+
+#### 1. Determine Input/Output Size
+
+* **Inputs:** To support 4 unique characters, the driver requires $\log_2(4) = 2$ input bits ($X$ and $Y$).
+
+
+* **Outputs:** 7 discrete output lines ($a, b, c, d, e, f, g$), one for each LED segment.
+
+
+
+#### 2. Define the Mapping & Truth Table
+
+Map each input sequence to the corresponding active segments required to form the target character.
+
+* Logic `1` = LED ON
+
+
+* Logic `0` = LED OFF
+
+
+
+| Input ($X$) | Input ($Y$) | Target Char | Active Segments | $a$ | $b$ | $c$ | $d$ | $e$ | $f$ | $g$ |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | 0 | **P** | $a, b, e, f, g$<br> | 1 | 1 | 0 | 0 | 1 | 1 | 1 |
+| 0 | 1 | **E** | $a, d, e, f, g$<br> | 1 | 0 | 0 | 1 | 1 | 1 | 1 |
+| 1 | 0 | **S** | $a, c, d, f, g$<br> | 1 | 0 | 1 | 1 | 0 | 1 | 1 |
+| 1 | 1 | **I** | $e, f$<br> | 0 | 0 | 0 | 0 | 1 | 1 | 0 |
+
+#### 3. Derive Boolean Expressions (SOP)
+
+Extract the sum of minterms for each individual output segment ($a$ through $g$).
+
+* **Segment $a$:** active for `00`, `01`, `10`.
+$a = \bar{X}\bar{Y} + \bar{X}Y + X\bar{Y} = \overline{X \cdot Y}$ (NAND function)
+
+
+* **Segment $b$:** active for `00`.
+$b = \bar{X}\bar{Y} = \overline{X + Y}$ (NOR function)
+
+
+* **Segment $c$:** active for `10`.
+$c = X\bar{Y}$
+
+
+* **Segment $d$:** active for `01`, `10`.
+$d = \bar{X}Y + X\bar{Y} = X \oplus Y$ (XOR function)
+
+
+* **Segment $e$:** active for `00`, `01`, `11`.
+$e = \bar{X}\bar{Y} + \bar{X}Y + XY = \bar{X} + XY$
+
+
+* **Segment $f$:** active for all inputs.
+$f = 1$ (Always High)
+
+
+* **Segment $g$:** active for `00`, `01`, `10`.
+$g = \bar{X}\bar{Y} + \bar{X}Y + X\bar{Y} = \bar{X} + X\bar{Y}$
+
+
+
+#### 4. Hardware Implementation
+
+Using a simulator, construct the logic gates defined above and map their outputs to the corresponding $a-g$ pins of the 7-segment display element. Toggling inputs ($00 \to 01 \to 10 \to 11$) will dynamically render the letters **P $\to$ E $\to$ S $\to$ I** on the display.
