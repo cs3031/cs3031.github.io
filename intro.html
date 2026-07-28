@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>intro – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Digital Logics For GATE</a></li><li class="breadcrumb-item"><a href="./intro.html">Introduction</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -359,16 +386,16 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Digital Logics For GATE</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -385,35 +412,169 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-start-of-the-modern-electronics-era" id="toc-the-start-of-the-modern-electronics-era" class="nav-link active" data-scroll-target="#the-start-of-the-modern-electronics-era">The Start of the Modern Electronics Era</a></li>
+  <li><a href="#evolution-of-electronic-devices" id="toc-evolution-of-electronic-devices" class="nav-link" data-scroll-target="#evolution-of-electronic-devices">Evolution of Electronic Devices</a></li>
+  <li><a href="#commendments" id="toc-commendments" class="nav-link" data-scroll-target="#commendments">5 Commendments</a></li>
+  <li><a href="#analog-versus-digital-electronics" id="toc-analog-versus-digital-electronics" class="nav-link" data-scroll-target="#analog-versus-digital-electronics">Analog versus Digital Electronics</a>
+  <ul class="collapse">
+  <li><a href="#digital-signal-representation-representation-of-logical-functions" id="toc-digital-signal-representation-representation-of-logical-functions" class="nav-link" data-scroll-target="#digital-signal-representation-representation-of-logical-functions">Digital signal representation &amp; Representation of logical functions</a></li>
+  <li><a href="#signal-types---analog-and-digital-signals" id="toc-signal-types---analog-and-digital-signals" class="nav-link" data-scroll-target="#signal-types---analog-and-digital-signals">Signal Types - Analog and Digital Signals</a>
+  <ul class="collapse">
+  <li><a href="#digital-to-analog-conversion-dac" id="toc-digital-to-analog-conversion-dac" class="nav-link" data-scroll-target="#digital-to-analog-conversion-dac">Digital-to-Analog Conversion (DAC)</a></li>
+  <li><a href="#analog-to-digital-conversion-adc" id="toc-analog-to-digital-conversion-adc" class="nav-link" data-scroll-target="#analog-to-digital-conversion-adc">Analog-to-Digital Conversion (ADC)</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Digital Logics For GATE</a></li><li class="breadcrumb-item"><a href="./intro.html">Introduction</a></li></ol></nav></header>
 
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
+
+
+
+<h1 align="center" style="color: #0073CF;">
+Digital Circuits by Prof.&nbsp;Satanu Chattopadhyay, IIT Khrg
+</h1>
+<ul>
+<li><p>This Course lay the foundations for people who are interested in:</p>
+<ul>
+<li><strong>VLSI Design</strong></li>
+<li><strong>Embedded Systems OR IoT Devices</strong></li>
+<li><strong>Courses like : Compiler Design, Computer System Design, COA, OS</strong></li>
+<li><strong>Knowing the Basics of Computers or Microprocessors</strong></li>
+</ul></li>
+<li><p>This course is helpful for <strong>GATE Preparation</strong> in CSE &amp; ECE.</p></li>
+</ul>
+<div style="page-break-after: always;">
+
 </div>
+<section id="the-start-of-the-modern-electronics-era" class="level1">
+<h1>The Start of the Modern Electronics Era</h1>
+<ul>
+<li>Brattain and Bardeen invented the bipolar transistor in 1947 at Bell Labs.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/electronics_milestones.png" class="img-fluid figure-img"></p>
+<figcaption>Electronics Milestones</figcaption>
+</figure>
+</div>
+<div style="page-break-after: always;">
+
+</div>
+</section>
+<section id="evolution-of-electronic-devices" class="level1">
+<h1>Evolution of Electronic Devices</h1>
+<ul>
+<li>Vaccum Tubes</li>
+<li>Discrete Transistors</li>
+<li>SSI (Small Scale Integrated) and MSI (Medium Scale Integrated) Integrated Circuits
+<ul>
+<li>SSI Chips will have about 100 transistors</li>
+<li>MSI Chips will have about 1000 transistors</li>
+<li>LSI Chips will have about 10000 transistors</li>
+<li>VLSI Chips will have about 1 million transistors</li>
+<li>ULSI (Ultra) Chips will have &gt; 1 million transistors</li>
+<li>GSI (Giga) Chips will have &gt; 1 billion transistors</li>
+</ul></li>
+<li>VLSI Surface-Mount Circuits</li>
+</ul>
+</section>
+<section id="commendments" class="level1">
+<h1>5 Commendments</h1>
+<ul>
+<li><strong>Moore’s Law :</strong> The number of transistors on a chip doubles annually</li>
+<li><strong>Rock’s Law :</strong> The cost of semiconductor tools doubles every four years
+<ul>
+<li>Because of increasing complexity of the chips</li>
+</ul></li>
+<li><strong>Machrone’s Law:</strong> The PC you want to buy will always be $5000</li>
+<li><strong>Metcalfe’s Law :</strong> A network’s value grows proportionately to the number of its users squared</li>
+<li><strong>Wirth’s Law :</strong> Software is slowing faster than hardware is accelerating</li>
+</ul>
+<p>Further Reading: “5 Commandments”, IEEE Spectrum December 2003, pp.&nbsp;31-35.</p>
+<div style="page-break-after: always;">
+
+</div>
+</section>
+<section id="analog-versus-digital-electronics" class="level1">
+<h1>Analog versus Digital Electronics</h1>
+<ul>
+<li>Most observables are analog in nature
+<ul>
+<li>Example:- Temperature, Sound, Light, Intensity, etc …</li>
+</ul></li>
+<li>But the most convenient way to represent and transmit information electronically is digital</li>
+<li>Analog/digital and digital/analog conversion is essential</li>
+</ul>
+<section id="digital-signal-representation-representation-of-logical-functions" class="level2">
+<h2 class="anchored" data-anchor-id="digital-signal-representation-representation-of-logical-functions">Digital signal representation &amp; Representation of logical functions</h2>
+<ul>
+<li><p>By using binary numbers we can represent any quantity in digital form</p></li>
+<li><p>Performing logic with binary variables is called switching algebra or Boolean algebra</p>
+<ul>
+<li><strong>Boolean Algebra</strong> was introduced in 1847 &amp; 1854 by George Boole in his books as pure mathematics.</li>
+<li>Later, <strong>Claude Elwood Shannon</strong>, father of information technology, applied in digital circuits</li>
+</ul></li>
+<li><p>Digital signals can be transmitted, received, amplified, and retransmitted with no degradation.</p></li>
+</ul>
+</section>
+<section id="signal-types---analog-and-digital-signals" class="level2">
+<h2 class="anchored" data-anchor-id="signal-types---analog-and-digital-signals">Signal Types - Analog and Digital Signals</h2>
+<ul>
+<li>Analog signals take on continuous values in time - typically current or voltage
+<ul>
+<li>After digitization, the continuous analog signal becomes a set of discrete values, typically separated by fixed time intervals</li>
+<li>The problem with analog signals is noise</li>
+</ul></li>
+<li>Digital signals appear at discrete levels - usually we use binary signals which utilize only two levels
+<ul>
+<li>One level is referred to as logical 1 and logical 0 is assigned to the other level.</li>
+</ul></li>
+</ul>
+<section id="digital-to-analog-conversion-dac" class="level3">
+<h3 class="anchored" data-anchor-id="digital-to-analog-conversion-dac">Digital-to-Analog Conversion (DAC)</h3>
+<ul>
+<li>For an n-bit D/A converter, the output voltage is expressed as:</li>
+</ul>
+<p><span class="math display">\[ V_0 = (b_1 * 2^{-1} + b_2 * 2^{-2} +  ... + b_n * 2^{-n} )V_{FS} \]</span></p>
+<ul>
+<li>The smallest possible voltage change is known as the least significant bit or LSB:</li>
+</ul>
+<p><span class="math display">\[ V_{LSB} = 2^{-n} * V_{FS} \]</span></p>
+</section>
+<section id="analog-to-digital-conversion-adc" class="level3">
+<h3 class="anchored" data-anchor-id="analog-to-digital-conversion-adc">Analog-to-Digital Conversion (ADC)</h3>
+<ul>
+<li>Analog input voltage <strong>v</strong><span class="math inline">\(_x\)</span> is converted to the nearest n-bit number.</li>
+<li>For a four bit converter, 0 –&gt; <strong>v</strong><span class="math inline">\(_x\)</span> input yields a 0000 –&gt; 1111 digital output.</li>
+<li>Output is approximation of input due to the limited resolution of the n-bit output. Error is expressed as:</li>
+</ul>
+<p><span class="math display">\[ V_{\epsilon} = | v_x - (b_1 * 2^{-1} + b_2 * 2^{-2} +  ... + b_n * 2^{-n} )V_{FS} | \]</span></p>
+<p><strong>Problem with Analog Signals</strong></p>
+<ul>
+<li>The problem with analog signals is <strong>noise</strong> – hiss on the sound and speckly dots on the picture.</li>
+<li>When we send a signal over a long distance, the signal gets weaker, so we need to boost (amplify) it.</li>
+<li>The problem is that we end up boosting the noise as well.</li>
+<li>In Digital Signals, if we convert the signal into digital form, then send it, it still gets weaker and noise still creeps in but it can corrected easily.
+<ul>
+<li><strong>Exa:</strong> Let’s consider that 0 volts = 0 and 10 volts = 1.</li>
+<li>At the source we send 10 volts and at the destination we received 7 volts.</li>
+<li>We can still recover the value 1.</li>
+</ul></li>
+</ul>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

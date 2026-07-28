@@ -120,6 +120,76 @@
     ]
   },
   {
+    "objectID": "Week-11.html",
+    "href": "Week-11.html",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "The Arithmetic Logic Unit (ALU) serves as the primary computational engine of the processor. In the Gajendra-1 microarchitecture, the 8-bit ALU is directly wired between two general-purpose registers (Register A / Accumulator and Register B) and outputs to the 8-bit Common System Bus.\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS (8-bit)\n                  ═════════▲══════════════════════▲════════\n                           │                      │\n                  RegA_out │                      │ RegB_out\n                           │                      │\n                     ┌─────┴─────┐          ┌─────┴─────┐\n                     │ Register  │          │ Register  │\n                     │    A      │          │    B      │\n                     └─────┬─────┘          └─────┬─────┘\n                           │ 8-bit                │ 8-bit\n                           │                      │\n                           ▼                      ▼\n                     ┌──────────────────────────────────┐\n                     │          GAJENDRA 8-BIT          │\n                     │      ARITHMETIC LOGIC UNIT       │\n                     └────────────────┬─────────────────┘\n                                      │ ALU_out (Tri-State Enable)\n                                      ▼\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS\n                  ═════════════════════════════════════════\n\n\n\n\nDirect Register Feeding: Registers A and B feed the ALU directly without bus latency or control gating. Any state change in \\(Reg_A\\) or \\(Reg_B\\) immediately updates the combinational output of the ALU.\nBus Tri-State Isolation: The ALU output connects to the common bus via a tri-state buffer controlled by the ALU_out signal, ensuring it drives the bus only during active write-back clock cycles.\nOperation Selection:\nGeneric Multipurpose ALU: Uses an \\(n\\)-bit selection vector fed through a \\(k\\)-to-\\(2^k\\) decoder to select functions (e.g., ADD, SUB, AND, NOT).\nGajendra-1 Minimal ALU: Uses a 1-bit control line \\(S\\) (\\(S=0 \\implies \\text{ADD}\\), \\(S=1 \\implies \\text{SUB}\\)).\nStatus Flags (Flags Register): Combinational outputs from the ALU set conditions in a 4-bit Status Register:\nZero Flag (\\(Z / \\bar{Z}\\)): Set to \\(1\\) if the 8-bit result equals 0x00.\nCarry Flag (\\(C / \\bar{C}\\)): Set to \\(1\\) if the operation produces an arithmetic carry/borrow out of the MSB.\n\n\n\n\n\nBecause designing separate physical circuits for addition and subtraction increases silicon area and gate cost, processors execute subtraction \\(A - B\\) as the addition of a negative number: \\(A + (-B)\\).\n\n\nIn Sign-Magnitude, the MSB denotes sign (\\(0 = +, 1 = -\\)) and the remaining bits denote magnitude.\n\n\n\n\\(+5_{10} \\implies \\text{Sign}=0, \\text{Mag}=101_2 \\implies 0101_2\\)\n\\(-1_{10} \\implies \\text{Sign}=1, \\text{Mag}=001_2 \\implies 1001_2\\)\nBinary Addition:\n\n\\[\\begin{array}{rl}      0101_2 & (+5_{10}) \\\\    + 1001_2 & (-1_{10}) \\\\    \\hline      1110_2 & (\\text{Sign}=1, \\text{Mag}=110_2 = -6_{10} \\quad \\mathbf{\\text{FAIL!}})    \\end{array}\\]\n\n\n\n\nTo map subtraction onto an adder, we draw inspiration from base-\\(10\\) \\(10\\)’s complement arithmetic.\nFor a \\(K\\)-bit binary system with base \\(r = 2\\):\n\\[A - B = A + B' - 2^K\\]\nWhere \\(B'\\) is an offset representation satisfying \\(B' - 2^K = -B \\implies B' = 2^K - B\\).\nBy decomposing \\(2^K - B\\):\n\\[B' = (2^K - 1 - B) + 1\\]\n\nOne’s Complement (\\(\\bar{B}\\)): The term \\((2^K - 1 - B)\\) in binary evaluates to subtracting \\(B\\) from a sequence of all \\(1\\)s, which is logically equivalent to inverting every bit of \\(B\\) (\\(\\bar{B}\\)).\nTwo’s Complement (\\(B'\\)): Adding \\(1\\) to the One’s Complement completes the equivalence:\n\n\\[B' = \\bar{B} + 1\\]\nThus, subtraction reduces to:\n\\[A - B = A + \\bar{B} + 1\\]\n\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 12_{10} = 1100_2\\)\n\\(B = 7_{10} = 0111_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-7_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{0111_2} = 1000_2\\)\nAdd \\(1\\): \\(1000_2 + 1 = 1001_2\\)\n\n\nPerform Binary Addition (\\(A + \\bar{B} + 1\\)):\n\n\\[\\begin{array}{rl}      1100_2 & (12_{10}) \\\\    + 1001_2 & (-7_{10}) \\\\    \\hline     (1)0101_2 & (\\text{Discard end-around carry } 1)    \\end{array}\\]\n\nResult: \\(0101_2 = \\mathbf{+5_{10}}\\) (MSB \\(= 0\\), indicating a positive number).\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 7_{10} = 0111_2\\)\n\\(B = 12_{10} = 1100_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-12_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{1100_2} = 0011_2\\)\nAdd \\(1\\): \\(0011_2 + 1 = 0100_2\\)\n\n\nPerform Binary Addition:\n\n\\[\\begin{array}{rl}      0111_2 & (+7_{10}) \\\\    + 0100_2 & (-12_{10}) \\\\    \\hline      1011_2 & (\\text{MSB } = 1 \\implies \\text{Negative result in 2's complement})    \\end{array}\\]\n\nMagnitude Recovery (\\(R_{mag} = \\bar{R} + 1\\)):\n\n\nInvert Result: \\(\\overline{1011_2} = 0100_2\\)\nAdd \\(1\\): \\(0100_2 + 1 = 0101_2 = 5_{10}\\)\n\n\nFinal Output Interpretation: \\(\\mathbf{-5_{10}}\\).\n\n\n\n\n\n\nUsing the identity \\(A - B = A + \\bar{B} + 1\\), an \\(N\\)-bit Ripple Carry Adder is modified into a unified Adder/Subtractor by placing XOR gates on the \\(B\\) operand inputs and driving the initial carry-in (\\(C_{in}\\)) using the operation selection line \\(S\\).\n                      Select Line (S)\n           (0 = ADD, 1 = SUB) ──┬────────────────────────┐\n                                │                        │\n                                │                        ▼\n       A_i ─────────────────────┼──────────────┐    ┌──────────┐\n                                │              ├───►│  FULL    ├──► Sum_i\n       B_i ───►[ XOR ]──────────┼─────────────►│    │ ADDER i  │\n                  ▲             │              └────┤          ├──► C_{out}\n                  │             │                   └▲─────────┘\n                  └─────────────┘                    │ C_{in}\n                                                     └─────────── (From C_{i-1} / S)\n\n\n\n\nAddition Mode (\\(S = 0\\)):\n\n\n\\(B_i \\oplus 0 = B_i\\) (Operand \\(B\\) passes unchanged).\nInitial Carry-In \\(C_{in} = S = 0\\).\nFull Adder computes: \\(A + B + 0 = \\mathbf{A + B}\\).\n\n\nSubtraction Mode (\\(S = 1\\)):\n\n\n\\(B_i \\oplus 1 = \\bar{B}_i\\) (Bitwise invert \\(B\\)).\nInitial Carry-In \\(C_{in} = S = 1\\) (Adds the required \\(+1\\)).\nFull Adder computes: \\(A + \\bar{B} + 1 = \\mathbf{A - B}\\).\n\n\n\n\n\nExecuting a single high-level assembly instruction requires breaking it down into a sequence of atomic hardware operations called Micro-operations.\n\n\n\nInstruction Cycle: The total time required to fetch, decode, and execute a complete instruction.\nTiming State (\\(T\\)-State): A single clock cycle within the instruction cycle during which one micro-operation control word is issued.\nControl Word / Micro-instruction: An \\(N\\)-bit binary vector where each bit directly enables or disables a specific hardware pin (e.g., \\(RegA_{in}\\), \\(PC_{out}\\)).\n\n\n\n\n ┌─────┬────────┬───────┬────────┬────────┬───────┬───────┬────────┬────────┬────────┬────────┬────────┬────────┐\n │ Bit │   12   │  11   │   10   │   9    │   8   │   7   │   6    │   5    │   4    │   3    │   2    │   1    │   0    │\n ├─────┼────────┼───────┼────────┼────────┼───────┼───────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤\n │ Sig │ Inc_PC │ PC_out│ PC_load│ Mem_in │Mem_out│ IR_in │ IR_out │ MAR_in │RegA_in │RegA_out│RegB_in │RegB_out│ALU_out │\n └─────┴────────┴───────┴────────┴────────┴───────┴───────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘\n\n\n\n\n\n\n\nSyntax: LDA 0xC \\(\\implies Reg_A \\leftarrow \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_A \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegA_{in}=1\\)\n0 0 0 0 1 0 0 0 1 0 0 0 0\n0x0110\n\n\n\n\n\n\n\nSyntax: ADD 0xC \\(\\implies Reg_A \\leftarrow Reg_A + \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_B \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegB_{in}=1\\)\n0 0 0 0 1 0 0 0 0 0 1 0 0\n0x0104\n\n\n\\(T_4\\)\n\\(Reg_A \\leftarrow ALU(Reg_A + Reg_B)\\)\n\\(ALU_{out}=1, RegA_{in}=1\\)\n0 0 0 0 0 0 0 0 1 0 0 0 1\n0x0011\n\n\n\n\n💡 ARCHITECTURAL INSIGHT: The control word sequence for SUB addr is 100% identical to ADD addr across \\(T_0 \\dots T_4\\)! The control unit issues the exact same bus-transfer vector; the only difference is that the ALU’s mode selection bit \\(S\\) is set to \\(1\\) externally via opcode decoding.\n\n\n\n\n\n\nThe Control Unit is the state-machine sequencer responsible for generating control words at every clock cycle.\n                     INSTRUCTION REGISTER (Opcode Bits)\n                                    │\n                                    ▼\n                          ┌──────────────────┐\n                          │ 3-to-8 DECODER   │\n                          └────────┬─────────┘\n                                   │ Decoded Opcode Line\n                                   ▼\n  CLK ─►[ 5-bit Ring ]──► ┌──────────────────┐\n        [  Counter   ]    │ HARDWARE CONTROL │ ──► Control Word Vector\n          (T0..T4) ──────►│  LOGIC MATRIX    │     (13-bit Output Bus)\n                          └──────────────────┘\n\n\n\n\nInputs:\n\n\nDecoded Opcode from Instruction Register \\(IR[7:4]\\).\nActive Timing State (\\(T_0, T_1, T_2, T_3, T_4\\)) from a 5-bit Ring Counter.\n\n\nOutputs: 13 individual control signals driving tri-state enables and register write inputs across the system.\n\n\n\n\nA primary challenge in hardware control design is race conditions and clock domain skew.\n                  Rising Edge: Datapath Executes Transfer!\n                                │\n   CLK     : ───0───┐       ┌───1───┐       ┌───0───\n                    │       │       │       │\n                    └───0───┘       └───0───┘\n                        ▲\n                        │\n                 Falling Edge: Control Signals Settle!\n\n\n\n\nDatapath Registers: Triggered on the Positive Clock Edge (\\(0 \\to 1\\)) to read/write data.\nControl Unit Ring Counter: Triggered on the Negative Clock Edge (\\(1 \\to 0\\)) to transition \\(T\\)-states.\n\n\nTIMING HACK: By changing \\(T\\)-states on the falling edge, control signals are generated and allowed to fully propagate and stabilize across the bus during the LOW phase of the clock. When the next positive clock edge arrives, the control signals are already stable, eliminating setup time violations and preventing glitches on the common bus!\n\n\n\n\n\n\n\nALU Architecture: The ALU uses full adders combined with XOR logic (\\(B \\oplus S\\)) to execute both Addition (\\(S=0\\)) and Subtraction (\\(S=1\\)) without separate subtractor hardware.\nTwo’s Complement Math: Represented mathematically as \\(A - B = A + \\bar{B} + 1\\). Negative outputs are stored in two’s complement form; magnitude is recovered by taking \\(\\bar{R} + 1\\).\nFetch Phase Uniformity: Every instruction executes an identical 2-cycle fetch phase:\n\n\n\\(T_0\\): \\(MAR \\leftarrow PC\\)\n\\(T_1\\): \\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC + 1\\)\n\n\nControl Word Identity: ADD and SUB share identical micro-instruction control sequences. Only the internal ALU Mode Select pin (\\(S\\)) differs.\nPhase-Shifted Clocking: Driving the control unit’s ring counter on the Negative Clock Edge guarantees control signals stabilize on the bus prior to Positive Clock Edge datapath executions.",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
+    "objectID": "Week-11.html#alu-positioning-architecture",
+    "href": "Week-11.html#alu-positioning-architecture",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "The Arithmetic Logic Unit (ALU) serves as the primary computational engine of the processor. In the Gajendra-1 microarchitecture, the 8-bit ALU is directly wired between two general-purpose registers (Register A / Accumulator and Register B) and outputs to the 8-bit Common System Bus.\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS (8-bit)\n                  ═════════▲══════════════════════▲════════\n                           │                      │\n                  RegA_out │                      │ RegB_out\n                           │                      │\n                     ┌─────┴─────┐          ┌─────┴─────┐\n                     │ Register  │          │ Register  │\n                     │    A      │          │    B      │\n                     └─────┬─────┘          └─────┬─────┘\n                           │ 8-bit                │ 8-bit\n                           │                      │\n                           ▼                      ▼\n                     ┌──────────────────────────────────┐\n                     │          GAJENDRA 8-BIT          │\n                     │      ARITHMETIC LOGIC UNIT       │\n                     └────────────────┬─────────────────┘\n                                      │ ALU_out (Tri-State Enable)\n                                      ▼\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS\n                  ═════════════════════════════════════════\n\n\n\n\nDirect Register Feeding: Registers A and B feed the ALU directly without bus latency or control gating. Any state change in \\(Reg_A\\) or \\(Reg_B\\) immediately updates the combinational output of the ALU.\nBus Tri-State Isolation: The ALU output connects to the common bus via a tri-state buffer controlled by the ALU_out signal, ensuring it drives the bus only during active write-back clock cycles.\nOperation Selection:\nGeneric Multipurpose ALU: Uses an \\(n\\)-bit selection vector fed through a \\(k\\)-to-\\(2^k\\) decoder to select functions (e.g., ADD, SUB, AND, NOT).\nGajendra-1 Minimal ALU: Uses a 1-bit control line \\(S\\) (\\(S=0 \\implies \\text{ADD}\\), \\(S=1 \\implies \\text{SUB}\\)).\nStatus Flags (Flags Register): Combinational outputs from the ALU set conditions in a 4-bit Status Register:\nZero Flag (\\(Z / \\bar{Z}\\)): Set to \\(1\\) if the 8-bit result equals 0x00.\nCarry Flag (\\(C / \\bar{C}\\)): Set to \\(1\\) if the operation produces an arithmetic carry/borrow out of the MSB.",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
+    "objectID": "Week-11.html#binary-subtraction-twos-complement-derivation",
+    "href": "Week-11.html#binary-subtraction-twos-complement-derivation",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "Because designing separate physical circuits for addition and subtraction increases silicon area and gate cost, processors execute subtraction \\(A - B\\) as the addition of a negative number: \\(A + (-B)\\).\n\n\nIn Sign-Magnitude, the MSB denotes sign (\\(0 = +, 1 = -\\)) and the remaining bits denote magnitude.\n\n\n\n\\(+5_{10} \\implies \\text{Sign}=0, \\text{Mag}=101_2 \\implies 0101_2\\)\n\\(-1_{10} \\implies \\text{Sign}=1, \\text{Mag}=001_2 \\implies 1001_2\\)\nBinary Addition:\n\n\\[\\begin{array}{rl}      0101_2 & (+5_{10}) \\\\    + 1001_2 & (-1_{10}) \\\\    \\hline      1110_2 & (\\text{Sign}=1, \\text{Mag}=110_2 = -6_{10} \\quad \\mathbf{\\text{FAIL!}})    \\end{array}\\]\n\n\n\n\nTo map subtraction onto an adder, we draw inspiration from base-\\(10\\) \\(10\\)’s complement arithmetic.\nFor a \\(K\\)-bit binary system with base \\(r = 2\\):\n\\[A - B = A + B' - 2^K\\]\nWhere \\(B'\\) is an offset representation satisfying \\(B' - 2^K = -B \\implies B' = 2^K - B\\).\nBy decomposing \\(2^K - B\\):\n\\[B' = (2^K - 1 - B) + 1\\]\n\nOne’s Complement (\\(\\bar{B}\\)): The term \\((2^K - 1 - B)\\) in binary evaluates to subtracting \\(B\\) from a sequence of all \\(1\\)s, which is logically equivalent to inverting every bit of \\(B\\) (\\(\\bar{B}\\)).\nTwo’s Complement (\\(B'\\)): Adding \\(1\\) to the One’s Complement completes the equivalence:\n\n\\[B' = \\bar{B} + 1\\]\nThus, subtraction reduces to:\n\\[A - B = A + \\bar{B} + 1\\]\n\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 12_{10} = 1100_2\\)\n\\(B = 7_{10} = 0111_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-7_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{0111_2} = 1000_2\\)\nAdd \\(1\\): \\(1000_2 + 1 = 1001_2\\)\n\n\nPerform Binary Addition (\\(A + \\bar{B} + 1\\)):\n\n\\[\\begin{array}{rl}      1100_2 & (12_{10}) \\\\    + 1001_2 & (-7_{10}) \\\\    \\hline     (1)0101_2 & (\\text{Discard end-around carry } 1)    \\end{array}\\]\n\nResult: \\(0101_2 = \\mathbf{+5_{10}}\\) (MSB \\(= 0\\), indicating a positive number).\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 7_{10} = 0111_2\\)\n\\(B = 12_{10} = 1100_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-12_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{1100_2} = 0011_2\\)\nAdd \\(1\\): \\(0011_2 + 1 = 0100_2\\)\n\n\nPerform Binary Addition:\n\n\\[\\begin{array}{rl}      0111_2 & (+7_{10}) \\\\    + 0100_2 & (-12_{10}) \\\\    \\hline      1011_2 & (\\text{MSB } = 1 \\implies \\text{Negative result in 2's complement})    \\end{array}\\]\n\nMagnitude Recovery (\\(R_{mag} = \\bar{R} + 1\\)):\n\n\nInvert Result: \\(\\overline{1011_2} = 0100_2\\)\nAdd \\(1\\): \\(0100_2 + 1 = 0101_2 = 5_{10}\\)\n\n\nFinal Output Interpretation: \\(\\mathbf{-5_{10}}\\).",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
+    "objectID": "Week-11.html#unified-hardware-addersubtractor-circuit",
+    "href": "Week-11.html#unified-hardware-addersubtractor-circuit",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "Using the identity \\(A - B = A + \\bar{B} + 1\\), an \\(N\\)-bit Ripple Carry Adder is modified into a unified Adder/Subtractor by placing XOR gates on the \\(B\\) operand inputs and driving the initial carry-in (\\(C_{in}\\)) using the operation selection line \\(S\\).\n                      Select Line (S)\n           (0 = ADD, 1 = SUB) ──┬────────────────────────┐\n                                │                        │\n                                │                        ▼\n       A_i ─────────────────────┼──────────────┐    ┌──────────┐\n                                │              ├───►│  FULL    ├──► Sum_i\n       B_i ───►[ XOR ]──────────┼─────────────►│    │ ADDER i  │\n                  ▲             │              └────┤          ├──► C_{out}\n                  │             │                   └▲─────────┘\n                  └─────────────┘                    │ C_{in}\n                                                     └─────────── (From C_{i-1} / S)\n\n\n\n\nAddition Mode (\\(S = 0\\)):\n\n\n\\(B_i \\oplus 0 = B_i\\) (Operand \\(B\\) passes unchanged).\nInitial Carry-In \\(C_{in} = S = 0\\).\nFull Adder computes: \\(A + B + 0 = \\mathbf{A + B}\\).\n\n\nSubtraction Mode (\\(S = 1\\)):\n\n\n\\(B_i \\oplus 1 = \\bar{B}_i\\) (Bitwise invert \\(B\\)).\nInitial Carry-In \\(C_{in} = S = 1\\) (Adds the required \\(+1\\)).\nFull Adder computes: \\(A + \\bar{B} + 1 = \\mathbf{A - B}\\).",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
+    "objectID": "Week-11.html#control-logic-micro-instruction-sequences",
+    "href": "Week-11.html#control-logic-micro-instruction-sequences",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "Executing a single high-level assembly instruction requires breaking it down into a sequence of atomic hardware operations called Micro-operations.\n\n\n\nInstruction Cycle: The total time required to fetch, decode, and execute a complete instruction.\nTiming State (\\(T\\)-State): A single clock cycle within the instruction cycle during which one micro-operation control word is issued.\nControl Word / Micro-instruction: An \\(N\\)-bit binary vector where each bit directly enables or disables a specific hardware pin (e.g., \\(RegA_{in}\\), \\(PC_{out}\\)).\n\n\n\n\n ┌─────┬────────┬───────┬────────┬────────┬───────┬───────┬────────┬────────┬────────┬────────┬────────┬────────┐\n │ Bit │   12   │  11   │   10   │   9    │   8   │   7   │   6    │   5    │   4    │   3    │   2    │   1    │   0    │\n ├─────┼────────┼───────┼────────┼────────┼───────┼───────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤\n │ Sig │ Inc_PC │ PC_out│ PC_load│ Mem_in │Mem_out│ IR_in │ IR_out │ MAR_in │RegA_in │RegA_out│RegB_in │RegB_out│ALU_out │\n └─────┴────────┴───────┴────────┴────────┴───────┴───────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘\n\n\n\n\n\n\n\nSyntax: LDA 0xC \\(\\implies Reg_A \\leftarrow \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_A \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegA_{in}=1\\)\n0 0 0 0 1 0 0 0 1 0 0 0 0\n0x0110\n\n\n\n\n\n\n\nSyntax: ADD 0xC \\(\\implies Reg_A \\leftarrow Reg_A + \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_B \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegB_{in}=1\\)\n0 0 0 0 1 0 0 0 0 0 1 0 0\n0x0104\n\n\n\\(T_4\\)\n\\(Reg_A \\leftarrow ALU(Reg_A + Reg_B)\\)\n\\(ALU_{out}=1, RegA_{in}=1\\)\n0 0 0 0 0 0 0 0 1 0 0 0 1\n0x0011\n\n\n\n\n💡 ARCHITECTURAL INSIGHT: The control word sequence for SUB addr is 100% identical to ADD addr across \\(T_0 \\dots T_4\\)! The control unit issues the exact same bus-transfer vector; the only difference is that the ALU’s mode selection bit \\(S\\) is set to \\(1\\) externally via opcode decoding.",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
+    "objectID": "Week-11.html#hardware-control-unit-timing-optimization",
+    "href": "Week-11.html#hardware-control-unit-timing-optimization",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "The Control Unit is the state-machine sequencer responsible for generating control words at every clock cycle.\n                     INSTRUCTION REGISTER (Opcode Bits)\n                                    │\n                                    ▼\n                          ┌──────────────────┐\n                          │ 3-to-8 DECODER   │\n                          └────────┬─────────┘\n                                   │ Decoded Opcode Line\n                                   ▼\n  CLK ─►[ 5-bit Ring ]──► ┌──────────────────┐\n        [  Counter   ]    │ HARDWARE CONTROL │ ──► Control Word Vector\n          (T0..T4) ──────►│  LOGIC MATRIX    │     (13-bit Output Bus)\n                          └──────────────────┘\n\n\n\n\nInputs:\n\n\nDecoded Opcode from Instruction Register \\(IR[7:4]\\).\nActive Timing State (\\(T_0, T_1, T_2, T_3, T_4\\)) from a 5-bit Ring Counter.\n\n\nOutputs: 13 individual control signals driving tri-state enables and register write inputs across the system.\n\n\n\n\nA primary challenge in hardware control design is race conditions and clock domain skew.\n                  Rising Edge: Datapath Executes Transfer!\n                                │\n   CLK     : ───0───┐       ┌───1───┐       ┌───0───\n                    │       │       │       │\n                    └───0───┘       └───0───┘\n                        ▲\n                        │\n                 Falling Edge: Control Signals Settle!\n\n\n\n\nDatapath Registers: Triggered on the Positive Clock Edge (\\(0 \\to 1\\)) to read/write data.\nControl Unit Ring Counter: Triggered on the Negative Clock Edge (\\(1 \\to 0\\)) to transition \\(T\\)-states.\n\n\nTIMING HACK: By changing \\(T\\)-states on the falling edge, control signals are generated and allowed to fully propagate and stabilize across the bus during the LOW phase of the clock. When the next positive clock edge arrives, the control signals are already stable, eliminating setup time violations and preventing glitches on the common bus!",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
+    "objectID": "Week-11.html#executive-summary-quick-reference",
+    "href": "Week-11.html#executive-summary-quick-reference",
+    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "section": "",
+    "text": "ALU Architecture: The ALU uses full adders combined with XOR logic (\\(B \\oplus S\\)) to execute both Addition (\\(S=0\\)) and Subtraction (\\(S=1\\)) without separate subtractor hardware.\nTwo’s Complement Math: Represented mathematically as \\(A - B = A + \\bar{B} + 1\\). Negative outputs are stored in two’s complement form; magnitude is recovered by taking \\(\\bar{R} + 1\\).\nFetch Phase Uniformity: Every instruction executes an identical 2-cycle fetch phase:\n\n\n\\(T_0\\): \\(MAR \\leftarrow PC\\)\n\\(T_1\\): \\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC + 1\\)\n\n\nControl Word Identity: ADD and SUB share identical micro-instruction control sequences. Only the internal ALU Mode Select pin (\\(S\\)) differs.\nPhase-Shifted Clocking: Driving the control unit’s ring counter on the Negative Clock Edge guarantees control signals stabilize on the bus prior to Positive Clock Edge datapath executions.",
+    "crumbs": [
+      "Week-11"
+    ]
+  },
+  {
     "objectID": "Week-6.html",
     "href": "Week-6.html",
     "title": "Week 6: Circuit Simulation & 7-Segment Display Drivers",
@@ -650,73 +720,322 @@
     ]
   },
   {
-    "objectID": "Week-11.html",
-    "href": "Week-11.html",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
+    "objectID": "Number_Systems.html",
+    "href": "Number_Systems.html",
+    "title": "\nNumber Systems\n",
     "section": "",
-    "text": "The Arithmetic Logic Unit (ALU) serves as the primary computational engine of the processor. In the Gajendra-1 microarchitecture, the 8-bit ALU is directly wired between two general-purpose registers (Register A / Accumulator and Register B) and outputs to the 8-bit Common System Bus.\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS (8-bit)\n                  ═════════▲══════════════════════▲════════\n                           │                      │\n                  RegA_out │                      │ RegB_out\n                           │                      │\n                     ┌─────┴─────┐          ┌─────┴─────┐\n                     │ Register  │          │ Register  │\n                     │    A      │          │    B      │\n                     └─────┬─────┘          └─────┬─────┘\n                           │ 8-bit                │ 8-bit\n                           │                      │\n                           ▼                      ▼\n                     ┌──────────────────────────────────┐\n                     │          GAJENDRA 8-BIT          │\n                     │      ARITHMETIC LOGIC UNIT       │\n                     └────────────────┬─────────────────┘\n                                      │ ALU_out (Tri-State Enable)\n                                      ▼\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS\n                  ═════════════════════════════════════════\n\n\n\n\nDirect Register Feeding: Registers A and B feed the ALU directly without bus latency or control gating. Any state change in \\(Reg_A\\) or \\(Reg_B\\) immediately updates the combinational output of the ALU.\nBus Tri-State Isolation: The ALU output connects to the common bus via a tri-state buffer controlled by the ALU_out signal, ensuring it drives the bus only during active write-back clock cycles.\nOperation Selection:\nGeneric Multipurpose ALU: Uses an \\(n\\)-bit selection vector fed through a \\(k\\)-to-\\(2^k\\) decoder to select functions (e.g., ADD, SUB, AND, NOT).\nGajendra-1 Minimal ALU: Uses a 1-bit control line \\(S\\) (\\(S=0 \\implies \\text{ADD}\\), \\(S=1 \\implies \\text{SUB}\\)).\nStatus Flags (Flags Register): Combinational outputs from the ALU set conditions in a 4-bit Status Register:\nZero Flag (\\(Z / \\bar{Z}\\)): Set to \\(1\\) if the 8-bit result equals 0x00.\nCarry Flag (\\(C / \\bar{C}\\)): Set to \\(1\\) if the operation produces an arithmetic carry/borrow out of the MSB.\n\n\n\n\n\nBecause designing separate physical circuits for addition and subtraction increases silicon area and gate cost, processors execute subtraction \\(A - B\\) as the addition of a negative number: \\(A + (-B)\\).\n\n\nIn Sign-Magnitude, the MSB denotes sign (\\(0 = +, 1 = -\\)) and the remaining bits denote magnitude.\n\n\n\n\\(+5_{10} \\implies \\text{Sign}=0, \\text{Mag}=101_2 \\implies 0101_2\\)\n\\(-1_{10} \\implies \\text{Sign}=1, \\text{Mag}=001_2 \\implies 1001_2\\)\nBinary Addition:\n\n\\[\\begin{array}{rl}      0101_2 & (+5_{10}) \\\\    + 1001_2 & (-1_{10}) \\\\    \\hline      1110_2 & (\\text{Sign}=1, \\text{Mag}=110_2 = -6_{10} \\quad \\mathbf{\\text{FAIL!}})    \\end{array}\\]\n\n\n\n\nTo map subtraction onto an adder, we draw inspiration from base-\\(10\\) \\(10\\)’s complement arithmetic.\nFor a \\(K\\)-bit binary system with base \\(r = 2\\):\n\\[A - B = A + B' - 2^K\\]\nWhere \\(B'\\) is an offset representation satisfying \\(B' - 2^K = -B \\implies B' = 2^K - B\\).\nBy decomposing \\(2^K - B\\):\n\\[B' = (2^K - 1 - B) + 1\\]\n\nOne’s Complement (\\(\\bar{B}\\)): The term \\((2^K - 1 - B)\\) in binary evaluates to subtracting \\(B\\) from a sequence of all \\(1\\)s, which is logically equivalent to inverting every bit of \\(B\\) (\\(\\bar{B}\\)).\nTwo’s Complement (\\(B'\\)): Adding \\(1\\) to the One’s Complement completes the equivalence:\n\n\\[B' = \\bar{B} + 1\\]\nThus, subtraction reduces to:\n\\[A - B = A + \\bar{B} + 1\\]\n\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 12_{10} = 1100_2\\)\n\\(B = 7_{10} = 0111_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-7_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{0111_2} = 1000_2\\)\nAdd \\(1\\): \\(1000_2 + 1 = 1001_2\\)\n\n\nPerform Binary Addition (\\(A + \\bar{B} + 1\\)):\n\n\\[\\begin{array}{rl}      1100_2 & (12_{10}) \\\\    + 1001_2 & (-7_{10}) \\\\    \\hline     (1)0101_2 & (\\text{Discard end-around carry } 1)    \\end{array}\\]\n\nResult: \\(0101_2 = \\mathbf{+5_{10}}\\) (MSB \\(= 0\\), indicating a positive number).\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 7_{10} = 0111_2\\)\n\\(B = 12_{10} = 1100_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-12_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{1100_2} = 0011_2\\)\nAdd \\(1\\): \\(0011_2 + 1 = 0100_2\\)\n\n\nPerform Binary Addition:\n\n\\[\\begin{array}{rl}      0111_2 & (+7_{10}) \\\\    + 0100_2 & (-12_{10}) \\\\    \\hline      1011_2 & (\\text{MSB } = 1 \\implies \\text{Negative result in 2's complement})    \\end{array}\\]\n\nMagnitude Recovery (\\(R_{mag} = \\bar{R} + 1\\)):\n\n\nInvert Result: \\(\\overline{1011_2} = 0100_2\\)\nAdd \\(1\\): \\(0100_2 + 1 = 0101_2 = 5_{10}\\)\n\n\nFinal Output Interpretation: \\(\\mathbf{-5_{10}}\\).\n\n\n\n\n\n\nUsing the identity \\(A - B = A + \\bar{B} + 1\\), an \\(N\\)-bit Ripple Carry Adder is modified into a unified Adder/Subtractor by placing XOR gates on the \\(B\\) operand inputs and driving the initial carry-in (\\(C_{in}\\)) using the operation selection line \\(S\\).\n                      Select Line (S)\n           (0 = ADD, 1 = SUB) ──┬────────────────────────┐\n                                │                        │\n                                │                        ▼\n       A_i ─────────────────────┼──────────────┐    ┌──────────┐\n                                │              ├───►│  FULL    ├──► Sum_i\n       B_i ───►[ XOR ]──────────┼─────────────►│    │ ADDER i  │\n                  ▲             │              └────┤          ├──► C_{out}\n                  │             │                   └▲─────────┘\n                  └─────────────┘                    │ C_{in}\n                                                     └─────────── (From C_{i-1} / S)\n\n\n\n\nAddition Mode (\\(S = 0\\)):\n\n\n\\(B_i \\oplus 0 = B_i\\) (Operand \\(B\\) passes unchanged).\nInitial Carry-In \\(C_{in} = S = 0\\).\nFull Adder computes: \\(A + B + 0 = \\mathbf{A + B}\\).\n\n\nSubtraction Mode (\\(S = 1\\)):\n\n\n\\(B_i \\oplus 1 = \\bar{B}_i\\) (Bitwise invert \\(B\\)).\nInitial Carry-In \\(C_{in} = S = 1\\) (Adds the required \\(+1\\)).\nFull Adder computes: \\(A + \\bar{B} + 1 = \\mathbf{A - B}\\).\n\n\n\n\n\nExecuting a single high-level assembly instruction requires breaking it down into a sequence of atomic hardware operations called Micro-operations.\n\n\n\nInstruction Cycle: The total time required to fetch, decode, and execute a complete instruction.\nTiming State (\\(T\\)-State): A single clock cycle within the instruction cycle during which one micro-operation control word is issued.\nControl Word / Micro-instruction: An \\(N\\)-bit binary vector where each bit directly enables or disables a specific hardware pin (e.g., \\(RegA_{in}\\), \\(PC_{out}\\)).\n\n\n\n\n ┌─────┬────────┬───────┬────────┬────────┬───────┬───────┬────────┬────────┬────────┬────────┬────────┬────────┐\n │ Bit │   12   │  11   │   10   │   9    │   8   │   7   │   6    │   5    │   4    │   3    │   2    │   1    │   0    │\n ├─────┼────────┼───────┼────────┼────────┼───────┼───────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤\n │ Sig │ Inc_PC │ PC_out│ PC_load│ Mem_in │Mem_out│ IR_in │ IR_out │ MAR_in │RegA_in │RegA_out│RegB_in │RegB_out│ALU_out │\n └─────┴────────┴───────┴────────┴────────┴───────┴───────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘\n\n\n\n\n\n\n\nSyntax: LDA 0xC \\(\\implies Reg_A \\leftarrow \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_A \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegA_{in}=1\\)\n0 0 0 0 1 0 0 0 1 0 0 0 0\n0x0110\n\n\n\n\n\n\n\nSyntax: ADD 0xC \\(\\implies Reg_A \\leftarrow Reg_A + \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_B \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegB_{in}=1\\)\n0 0 0 0 1 0 0 0 0 0 1 0 0\n0x0104\n\n\n\\(T_4\\)\n\\(Reg_A \\leftarrow ALU(Reg_A + Reg_B)\\)\n\\(ALU_{out}=1, RegA_{in}=1\\)\n0 0 0 0 0 0 0 0 1 0 0 0 1\n0x0011\n\n\n\n\n💡 ARCHITECTURAL INSIGHT: The control word sequence for SUB addr is 100% identical to ADD addr across \\(T_0 \\dots T_4\\)! The control unit issues the exact same bus-transfer vector; the only difference is that the ALU’s mode selection bit \\(S\\) is set to \\(1\\) externally via opcode decoding.\n\n\n\n\n\n\nThe Control Unit is the state-machine sequencer responsible for generating control words at every clock cycle.\n                     INSTRUCTION REGISTER (Opcode Bits)\n                                    │\n                                    ▼\n                          ┌──────────────────┐\n                          │ 3-to-8 DECODER   │\n                          └────────┬─────────┘\n                                   │ Decoded Opcode Line\n                                   ▼\n  CLK ─►[ 5-bit Ring ]──► ┌──────────────────┐\n        [  Counter   ]    │ HARDWARE CONTROL │ ──► Control Word Vector\n          (T0..T4) ──────►│  LOGIC MATRIX    │     (13-bit Output Bus)\n                          └──────────────────┘\n\n\n\n\nInputs:\n\n\nDecoded Opcode from Instruction Register \\(IR[7:4]\\).\nActive Timing State (\\(T_0, T_1, T_2, T_3, T_4\\)) from a 5-bit Ring Counter.\n\n\nOutputs: 13 individual control signals driving tri-state enables and register write inputs across the system.\n\n\n\n\nA primary challenge in hardware control design is race conditions and clock domain skew.\n                  Rising Edge: Datapath Executes Transfer!\n                                │\n   CLK     : ───0───┐       ┌───1───┐       ┌───0───\n                    │       │       │       │\n                    └───0───┘       └───0───┘\n                        ▲\n                        │\n                 Falling Edge: Control Signals Settle!\n\n\n\n\nDatapath Registers: Triggered on the Positive Clock Edge (\\(0 \\to 1\\)) to read/write data.\nControl Unit Ring Counter: Triggered on the Negative Clock Edge (\\(1 \\to 0\\)) to transition \\(T\\)-states.\n\n\nTIMING HACK: By changing \\(T\\)-states on the falling edge, control signals are generated and allowed to fully propagate and stabilize across the bus during the LOW phase of the clock. When the next positive clock edge arrives, the control signals are already stable, eliminating setup time violations and preventing glitches on the common bus!\n\n\n\n\n\n\n\nALU Architecture: The ALU uses full adders combined with XOR logic (\\(B \\oplus S\\)) to execute both Addition (\\(S=0\\)) and Subtraction (\\(S=1\\)) without separate subtractor hardware.\nTwo’s Complement Math: Represented mathematically as \\(A - B = A + \\bar{B} + 1\\). Negative outputs are stored in two’s complement form; magnitude is recovered by taking \\(\\bar{R} + 1\\).\nFetch Phase Uniformity: Every instruction executes an identical 2-cycle fetch phase:\n\n\n\\(T_0\\): \\(MAR \\leftarrow PC\\)\n\\(T_1\\): \\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC + 1\\)\n\n\nControl Word Identity: ADD and SUB share identical micro-instruction control sequences. Only the internal ALU Mode Select pin (\\(S\\)) differs.\nPhase-Shifted Clocking: Driving the control unit’s ring counter on the Negative Clock Edge guarantees control signals stabilize on the bus prior to Positive Clock Edge datapath executions.",
+    "text": "Number Systems",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
     ]
   },
   {
-    "objectID": "Week-11.html#alu-positioning-architecture",
-    "href": "Week-11.html#alu-positioning-architecture",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
-    "section": "",
-    "text": "The Arithmetic Logic Unit (ALU) serves as the primary computational engine of the processor. In the Gajendra-1 microarchitecture, the 8-bit ALU is directly wired between two general-purpose registers (Register A / Accumulator and Register B) and outputs to the 8-bit Common System Bus.\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS (8-bit)\n                  ═════════▲══════════════════════▲════════\n                           │                      │\n                  RegA_out │                      │ RegB_out\n                           │                      │\n                     ┌─────┴─────┐          ┌─────┴─────┐\n                     │ Register  │          │ Register  │\n                     │    A      │          │    B      │\n                     └─────┬─────┘          └─────┬─────┘\n                           │ 8-bit                │ 8-bit\n                           │                      │\n                           ▼                      ▼\n                     ┌──────────────────────────────────┐\n                     │          GAJENDRA 8-BIT          │\n                     │      ARITHMETIC LOGIC UNIT       │\n                     └────────────────┬─────────────────┘\n                                      │ ALU_out (Tri-State Enable)\n                                      ▼\n                  ═════════════════════════════════════════\n                              COMMON SYSTEM BUS\n                  ═════════════════════════════════════════\n\n\n\n\nDirect Register Feeding: Registers A and B feed the ALU directly without bus latency or control gating. Any state change in \\(Reg_A\\) or \\(Reg_B\\) immediately updates the combinational output of the ALU.\nBus Tri-State Isolation: The ALU output connects to the common bus via a tri-state buffer controlled by the ALU_out signal, ensuring it drives the bus only during active write-back clock cycles.\nOperation Selection:\nGeneric Multipurpose ALU: Uses an \\(n\\)-bit selection vector fed through a \\(k\\)-to-\\(2^k\\) decoder to select functions (e.g., ADD, SUB, AND, NOT).\nGajendra-1 Minimal ALU: Uses a 1-bit control line \\(S\\) (\\(S=0 \\implies \\text{ADD}\\), \\(S=1 \\implies \\text{SUB}\\)).\nStatus Flags (Flags Register): Combinational outputs from the ALU set conditions in a 4-bit Status Register:\nZero Flag (\\(Z / \\bar{Z}\\)): Set to \\(1\\) if the 8-bit result equals 0x00.\nCarry Flag (\\(C / \\bar{C}\\)): Set to \\(1\\) if the operation produces an arithmetic carry/borrow out of the MSB.",
+    "objectID": "Number_Systems.html#common-number-systems",
+    "href": "Number_Systems.html#common-number-systems",
+    "title": "\nNumber Systems\n",
+    "section": "Common Number Systems",
+    "text": "Common Number Systems\nAny number system has 2 important components in it.\n\n\nBase\n\n\nSymbols\n\n\n\n\n\nCNS\n\n\n\nWhenever we are refering to a certain bit processor like 16 bit, 32 bit, 64 bit processor\n=&gt;It essential means a 16 bit architecture can work or store upto \\(2^{16}\\) values.\n\n1 to 25 Numbers in different Number Systems\n\n\n\nDecimal\nBinary\nOctal\nHexadecimal\n\n\n\n\n0\n0\n0\n0\n\n\n1\n1\n1\n1\n\n\n2\n10\n2\n2\n\n\n3\n11\n3\n3\n\n\n4\n100\n4\n4\n\n\n5\n101\n5\n5\n\n\n6\n110\n6\n6\n\n\n7\n111\n7\n7\n\n\n8\n1000\n10\n8\n\n\n9\n1001\n11\n9\n\n\n10\n1010\n12\nA\n\n\n11\n1011\n13\nB\n\n\n12\n1100\n14\nC\n\n\n13\n1101\n15\nD\n\n\n14\n1110\n16\nE\n\n\n15\n1111\n17\nF\n\n\n16\n10000\n20\n10\n\n\n17\n10001\n21\n11\n\n\n18\n10010\n22\n12\n\n\n19\n10011\n23\n13\n\n\n20\n10100\n24\n14\n\n\n21\n10101\n25\n15\n\n\n22\n10110\n26\n16\n\n\n23\n10111\n27\n17\n\n\n24\n11000\n30\n18\n\n\n25\n11001\n31\n19\n\n\n\nYou might be confussed at the Binary, Octal and Hexadecimal Number Systems. Don’t worry! We will learn about these in detail.\nQuick Example:\n\\[25_{10} = 11001_2 = 31_8 = 19_{16}\\]\nWe will do following conversions among different bases\n\n\n\nconversion",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
     ]
   },
   {
-    "objectID": "Week-11.html#binary-subtraction-twos-complement-derivation",
-    "href": "Week-11.html#binary-subtraction-twos-complement-derivation",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
-    "section": "",
-    "text": "Because designing separate physical circuits for addition and subtraction increases silicon area and gate cost, processors execute subtraction \\(A - B\\) as the addition of a negative number: \\(A + (-B)\\).\n\n\nIn Sign-Magnitude, the MSB denotes sign (\\(0 = +, 1 = -\\)) and the remaining bits denote magnitude.\n\n\n\n\\(+5_{10} \\implies \\text{Sign}=0, \\text{Mag}=101_2 \\implies 0101_2\\)\n\\(-1_{10} \\implies \\text{Sign}=1, \\text{Mag}=001_2 \\implies 1001_2\\)\nBinary Addition:\n\n\\[\\begin{array}{rl}      0101_2 & (+5_{10}) \\\\    + 1001_2 & (-1_{10}) \\\\    \\hline      1110_2 & (\\text{Sign}=1, \\text{Mag}=110_2 = -6_{10} \\quad \\mathbf{\\text{FAIL!}})    \\end{array}\\]\n\n\n\n\nTo map subtraction onto an adder, we draw inspiration from base-\\(10\\) \\(10\\)’s complement arithmetic.\nFor a \\(K\\)-bit binary system with base \\(r = 2\\):\n\\[A - B = A + B' - 2^K\\]\nWhere \\(B'\\) is an offset representation satisfying \\(B' - 2^K = -B \\implies B' = 2^K - B\\).\nBy decomposing \\(2^K - B\\):\n\\[B' = (2^K - 1 - B) + 1\\]\n\nOne’s Complement (\\(\\bar{B}\\)): The term \\((2^K - 1 - B)\\) in binary evaluates to subtracting \\(B\\) from a sequence of all \\(1\\)s, which is logically equivalent to inverting every bit of \\(B\\) (\\(\\bar{B}\\)).\nTwo’s Complement (\\(B'\\)): Adding \\(1\\) to the One’s Complement completes the equivalence:\n\n\\[B' = \\bar{B} + 1\\]\nThus, subtraction reduces to:\n\\[A - B = A + \\bar{B} + 1\\]\n\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 12_{10} = 1100_2\\)\n\\(B = 7_{10} = 0111_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-7_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{0111_2} = 1000_2\\)\nAdd \\(1\\): \\(1000_2 + 1 = 1001_2\\)\n\n\nPerform Binary Addition (\\(A + \\bar{B} + 1\\)):\n\n\\[\\begin{array}{rl}      1100_2 & (12_{10}) \\\\    + 1001_2 & (-7_{10}) \\\\    \\hline     (1)0101_2 & (\\text{Discard end-around carry } 1)    \\end{array}\\]\n\nResult: \\(0101_2 = \\mathbf{+5_{10}}\\) (MSB \\(= 0\\), indicating a positive number).\n\n\n\n\n\nRepresent Operands:\n\n\n\\(A = 7_{10} = 0111_2\\)\n\\(B = 12_{10} = 1100_2\\)\n\n\nCalculate Two’s Complement of \\(B\\) (\\(-12_{10}\\)):\n\n\nBitwise Inversion (\\(\\bar{B}\\)): \\(\\overline{1100_2} = 0011_2\\)\nAdd \\(1\\): \\(0011_2 + 1 = 0100_2\\)\n\n\nPerform Binary Addition:\n\n\\[\\begin{array}{rl}      0111_2 & (+7_{10}) \\\\    + 0100_2 & (-12_{10}) \\\\    \\hline      1011_2 & (\\text{MSB } = 1 \\implies \\text{Negative result in 2's complement})    \\end{array}\\]\n\nMagnitude Recovery (\\(R_{mag} = \\bar{R} + 1\\)):\n\n\nInvert Result: \\(\\overline{1011_2} = 0100_2\\)\nAdd \\(1\\): \\(0100_2 + 1 = 0101_2 = 5_{10}\\)\n\n\nFinal Output Interpretation: \\(\\mathbf{-5_{10}}\\).",
+    "objectID": "Number_Systems.html#decimal-to-decimal",
+    "href": "Number_Systems.html#decimal-to-decimal",
+    "title": "\nNumber Systems\n",
+    "section": "1) Decimal to Decimal",
+    "text": "1) Decimal to Decimal\nInteger:\n\\[125 = 125_{10} = \\underline{1} * (10^2)  +  \\underline{2} * 10^1) + \\underline{5} * (10^0)\\]\n\\[= \\underline{1} * (Hundreds Place)  +  \\underline{2} * (Tens Place) + \\underline{5} * (Ones Place)\\]\n\\[= 100 + 20 + 5 =125_{10}\\]\n\n\n\ndec-dec\n\n\nFraction:\n\\[\n3.14 = \\underline{3}\\times 10^0 + \\underline{1}\\times 10^{-1} + \\underline{4}\\times 10^{-2}\n\\] \\[= 3 + 0.1 + 0.04 = 3.14\\]\n4 x 10^-2 = 0.04\n1 x 10^-1 = 0.1\n3 x 10^0  = 3.0\n           ------\n            3.14\n           ------",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
     ]
   },
   {
-    "objectID": "Week-11.html#unified-hardware-addersubtractor-circuit",
-    "href": "Week-11.html#unified-hardware-addersubtractor-circuit",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
-    "section": "",
-    "text": "Using the identity \\(A - B = A + \\bar{B} + 1\\), an \\(N\\)-bit Ripple Carry Adder is modified into a unified Adder/Subtractor by placing XOR gates on the \\(B\\) operand inputs and driving the initial carry-in (\\(C_{in}\\)) using the operation selection line \\(S\\).\n                      Select Line (S)\n           (0 = ADD, 1 = SUB) ──┬────────────────────────┐\n                                │                        │\n                                │                        ▼\n       A_i ─────────────────────┼──────────────┐    ┌──────────┐\n                                │              ├───►│  FULL    ├──► Sum_i\n       B_i ───►[ XOR ]──────────┼─────────────►│    │ ADDER i  │\n                  ▲             │              └────┤          ├──► C_{out}\n                  │             │                   └▲─────────┘\n                  └─────────────┘                    │ C_{in}\n                                                     └─────────── (From C_{i-1} / S)\n\n\n\n\nAddition Mode (\\(S = 0\\)):\n\n\n\\(B_i \\oplus 0 = B_i\\) (Operand \\(B\\) passes unchanged).\nInitial Carry-In \\(C_{in} = S = 0\\).\nFull Adder computes: \\(A + B + 0 = \\mathbf{A + B}\\).\n\n\nSubtraction Mode (\\(S = 1\\)):\n\n\n\\(B_i \\oplus 1 = \\bar{B}_i\\) (Bitwise invert \\(B\\)).\nInitial Carry-In \\(C_{in} = S = 1\\) (Adds the required \\(+1\\)).\nFull Adder computes: \\(A + \\bar{B} + 1 = \\mathbf{A - B}\\).",
+    "objectID": "Number_Systems.html#binary-to-decimal",
+    "href": "Number_Systems.html#binary-to-decimal",
+    "title": "\nNumber Systems\n",
+    "section": "2) Binary to Decimal",
+    "text": "2) Binary to Decimal\nTechnique:\n\nMultiply each bit by (2^n), where n is the “weight” of the bit\nThe weight is the position of the bit, starting from 0 on the right\nAdd the results\n\nInteger:\n\\[101011_2 = \\underline{1} * (2^5) + \\underline{0} * (2^4) + \\underline{1} * (2^3) + \\underline{0} * (2^2) + \\underline{1} * (2^1) + \\underline{1} * (2^0)\\]\n\\[= \\underline{1} * (32) + \\underline{0} * (16) + \\underline{1} * (8) + \\underline{0} * (4) + \\underline{1} * (2) + \\underline{1} * (1)\\]\n\\[= 32 + 0 + 8 + 0 + 2 + 1 = 43 = 43_{10}\\]\n\n\n\nbin-dec\n\n\nFraction:\n\\[10.1011_2 = \\underline{1}\\times 2^1 + \\underline{0}\\times 2^0 + \\underline{1}\\times 2^{-1} + \\underline{0}\\times 2^{-2} + \\underline{1}\\times 2^{-3} + \\underline{1}\\times 2^{-4}\\]\n\\[= \\underline{1} * (2) + \\underline{0} * (1) + \\underline{1} * (0.5) + \\underline{0} * (0.25) + \\underline{1} * (0.125) + \\underline{1} * (0.0625)\\]\n\\[= 2 + 0 + 0.5 + 0 + 0.125 + 0.0625 = 2.6875\\] \\[\\therefore 10.1011_2 = 2.6875_{10}\\]\n\n1 0 . 1 0 1 1 = \n\n1 x 2^-4  =  0.0625\n1 x 2^-3  =  0.125\n0 x 2^-2  =  0.0\n1 x 2^-1  =  0.5\n0 x 2^0   =  0.0\n1 x 2^1   =  2.0\n            ----------\n             2.6875\n            ----------",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
     ]
   },
   {
-    "objectID": "Week-11.html#control-logic-micro-instruction-sequences",
-    "href": "Week-11.html#control-logic-micro-instruction-sequences",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
-    "section": "",
-    "text": "Executing a single high-level assembly instruction requires breaking it down into a sequence of atomic hardware operations called Micro-operations.\n\n\n\nInstruction Cycle: The total time required to fetch, decode, and execute a complete instruction.\nTiming State (\\(T\\)-State): A single clock cycle within the instruction cycle during which one micro-operation control word is issued.\nControl Word / Micro-instruction: An \\(N\\)-bit binary vector where each bit directly enables or disables a specific hardware pin (e.g., \\(RegA_{in}\\), \\(PC_{out}\\)).\n\n\n\n\n ┌─────┬────────┬───────┬────────┬────────┬───────┬───────┬────────┬────────┬────────┬────────┬────────┬────────┐\n │ Bit │   12   │  11   │   10   │   9    │   8   │   7   │   6    │   5    │   4    │   3    │   2    │   1    │   0    │\n ├─────┼────────┼───────┼────────┼────────┼───────┼───────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤\n │ Sig │ Inc_PC │ PC_out│ PC_load│ Mem_in │Mem_out│ IR_in │ IR_out │ MAR_in │RegA_in │RegA_out│RegB_in │RegB_out│ALU_out │\n └─────┴────────┴───────┴────────┴────────┴───────┴───────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘\n\n\n\n\n\n\n\nSyntax: LDA 0xC \\(\\implies Reg_A \\leftarrow \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_A \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegA_{in}=1\\)\n0 0 0 0 1 0 0 0 1 0 0 0 0\n0x0110\n\n\n\n\n\n\n\nSyntax: ADD 0xC \\(\\implies Reg_A \\leftarrow Reg_A + \\text{RAM}[\\text{0xC}]\\)\n\n\n\n\n\n\n\n\n\n\n\n\\(T\\)-State\nMicro-Operation\nActive Signals\nControl Word (Binary)\nHex\n\n\n\n\n\\(T_0\\)\n\\(MAR \\leftarrow PC\\)\n\\(PC_{out}=1, MAR_{in}=1\\)\n0 1 0 0 0 0 0 1 0 0 0 0 0\n0x0820\n\n\n\\(T_1\\)\n\\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC+1\\)\n\\(Mem_{out}=1, IR_{in}=1, Inc_{PC}=1\\)\n1 0 0 0 1 1 0 0 0 0 0 0 0\n0x1180\n\n\n\\(T_2\\)\n\\(MAR \\leftarrow IR[3:0]\\)\n\\(IR_{out}=1, MAR_{in}=1\\)\n0 0 0 0 0 0 1 1 0 0 0 0 0\n0x0060\n\n\n\\(T_3\\)\n\\(Reg_B \\leftarrow \\text{RAM}[MAR]\\)\n\\(Mem_{out}=1, RegB_{in}=1\\)\n0 0 0 0 1 0 0 0 0 0 1 0 0\n0x0104\n\n\n\\(T_4\\)\n\\(Reg_A \\leftarrow ALU(Reg_A + Reg_B)\\)\n\\(ALU_{out}=1, RegA_{in}=1\\)\n0 0 0 0 0 0 0 0 1 0 0 0 1\n0x0011\n\n\n\n\n💡 ARCHITECTURAL INSIGHT: The control word sequence for SUB addr is 100% identical to ADD addr across \\(T_0 \\dots T_4\\)! The control unit issues the exact same bus-transfer vector; the only difference is that the ALU’s mode selection bit \\(S\\) is set to \\(1\\) externally via opcode decoding.",
+    "objectID": "Number_Systems.html#octal-to-decimal",
+    "href": "Number_Systems.html#octal-to-decimal",
+    "title": "\nNumber Systems\n",
+    "section": "3) Octal to Decimal",
+    "text": "3) Octal to Decimal\nTechnique:\n\nMultiply each bit by (8^n), where n is the “weight” of the bit\nThe weight is the position of the bit, starting from 0 on the right\nAdd the results\n\nInteger:\n\\[724_8 = \\underline{7} * (8^2) + \\underline{2} * (8^1) + \\underline{4} * (8^0)\\]\n\\[= \\underline{7} * (64) + \\underline{2} * (8) + \\underline{4} * (1)\\]\n\\[= 448 + 16 + 4 = 468 = 468_{10}\\]\n\n\n\noct-dec\n\n\nFraction:\n\\[35.631_8 = (?)_{10}\\]\n\\[35.631_8 = \\underline{3} * (8^1) + \\underline{5} * (8^0) + \\underline{6}\\times 8^{-1} + \\underline{3}\\times 8^{-2} + \\underline{1}\\times 8^{-3}\\] \\[= \\underline{3} * (8) + \\underline{5} * (1) + \\underline{6} * (0.125) + \\underline{3} * (0.015625) + \\underline{1} * (0.001953125)\\] \\[= 24 + 5 + 0.75 + 0.046875 + 0.001953125\\] \\[= 29.798828125 \\approx 29.8_{10}\\]\n\\[\\therefore 35.631_8 = 29.8_{10}\\]\n\n35.631 = \n\n1 x 8^-3  =  0.001953125\n3 x 8^-2  =  0.046875\n6 x 8^-1  =  0.75\n5 x 8^0   =  5.0\n3 x 8^1   =  24.0\n            ----------\n             29.798828125\n            ----------",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
     ]
   },
   {
-    "objectID": "Week-11.html#hardware-control-unit-timing-optimization",
-    "href": "Week-11.html#hardware-control-unit-timing-optimization",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
-    "section": "",
-    "text": "The Control Unit is the state-machine sequencer responsible for generating control words at every clock cycle.\n                     INSTRUCTION REGISTER (Opcode Bits)\n                                    │\n                                    ▼\n                          ┌──────────────────┐\n                          │ 3-to-8 DECODER   │\n                          └────────┬─────────┘\n                                   │ Decoded Opcode Line\n                                   ▼\n  CLK ─►[ 5-bit Ring ]──► ┌──────────────────┐\n        [  Counter   ]    │ HARDWARE CONTROL │ ──► Control Word Vector\n          (T0..T4) ──────►│  LOGIC MATRIX    │     (13-bit Output Bus)\n                          └──────────────────┘\n\n\n\n\nInputs:\n\n\nDecoded Opcode from Instruction Register \\(IR[7:4]\\).\nActive Timing State (\\(T_0, T_1, T_2, T_3, T_4\\)) from a 5-bit Ring Counter.\n\n\nOutputs: 13 individual control signals driving tri-state enables and register write inputs across the system.\n\n\n\n\nA primary challenge in hardware control design is race conditions and clock domain skew.\n                  Rising Edge: Datapath Executes Transfer!\n                                │\n   CLK     : ───0───┐       ┌───1───┐       ┌───0───\n                    │       │       │       │\n                    └───0───┘       └───0───┘\n                        ▲\n                        │\n                 Falling Edge: Control Signals Settle!\n\n\n\n\nDatapath Registers: Triggered on the Positive Clock Edge (\\(0 \\to 1\\)) to read/write data.\nControl Unit Ring Counter: Triggered on the Negative Clock Edge (\\(1 \\to 0\\)) to transition \\(T\\)-states.\n\n\nTIMING HACK: By changing \\(T\\)-states on the falling edge, control signals are generated and allowed to fully propagate and stabilize across the bus during the LOW phase of the clock. When the next positive clock edge arrives, the control signals are already stable, eliminating setup time violations and preventing glitches on the common bus!",
+    "objectID": "Number_Systems.html#hexadecimal-to-decimal",
+    "href": "Number_Systems.html#hexadecimal-to-decimal",
+    "title": "\nNumber Systems\n",
+    "section": "4) Hexadecimal to Decimal",
+    "text": "4) Hexadecimal to Decimal\nTechnique:\n\nMultiply each bit by (16^n), where n is the “weight” of the bit\nThe weight is the position of the bit, starting from 0 on the right\nAdd the results\n\nInteger:\n\\[ABC_{16} = \\underline{A} * (16^2) + \\underline{B} * (16^1) + \\underline{C} * (16^0)\\]\n\\[= \\underline{10} * (16^2) + \\underline{11} * (16^1) + \\underline{12} * (16^0)\\]\n\\[=  \\underline{10} * (256) + \\underline{11} * (16) + \\underline{12} * (1)\\]\n\\[= 2560 + 176 + 12 = 2748 = 2748_{10}\\]\n\n\n\nhex-dec\n\n\nFraction:\n\\[2A.7C_{16} = (?)_{10}\\]\n\\[2A.7C_{16} = \\underline{2} * (16^1) + \\underline{A} * (16^0) + \\underline{7}\\times 16^{-1} + \\underline{C}\\times 16^{-2}\\] \\[= \\underline{2} * (16) + \\underline{10} * (1) + \\underline{7} * (0.0625) + \\underline{12} * (0.00390625)\\] \\[= 32 + 10 + 0.4375 + 0.046875\\] \\[= 42.484375_{10}\\]\n\\[\\therefore 2A.7C_{16} = 42.484375_{10}\\]\n\n2A.7C = \n\nC x 16^-2  =  0.046875\n7 x 16^-1  =  0.4375\nA x 16^0   =  10.0\n2 x 16^1   =  32.0\n            ----------\n             42.484375\n            ----------",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
     ]
   },
   {
-    "objectID": "Week-11.html#executive-summary-quick-reference",
-    "href": "Week-11.html#executive-summary-quick-reference",
-    "title": "Week 11: ALU Design, Computer Arithmetic & Control Unit Architecture",
-    "section": "",
-    "text": "ALU Architecture: The ALU uses full adders combined with XOR logic (\\(B \\oplus S\\)) to execute both Addition (\\(S=0\\)) and Subtraction (\\(S=1\\)) without separate subtractor hardware.\nTwo’s Complement Math: Represented mathematically as \\(A - B = A + \\bar{B} + 1\\). Negative outputs are stored in two’s complement form; magnitude is recovered by taking \\(\\bar{R} + 1\\).\nFetch Phase Uniformity: Every instruction executes an identical 2-cycle fetch phase:\n\n\n\\(T_0\\): \\(MAR \\leftarrow PC\\)\n\\(T_1\\): \\(IR \\leftarrow \\text{RAM}[MAR], PC \\leftarrow PC + 1\\)\n\n\nControl Word Identity: ADD and SUB share identical micro-instruction control sequences. Only the internal ALU Mode Select pin (\\(S\\)) differs.\nPhase-Shifted Clocking: Driving the control unit’s ring counter on the Negative Clock Edge guarantees control signals stabilize on the bus prior to Positive Clock Edge datapath executions.",
+    "objectID": "Number_Systems.html#decimal-to-binary",
+    "href": "Number_Systems.html#decimal-to-binary",
+    "title": "\nNumber Systems\n",
+    "section": "1) Decimal to Binary",
+    "text": "1) Decimal to Binary\nTechnique: Divide by two (2), keep track of the remainder.\nInteger:\n\\(\\boldsymbol{125_{10} = ( )_2}\\)\n2)125(62 \n  124\n  ---\n   1   ==&gt; This is the right most bit.  = _ _ _ _ _ _ 1 \n\n\n2)62(31\n  62\n  --\n   0   ==&gt; This is the next right most bit.  = _ _ _ _ _ 0 1\n\n\n2)31(15\n  30\n  --\n   1   ==&gt; This is the next right most bit.  = _ _ _ _ 1 0 1\n\n\n2)15(7\n  14\n  --\n   1   ==&gt; This is the next right most bit.  = _ _ _ 1 1 0 1\n\n\n2)7(3\n  6\n  --\n  1   ==&gt; This is the next right most bit.  = _ _ 1 1 1 0 1\n\n\n2)3(1\n  2\n  --\n  1   ==&gt; This is the next right most bit.  = _ 1 1 1 1 0 1\n\n\n2)1(   \n\nIf \"Dividend\" is 0 or 1, then it is last step.\n\n==&gt; Dividend is the left most bit.  = 1 1 1 1 1 0 1\n\\(\\boldsymbol{Result: 125_{10} = ( 1 1 1 1 1 0 1 )_2}\\)\n\n\n\ndec-bin\n\n\nFraction:\n\\(\\boldsymbol{3.14579_{10} = ( )_2}\\)\nTechnique: For integer part, divide by two (2), keep track of the remainder.\nFor fractional part, multiply by two (2), keep track of the integer result.\n3.14579 \n\nFor integer part: 3 = 11 in binary\n\nFor fractional part: 0.14579\n\n                           0|.14579\n                            |    x2\n                          ---------\n1st bit after decimal      0|.29158  ==&gt; 11.0\n                            |    x2\n                          ---------\n2nd bit after decimal      0|.58316  ==&gt; 11.00\n                            |    x2\n                          ---------\n3rd bit after decimal      1|.16632  ==&gt; 11.001\n                            |    x2\n                          ---------\n4th bit after decimal      0|.33264  ==&gt; 11.0010\n                            |    x2\n                          ---------\n5th bit after decimal      0|.66528  ==&gt; 11.00100\n                            |    x2\n                          ---------\n6th bit after decimal      1|.33056  ==&gt; 11.001001\n\nThe fractional part continues indefinitely, but we stop after six binary fractional bits:\n\\[\\therefore 3.14579_{10} \\approx 11.001001....._2\\]\nIn actual computers, a 32-bit IEEE 754 float stores about 24 bits of binary precision (roughly 7 significant decimal digits).\nIf greater precision is required, a 64-bit IEEE 754 double is commonly used, which provides about 15-16 significant decimal digits.",
     "crumbs": [
-      "Week-11"
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#octal-to-binary-using-2-methods",
+    "href": "Number_Systems.html#octal-to-binary-using-2-methods",
+    "title": "\nNumber Systems\n",
+    "section": "2) Octal to Binary (Using 2 Methods)",
+    "text": "2) Octal to Binary (Using 2 Methods)\n\nA) Convert Octal to Decimal, then Decimal to Binary.\n\\[705_8 = ?_2\\]\n\\[705_8 = \\underline{7} * (8^2) + \\underline{0} * (8^1) + \\underline{5} * (8^0) = 452_{10}\\]\n\\[452_{10} = 111000101_2\\]\n\\[\\therefore 705_8 = 111000101_2\\]\n\n\nB) Convert each octal digit to a 3-bit equivalent binary representation. ( Fastest Way)\nTechnique: Convert each octal digit to a 3-bit equivalent binary representation.\nInteger:\n\\[705_8 = ?_2\\]\n\\[\n\\textbf{Binary Equivalent of: } 7_8 = 111_2,\\; 0_8 = 000_2,\\; 5_8 = 101_2.\n\\]\n\\[705_8 =  (111)  (000) (101) _2 = 111  000 101 _2\\]\n\n\n\noct-bin\n\n\nFraction:\n\\(527.34_8 = ( )_2\\)\n\\[527.34_8 = (101) (010) (111) . (011) (100) _2 = 101010111.011100_2\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#hexadecimal-to-binary-using-2-methods",
+    "href": "Number_Systems.html#hexadecimal-to-binary-using-2-methods",
+    "title": "\nNumber Systems\n",
+    "section": "3) Hexadecimal to Binary (Using 2 Methods)",
+    "text": "3) Hexadecimal to Binary (Using 2 Methods)\n\nA) Convert Hexadecimal to Decimal, then Decimal to Binary.\n\\[10AF_{16} = ?_2\\]\n\\[10AF_{16} = \\underline{1} * (16^3) + \\underline{0} * (16^2) + \\underline{A} * (16^1) + \\underline{15} * (16^0) = 4271_{10}\\]\n\\[4271_{10} = 0001 0000 1010 1111_2\\]\n\\[\\therefore 10AF_{16} = 0001 0000 1010 1111_2\\]\n\n\nB) Convert each hexadecimal digit to a 4-bit equivalent binary representation. ( Fastest Way)\nTechnique: Convert each hexadecimal digit to a 4-bit equivalent binary representation.\nInteger:\n\\[10AF_{16} = ?_2\\]\n\\[\n\\textbf{Binary equivalent of: }  1_{16} = 0001_2,\\; 0_{16} = 0000_2,\\; A_{16} = 10_{16} = 1010_2,\\; F_{16} = 15_{16} = 1111_2.\n\\]\n\\[10AF_{16} = (0001) (0000) (1010) (1111)_2 = 0001 0000 1010 1111_2\\]\n\n\n\nhex-bin\n\n\nFraction:\n\\(3A.F5_{16} = ( )_2\\)\n\\[3A.F5_{16} = (0011) (1010) . (1111) (0101) _2 = 00111010.11110101_2\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#decimal-to-octal",
+    "href": "Number_Systems.html#decimal-to-octal",
+    "title": "\nNumber Systems\n",
+    "section": "1) Decimal to Octal",
+    "text": "1) Decimal to Octal\nInteger:\n\\(\\boldsymbol{1234_{10} = ?_8}\\)\nTechnique: Divide by eight (8), keep track of the remainder.\n8)1234(154 \n  1232\n  ---\n   2   ==&gt; This is the right most digit.  = _ _ _ 2 \n\n\n8)154(19\n  152\n  --\n   2   ==&gt; This is the next right most digit.  = _ _ 2 2\n\n\n8)19(2\n  16\n  --\n   3   ==&gt; This is the next right most digit.  = _ 3 2 2\n\n\n8)2(\n\nIf \"Dividend\" is less than 8, then it is last step.\n\n==&gt; Dividend is the left most bit. = 2 3 2 2\n\\(\\boldsymbol{Result: 1234_{10} = ( 2 3 2 2 )_8}\\)\n\nFraction:\n\\(45.6875_{10} = ?_8\\)\nTechnique: For integer part, divide by eight (8), keep track of the remainder.\nFor fractional part, multiply by eight (8), keep track of the integer result.\n45.6875\n\nFor integer part: 45\n\n   8 | 45 | 5 \n     | 40 |\n     ------\n       5  --&gt; Right Most Digit\n\n   8 | 5 | Since 5 &lt; 8, we stop here.\n     |   |\n     -----\n\n45 = 55 in Octal \n\n\nFor fractional part: 0.6875\n                           0|.6875\n                            |   x8\n                          ---------\n1st digit after integer    5|.5000  ==&gt; 55.5\n                            |   x8\n                          ---------\n2nd digit after integer    4|.0000  ==&gt; 55.54\n\nSince the fractional part is now 0.0000, there is no remaining fraction to convert. We stop.\n\\[\\therefore 45.6875_{10} = 55.54_8\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#binary-to-octal-using-2-methods",
+    "href": "Number_Systems.html#binary-to-octal-using-2-methods",
+    "title": "\nNumber Systems\n",
+    "section": "2) Binary to Octal (Using 2 Methods)",
+    "text": "2) Binary to Octal (Using 2 Methods)\n\\(\\boldsymbol{10101_2 = ?_8}\\)\n\nA) Convert Binary to Decimal, then Decimal to Octal.\n\\[\\boldsymbol{10101_2 = 21_{10} =&gt; 21_{10} = 25_8}\\]\n\n\nB) Group bits in threes, starting on right, then convert to octal digits. ( Fastest Way)\n\\[10101_2 = 010101_2 = (010) (101)_2  = 25_8\\] \\[\n\\textbf{Octal Equivalent of: } 010_2 = 2_8,\\; 101_2 = 5_8 .\n\\] \\[\\therefore 10101_2 =  25_8\\]\nFraction:\n\\[110011.10111_2 = (110) (011) .(101) (110)_2 = 63.56_8\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#hexadecimal-to-octal-using-2-methods",
+    "href": "Number_Systems.html#hexadecimal-to-octal-using-2-methods",
+    "title": "\nNumber Systems\n",
+    "section": "3) Hexadecimal to Octal (Using 2 Methods)",
+    "text": "3) Hexadecimal to Octal (Using 2 Methods)\n\nA) Convert Hexadecimal to Decimal, then Decimal to Octal.\n\\[3B4_{16} = ?_8\\]\n\\[3B4_{16} = \\underline{3} * (16^2) + \\underline{B} * (16^1) + \\underline{4} * (16^0) = 948_{10}\\]\n\\[948_{10} = 1664_8\\]\n\\[\\therefore 3B4_{16} = 1664_8\\]\n\n\nB) By Grouping Bits ( Fastest Way)\nTechnique: Convert each hexadecimal digit to a 4-bit equivalent Binary representation. Then group bits in threes, starting from right, then convert to octal digits.\n\\[3B4_{16} = ?_8\\]\n\\[\n\\textbf{Binary Equivalent of: } 3_{16} = 0011_2,\\; B_{16} = 1011_2,\\; 4_{16} = 0100_2 .\n\\]\n\\[3B4_{16} = (0011) (1011) (0100)_2 = (001) (110) (110) (100)_2 = 1664_8\\]\nFraction:\n\\[3A.F5_{16} = (0011) (1010) .(1111) (0101)_2 = (111) (010) .(111) (101) (010)_2 = 72.752_8\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#decimal-to-hexadecimal",
+    "href": "Number_Systems.html#decimal-to-hexadecimal",
+    "title": "\nNumber Systems\n",
+    "section": "1) Decimal to Hexadecimal",
+    "text": "1) Decimal to Hexadecimal\nInteger:\n\\(\\boldsymbol{1234_{10} = ?_{16}}\\)\nTechnique: Divide by sixteen (16), keep track of the remainder.\n16)1234(77\n   1232\n   ----\n      2   ==&gt; This is the right most digit. = _ _ 2\n\n\n16)77(4\n   64\n   --\n   13 (D) ==&gt; This is the next right most digit. = _ D 2\n\n\n16)4(\n\nIf \"Dividend\" is less than 16, then it is the last step.\n\n==&gt; Dividend is the left most digit. = 4 D 2\n\\(\\boldsymbol{Result: 1234_{10} = (4D2)_{16}}\\)\n\nFraction:\n\\(\\boldsymbol{125.6875_{10} = ?_{16}}\\)\nTechnique: For integer part, divide by two (16), keep track of the remainder.\nFor fractional part, multiply by sixteen (16), keep track of the integer result.\n125.6875\n\nFor integer part: 125\n\n   16 | 125 | 7\n      | 112 |\n      -------\n        13 == D  --&gt; Right Most Digit\n\n   16 | 7 | Since 7 &lt; 16, we stop here.\n      |   |\n      -----\n\n125 = 7D in Hexadecimal \n\n\nFor fractional part: 0.6875\n                           0|.6875\n                            |  x16\n                          ---------\n1st digit after integer   11|.0000  ==&gt; 7D.B\n\nSince the fractional part is now 0.0000, there is no remaining fraction to convert. We stop.\n\\[\\therefore 125.6875_{10} = 7D.B_{16}\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#binary-to-hexadecimal",
+    "href": "Number_Systems.html#binary-to-hexadecimal",
+    "title": "\nNumber Systems\n",
+    "section": "2) Binary to Hexadecimal",
+    "text": "2) Binary to Hexadecimal\nInteger:\n\\(\\boldsymbol{1010111011_2 = ?_{16}}\\)\nTechnique: Group bits in fours, start on right. Convert to hexadecimal digits\n\\[1010111011_2 = ?_{16}\\] \\[\n\\textbf{Hexadecimal equivalent of: }  0010_2 = 2_{16}, \\; 1011_2 = B_{16}\n\\] \\[\\therefore 1010111011_2 = 2BB_{16}\\]\nFraction:\n\\(\\boldsymbol{10110110.111101_2 = ?_{16}}\\)\n\\[10110110.111101_2 = (1011) (0110) .(1111) (0100)_2 = B6.F4_{16}\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#octal-to-hexadecimal",
+    "href": "Number_Systems.html#octal-to-hexadecimal",
+    "title": "\nNumber Systems\n",
+    "section": "3) Octal to Hexadecimal",
+    "text": "3) Octal to Hexadecimal\nInteger:\n\\(\\boldsymbol{1076_8 = ?_{16}}\\)\nTechnique: Use binary as an intermediate\n\\[1076_8 = ?_{16}\\]\n\\[1076_8 = (001) (000) (111) (110)_2 = (0010) (0011) (1110)_2\\] \\[\n\\textbf{Hexadecimal equivalent of: }  0010_2 = 2_{16}, \\; 0011_2 = 3_{16}, \\; 1110_2 = E_{16}\n\\]\n\\[\\therefore 1076_8 = 23E_{16}\\]\nFraction:\n\\(\\boldsymbol{357.64_8 = ?_{16}}\\)\n\\[357.64_8 = (011) (101) (111) .(110) (100)_2 = (1110) (1111) .(1101)_2 = EF.D_{16}\\]",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#base-10-si-prefixes",
+    "href": "Number_Systems.html#base-10-si-prefixes",
+    "title": "\nNumber Systems\n",
+    "section": "Base 10 (SI Prefixes)",
+    "text": "Base 10 (SI Prefixes)\n\n\n\nPower\nPrefix\nSymbol\nValue\n\n\n\n\n\\(10^{-15}\\)\nfemto\nf\n\\(0.000000000000001\\)\n\n\n\\(10^{-12}\\)\npico\np\n\\(0.000000000001\\)\n\n\n\\(10^{-9}\\)\nnano\nn\n\\(0.000000001\\)\n\n\n\\(10^{-6}\\)\nmicro\n\\(\\mu\\)\n\\(0.000001\\)\n\n\n\\(10^{-3}\\)\nmilli\nm\n\\(0.001\\)\n\n\n\\(10^{0}\\)\n—\n—\n\\(1\\)\n\n\n\\(10^{3}\\)\nkilo\nk\n\\(1,\\!000\\)\n\n\n\\(10^{6}\\)\nmega\nM\n\\(1,\\!000,\\!000\\)\n\n\n\\(10^{9}\\)\ngiga\nG\n\\(1,\\!000,\\!000,\\!000\\)\n\n\n\\(10^{12}\\)\ntera\nT\n\\(1,\\!000,\\!000,\\!000,\\!000\\)\n\n\n\\(10^{15}\\)\npeta\nP\n\\(1,\\!000,\\!000,\\!000,\\!000,\\!000\\)\n\n\n\\(10^{18}\\)\nexa\nE\n\\(1,\\!000,\\!000,\\!000,\\!000,\\!000,\\!000\\)",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#base-2-binary-multiples",
+    "href": "Number_Systems.html#base-2-binary-multiples",
+    "title": "\nNumber Systems\n",
+    "section": "Base 2 (Binary Multiples)",
+    "text": "Base 2 (Binary Multiples)\n\n\n\nPower\nPrefix\nSymbol\nValue\n\n\n\n\n\\(2^{10}\\)\nkilo\nk\n\\(1,\\!024\\)\n\n\n\\(2^{20}\\)\nmega\nM\n\\(1,\\!048,\\!576\\)\n\n\n\\(2^{30}\\)\ngiga\nG\n\\(1,\\!073,\\!741,\\!824\\)\n\n\n\\(2^{40}\\)\ntera\nT\n\\(1,\\!099,\\!511,\\!627,\\!776\\)\n\n\n\\(2^{50}\\)\npeta\nP\n\\(1,\\!125,\\!899,\\!906,\\!842,\\!624\\)\n\n\n\\(2^{60}\\)\nexa\nE\n\\(1,\\!152,\\!921,\\!504,\\!606,\\!846,\\!976\\)\n\n\n\n\nNote: In CS courses, memory sizes are often approximated using binary powers.",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#modern-systems-follow-iec-international-electrotechnical-commission-binary-prefixes",
+    "href": "Number_Systems.html#modern-systems-follow-iec-international-electrotechnical-commission-binary-prefixes",
+    "title": "\nNumber Systems\n",
+    "section": "Modern Systems Follow IEC (International Electrotechnical Commission) Binary Prefixes",
+    "text": "Modern Systems Follow IEC (International Electrotechnical Commission) Binary Prefixes\n\n\n\nPower\nIEC Prefix\nSymbol\nValue\n\n\n\n\n\\(2^{10}\\)\nkibi\nKi\n\\(1,\\!024\\)\n\n\n\\(2^{20}\\)\nmebi\nMi\n\\(1,\\!048,\\!576\\)\n\n\n\\(2^{30}\\)\ngibi\nGi\n\\(1,\\!073,\\!741,\\!824\\)\n\n\n\\(2^{40}\\)\ntebi\nTi\n\\(1,\\!099,\\!511,\\!627,\\!776\\)\n\n\n\\(2^{50}\\)\npebi\nPi\n\\(1,\\!125,\\!899,\\!906,\\!842,\\!624\\)\n\n\n\\(2^{60}\\)\nexbi\nEi\n\\(1,\\!152,\\!921,\\!504,\\!606,\\!846,\\!976\\)\n\n\n\n\nNote: Modern operating systems and standards often use KiB, MiB, GiB, TiB for binary multiples, while KB, MB, GB, TB denote decimal multiples (powers of 10). However, many computer architecture and digital electronics courses continue to use \\(\\mathrm{KB}=2^{10}\\) bytes , \\(\\mathrm{MB}=2^{20}\\) bytes and \\(\\mathrm{GB}=2^{30}\\) bytes for simplicity.",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#a.-two-1-bit-values",
+    "href": "Number_Systems.html#a.-two-1-bit-values",
+    "title": "\nNumber Systems\n",
+    "section": "A. Two 1-Bit Values",
+    "text": "A. Two 1-Bit Values\n\n\n\nA\nB\nA+B\n\n\n\n\n0\n0\n1\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n10\n\n\n\n\\[(10)_2 = (2)_{10}\\]\n    1\n+   1\n-------\n  1 0\n  |\n  v \n This 1 is carry.",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#b.-two-n-bit-values",
+    "href": "Number_Systems.html#b.-two-n-bit-values",
+    "title": "\nNumber Systems\n",
+    "section": "B. Two n-Bit Values",
+    "text": "B. Two n-Bit Values\nAdd the individual bits and propagate the carry\n        |1| --&gt; carry from previous sum 1 + 1 \n\n   1 0 1 0 1          2 1\n   1 1 0 0 1          2 5\n-------------        -----\n 1 0 1 1 1 0     ==   3 6   We can convert each binary number to decimal and add. Result is same.\n-------------        -----",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#a.-decimal",
+    "href": "Number_Systems.html#a.-decimal",
+    "title": "\nNumber Systems\n",
+    "section": "A. Decimal",
+    "text": "A. Decimal\n       3 5 \n   x 1 0 5\n  ----------\n     1 7 5\n   0 0 0 +\n   3 5 + +\n  ----------\n   3 6 7 5\n  ----------",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#b.-two-1-bit-values",
+    "href": "Number_Systems.html#b.-two-1-bit-values",
+    "title": "\nNumber Systems\n",
+    "section": "B. Two 1-Bit Values",
+    "text": "B. Two 1-Bit Values\n\n\n\nA\nB\nAxB\n\n\n\n\n0\n0\n0\n\n\n0\n1\n0\n\n\n1\n0\n0\n\n\n1\n1\n1",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#c.-two-n-bit-values",
+    "href": "Number_Systems.html#c.-two-n-bit-values",
+    "title": "\nNumber Systems\n",
+    "section": "C. Two n-Bit Values",
+    "text": "C. Two n-Bit Values\nLike in decimal, we use the same method:\n          1 1 1 0           1 4\n        x 1 0 1 1         x 1 1\n    ----------------      ------\n          1 1 1 0           1 4\n        1 1 1 0 +         1 4 +\n      0 0 0 0 + +      \n    1 1 1 0 + + +       \n -------------------     --------\n  1 0 0 1 1 0 1 0    ==   1 5 4    For simplicity & fast, convert binary to decimal and multiply then convert to binary. Result is same.\n -------------------     --------",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#sign-and-magnitude-representation",
+    "href": "Number_Systems.html#sign-and-magnitude-representation",
+    "title": "\nNumber Systems\n",
+    "section": "1. Sign and Magnitude Representation",
+    "text": "1. Sign and Magnitude Representation\nOne bit for sign\n\n0 = Positive\n1 = Negative\n\nRest of the bits for Magnitude.\nRange: \\(-(2^{n-1} -1)\\) to \\(+(2^{n-1}-1)\\) where n = no. of bits\nExample:\nNormal System: For representing range 0-15, we need 4 bits and we can’t represent negative numbers.\n-----------------\n|   |   |   |   |\n-----------------\n  4   3   2   1  = Bit Wise Position\nSigned System: For representing range 0-15, we need 5 bits (1 bit for sign & 4 bits for values), 5th bit is called “sign bit”.\nWe can represent negative numbers just by fliping the sign bit from 0 to 1.\n---------------------\n|   |   |   |   |   |\n---------------------\n  5   4   3   2   1  = Bit Wise Position",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#ones-complement-representation",
+    "href": "Number_Systems.html#ones-complement-representation",
+    "title": "\nNumber Systems\n",
+    "section": "2. One’s Complement Representation",
+    "text": "2. One’s Complement Representation\nTechnique: For negative number in 1’s complement representation, we just flip the bits of a positive value to get negative value.\nRange: \\(-(2^{n-1} -1)\\) to \\(+(2^{n-1}-1)\\) where n = no. of bits\nExample:\n+5 ==&gt; 0 1 0 1\n       | | | |  Bits are flipped \n       v v v v\n-5 ==&gt; 1 0 1 0\n\nTherefore, \n+5 ==&gt; 0101\n-5 ==&gt; 1010\nFormula for 1’s complement: \\(f(x) =2^n -1 -x\\)\nRecovery: If 1’s complement is given and to get the original number, apply 1’s complement on “given 1’s complement”.\n\nNote: 1’s complement hardware is easy to implement, it is just not gate (also called inverters).",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "Number_Systems.html#twos-complement-representation",
+    "href": "Number_Systems.html#twos-complement-representation",
+    "title": "\nNumber Systems\n",
+    "section": "3. Two’s Complement Representation",
+    "text": "3. Two’s Complement Representation\nTechnique: Addition of 1’s complement and one produces the two’s complement.\nRange: \\(-2^{n-1}\\) to \\(+(2^{n-1}-1)\\) where n = no. of bits\nExample:\n+5 = 0101\n-5 = ? in 2's complement \n\n+5 ==&gt; 0 1 0 1\n       | | | |  Bits are flipped \n       v v v v\n-5 ==&gt; 1 0 1 0\n\n-5 = 1's complement of 5 + 1 = 1010 + 1 = 1011\n\nTherefore, in 2's complement \n+5 ==&gt; 0101\n-5 ==&gt; 1011\n\nIn simple words, 2's complement = 1's complement + 1 \nFormula for 2’s complement: \\(f(x) =2^n -x\\)\nRecovery: If 2’s complement is given and to get the original number, apply 2’s complement on “given 2’s complement number”.\n\nNote: Signed and 1’s complement have +0 and -0 in their range. 2’s complement have only +0 in the range.",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Number Systems"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "\nDigital Circuits by Prof. Satanu Chattopadhyay, IIT Khrg\n",
+    "section": "",
+    "text": "Digital Circuits by Prof. Satanu Chattopadhyay, IIT Khrg",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html#digital-signal-representation-representation-of-logical-functions",
+    "href": "intro.html#digital-signal-representation-representation-of-logical-functions",
+    "title": "\nDigital Circuits by Prof. Satanu Chattopadhyay, IIT Khrg\n",
+    "section": "Digital signal representation & Representation of logical functions",
+    "text": "Digital signal representation & Representation of logical functions\n\nBy using binary numbers we can represent any quantity in digital form\nPerforming logic with binary variables is called switching algebra or Boolean algebra\n\nBoolean Algebra was introduced in 1847 & 1854 by George Boole in his books as pure mathematics.\nLater, Claude Elwood Shannon, father of information technology, applied in digital circuits\n\nDigital signals can be transmitted, received, amplified, and retransmitted with no degradation.",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html#signal-types---analog-and-digital-signals",
+    "href": "intro.html#signal-types---analog-and-digital-signals",
+    "title": "\nDigital Circuits by Prof. Satanu Chattopadhyay, IIT Khrg\n",
+    "section": "Signal Types - Analog and Digital Signals",
+    "text": "Signal Types - Analog and Digital Signals\n\nAnalog signals take on continuous values in time - typically current or voltage\n\nAfter digitization, the continuous analog signal becomes a set of discrete values, typically separated by fixed time intervals\nThe problem with analog signals is noise\n\nDigital signals appear at discrete levels - usually we use binary signals which utilize only two levels\n\nOne level is referred to as logical 1 and logical 0 is assigned to the other level.\n\n\n\nDigital-to-Analog Conversion (DAC)\n\nFor an n-bit D/A converter, the output voltage is expressed as:\n\n\\[ V_0 = (b_1 * 2^{-1} + b_2 * 2^{-2} +  ... + b_n * 2^{-n} )V_{FS} \\]\n\nThe smallest possible voltage change is known as the least significant bit or LSB:\n\n\\[ V_{LSB} = 2^{-n} * V_{FS} \\]\n\n\nAnalog-to-Digital Conversion (ADC)\n\nAnalog input voltage v\\(_x\\) is converted to the nearest n-bit number.\nFor a four bit converter, 0 –&gt; v\\(_x\\) input yields a 0000 –&gt; 1111 digital output.\nOutput is approximation of input due to the limited resolution of the n-bit output. Error is expressed as:\n\n\\[ V_{\\epsilon} = | v_x - (b_1 * 2^{-1} + b_2 * 2^{-2} +  ... + b_n * 2^{-n} )V_{FS} | \\]\nProblem with Analog Signals\n\nThe problem with analog signals is noise – hiss on the sound and speckly dots on the picture.\nWhen we send a signal over a long distance, the signal gets weaker, so we need to boost (amplify) it.\nThe problem is that we end up boosting the noise as well.\nIn Digital Signals, if we convert the signal into digital form, then send it, it still gets weaker and noise still creeps in but it can corrected easily.\n\nExa: Let’s consider that 0 volts = 0 and 10 volts = 1.\nAt the source we send 10 volts and at the destination we received 7 volts.\nWe can still recover the value 1.",
+    "crumbs": [
+      "Digital Logics For GATE",
+      "Introduction"
     ]
   },
   {
