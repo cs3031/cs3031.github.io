@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>week-5 – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-5.html">Week-5</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -311,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
+  <a href="./Week-5.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week-5</span></a>
   </div>
 </li>
@@ -385,35 +412,348 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-5-adders-plas-karnaugh-map-logic-minimization" id="toc-week-5-adders-plas-karnaugh-map-logic-minimization" class="nav-link active" data-scroll-target="#week-5-adders-plas-karnaugh-map-logic-minimization">Week 5: Adders, PLAs &amp; Karnaugh Map Logic Minimization</a>
+  <ul class="collapse">
+  <li><a href="#full-adders-and-ripple-carry-adders" id="toc-full-adders-and-ripple-carry-adders" class="nav-link" data-scroll-target="#full-adders-and-ripple-carry-adders">1. Full Adders and Ripple Carry Adders</a>
+  <ul class="collapse">
+  <li><a href="#full-adder-truth-table-and-equations" id="toc-full-adder-truth-table-and-equations" class="nav-link" data-scroll-target="#full-adder-truth-table-and-equations">Full Adder Truth Table and Equations</a></li>
+  <li><a href="#n-bit-ripple-carry-adder-rca" id="toc-n-bit-ripple-carry-adder-rca" class="nav-link" data-scroll-target="#n-bit-ripple-carry-adder-rca"><span class="math inline">\(N\)</span>-Bit Ripple Carry Adder (RCA)</a></li>
+  </ul></li>
+  <li><a href="#programmable-logic-arrays-plas" id="toc-programmable-logic-arrays-plas" class="nav-link" data-scroll-target="#programmable-logic-arrays-plas">2. Programmable Logic Arrays (PLAs)</a>
+  <ul class="collapse">
+  <li><a href="#architectural-components" id="toc-architectural-components" class="nav-link" data-scroll-target="#architectural-components">Architectural Components</a></li>
+  <li><a href="#key-advantages-and-applications" id="toc-key-advantages-and-applications" class="nav-link" data-scroll-target="#key-advantages-and-applications">Key Advantages and Applications</a></li>
+  </ul></li>
+  <li><a href="#logic-simplification-the-uniting-theorem" id="toc-logic-simplification-the-uniting-theorem" class="nav-link" data-scroll-target="#logic-simplification-the-uniting-theorem">3. Logic Simplification &amp; The Uniting Theorem</a></li>
+  <li><a href="#karnaugh-maps-k-maps-foundations" id="toc-karnaugh-maps-k-maps-foundations" class="nav-link" data-scroll-target="#karnaugh-maps-k-maps-foundations">4. Karnaugh Maps (K-Maps) Foundations</a>
+  <ul class="collapse">
+  <li><a href="#gray-code-labeling-rule" id="toc-gray-code-labeling-rule" class="nav-link" data-scroll-target="#gray-code-labeling-rule">Gray Code Labeling Rule</a></li>
+  <li><a href="#wrap-around-toroidal-adjacency" id="toc-wrap-around-toroidal-adjacency" class="nav-link" data-scroll-target="#wrap-around-toroidal-adjacency">Wrap-Around (Toroidal) Adjacency</a></li>
+  </ul></li>
+  <li><a href="#k-map-grouping-rules-prime-implicants" id="toc-k-map-grouping-rules-prime-implicants" class="nav-link" data-scroll-target="#k-map-grouping-rules-prime-implicants">5. K-Map Grouping Rules &amp; Prime Implicants</a>
+  <ul class="collapse">
+  <li><a href="#standard-grouping-rules" id="toc-standard-grouping-rules" class="nav-link" data-scroll-target="#standard-grouping-rules">Standard Grouping Rules</a></li>
+  <li><a href="#terminology" id="toc-terminology" class="nav-link" data-scroll-target="#terminology">Terminology</a></li>
+  <li><a href="#worked-example-2-bit-magnitude-comparator" id="toc-worked-example-2-bit-magnitude-comparator" class="nav-link" data-scroll-target="#worked-example-2-bit-magnitude-comparator">Worked Example: 2-Bit Magnitude Comparator</a></li>
+  </ul></li>
+  <li><a href="#dont-care-conditions-x-bcd-incrementer" id="toc-dont-care-conditions-x-bcd-incrementer" class="nav-link" data-scroll-target="#dont-care-conditions-x-bcd-incrementer">6. Don’t Care Conditions (<span class="math inline">\(X\)</span>) &amp; BCD Incrementer</a>
+  <ul class="collapse">
+  <li><a href="#concept-of-dont-care-states" id="toc-concept-of-dont-care-states" class="nav-link" data-scroll-target="#concept-of-dont-care-states">Concept of Don’t Care States</a></li>
+  <li><a href="#application-example-bcd-incrementer" id="toc-application-example-bcd-incrementer" class="nav-link" data-scroll-target="#application-example-bcd-incrementer">Application Example: BCD Incrementer</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="week-5-adders-plas-karnaugh-map-logic-minimization" class="level1">
+<h1>Week 5: Adders, PLAs &amp; Karnaugh Map Logic Minimization</h1>
+<section id="full-adders-and-ripple-carry-adders" class="level2">
+<h2 class="anchored" data-anchor-id="full-adders-and-ripple-carry-adders">1. Full Adders and Ripple Carry Adders</h2>
+<p>While a Half Adder adds two 1-bit numbers without accommodating incoming carry bits, a <strong>Full Adder</strong> is a 3-input combinational logic block that adds two operand bits (<span class="math inline">\(A_i, B_i\)</span>) alongside an incoming carry bit (<span class="math inline">\(C_{in}\)</span> or <span class="math inline">\(C_i\)</span>).</p>
+<pre><code>                ┌──────────────────┐
+   A_i ────────►│                  ├────────► Sum (S_i)
+   B_i ────────►│    FULL ADDER    │
+  C_in ────────►│                  ├────────► C_out (C_{i+1})
+                └──────────────────┘
+</code></pre>
+<section id="full-adder-truth-table-and-equations" class="level3">
+<h3 class="anchored" data-anchor-id="full-adder-truth-table-and-equations">Full Adder Truth Table and Equations</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(A_i\)</span></th>
+<th><span class="math inline">\(B_i\)</span></th>
+<th><span class="math inline">\(C_{in}\)</span></th>
+<th><span class="math inline">\(C_{out}\)</span></th>
+<th><span class="math inline">\(S_i\)</span></th>
+<th>Arithmetic Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(0 + 0 + 0 = 0\)</span><br></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td><span class="math inline">\(0 + 0 + 1 = 1\)</span><br></td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="math inline">\(0 + 1 + 0 = 1\)</span><br></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><span class="math inline">\(0 + 1 + 1 = 2_{10} = (10)_2\)</span><br></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="math inline">\(1 + 0 + 0 = 1\)</span><br></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><span class="math inline">\(1 + 0 + 1 = 2_{10} = (10)_2\)</span><br></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="math inline">\(1 + 1 + 0 = 2_{10} = (10)_2\)</span><br></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">\(1 + 1 + 1 = 3_{10} = (11)_2\)</span><br></td>
+</tr>
+</tbody>
+</table>
+<section id="derived-equations" class="level4">
+<h4 class="anchored" data-anchor-id="derived-equations">Derived Equations</h4>
+<ul>
+<li><strong>Sum Bit (<span class="math inline">\(S_i\)</span>):</strong> Odd parity function across the three inputs.</li>
+</ul>
+<p><span class="math display">\[S_i = A_i \oplus B_i \oplus C_{in} = \bar{A}_i \bar{B}_i C_{in} + \bar{A}_i B_i \bar{C}_{in} + A_i \bar{B}_i \bar{C}_{in} + A_i B_i C_{in}\]</span></p>
+<ul>
+<li><strong>Carry Out (<span class="math inline">\(C_{out}\)</span>):</strong> Evaluates to <span class="math inline">\(1\)</span> whenever two or more inputs are <span class="math inline">\(1\)</span>.</li>
+</ul>
+<p><span class="math display">\[C_{out} = A_i B_i + A_i C_{in} + B_i C_{in}\]</span></p>
+<hr>
+</section>
+</section>
+<section id="n-bit-ripple-carry-adder-rca" class="level3">
+<h3 class="anchored" data-anchor-id="n-bit-ripple-carry-adder-rca"><span class="math inline">\(N\)</span>-Bit Ripple Carry Adder (RCA)</h3>
+<p>To add two <span class="math inline">\(N\)</span>-bit numbers (<span class="math inline">\(A_{N-1} \dots A_0\)</span> and <span class="math inline">\(B_{N-1} \dots B_0\)</span>), <span class="math inline">\(N\)</span> Full Adders are cascaded in series. The carry output (<span class="math inline">\(C_{i+1}\)</span>) of each stage is fed into the carry input of the next higher-order stage.</p>
+<pre><code>         A3  B3          A2  B2          A1  B1          A0  B0
+          │   │           │   │           │   │           │   │
+          ▼   ▼           ▼   ▼           ▼   ▼           ▼   ▼
+       ┌─────────┐     ┌─────────┐     ┌─────────┐     ┌─────────┐
+C_out ◄┤ Full    │◄────┤ Full    │◄────┤ Full    │◄────┤ Full    │◄── C_in = 0
+(C4)   │ Adder 3 │ C3  │ Adder 2 │ C2  │ Adder 1 │ C1  │ Adder 0 │
+       └────┬────┘     └────┬────┘     └────┬────┘     └────┬────┘
+            │               │               │               │
+            ▼               ▼               ▼               ▼
+            S3              S2              S1              S0
+</code></pre>
+<ul>
+<li><p><strong>Propagation Delay (Latency Bottleneck):</strong> The calculation at bit stage <span class="math inline">\(i\)</span> cannot finalize until the carry bit <span class="math inline">\(C_i\)</span> ripples through all lower stages <span class="math inline">\(0 \dots i-1\)</span>.</p></li>
+<li><p><strong>Latency Scaling:</strong> Total delay is proportional to <span class="math inline">\(N \times \Delta\)</span> (where <span class="math inline">\(\Delta\)</span> is a single-stage gate delay). Advanced architectures like <strong>Carry Lookahead Adders (CLA)</strong> predict carries in parallel to break this sequential bottleneck.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="programmable-logic-arrays-plas" class="level2">
+<h2 class="anchored" data-anchor-id="programmable-logic-arrays-plas">2. Programmable Logic Arrays (PLAs)</h2>
+<p>A <strong>Programmable Logic Array (PLA)</strong> is a reconfigurable combinational circuit capable of realizing any set of Boolean expressions directly in Sum-of-Products (SOP) form.</p>
+<pre><code>               Inputs (A, B, C...)
+                        │
+                        ▼
+          ┌───────────────────────────┐
+          │  Programmable AND-Array   │  ──► Generates Product Terms (Minterms)
+          └─────────────┬─────────────┘
+                        │
+                        ▼
+          ┌───────────────────────────┐
+          │   Programmable OR-Array   │  ──► Sums Selected Minterms
+          └─────────────┬─────────────┘
+                        │
+                        ▼
+              Outputs (F1, F2...)
+</code></pre>
+<section id="architectural-components" class="level3">
+<h3 class="anchored" data-anchor-id="architectural-components">Architectural Components</h3>
+<ol type="1">
+<li><p><strong>Programmable AND-Array:</strong> Computes required product terms (minterms) from input literals. For an <span class="math inline">\(n\)</span>-variable input, array size accommodates up to <span class="math inline">\(2^n\)</span> product terms.</p></li>
+<li><p><strong>Programmable OR-Array:</strong> Combines AND-array product outputs into target function outputs. The number of OR gates equals the number of output functions/columns in the truth table.</p></li>
+</ol>
+</section>
+<section id="key-advantages-and-applications" class="level3">
+<h3 class="anchored" data-anchor-id="key-advantages-and-applications">Key Advantages and Applications</h3>
+<ul>
+<li><p><strong>Logical Completeness:</strong> Since <span class="math inline">\(\{\text{AND}, \text{OR}, \text{NOT}\}\)</span> forms a logically complete set, a PLA can implement <em>any</em> arbitrary truth table.</p></li>
+<li><p><strong>Reconfigurability:</strong> Hardware behavior is defined via Hardware Description Languages (HDLs like Verilog or VHDL) and flashed onto devices like <strong>Field Programmable Gate Arrays (FPGAs)</strong>, allowing rapid hardware debugging before silicon fabrication.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="logic-simplification-the-uniting-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="logic-simplification-the-uniting-theorem">3. Logic Simplification &amp; The Uniting Theorem</h2>
+<p>Manual Boolean expression simplification relies on the <strong>Uniting (Unification) Theorem</strong>:</p>
+<p><span class="math display">\[X \cdot Y + X \cdot \bar{Y} = X \cdot (Y + \bar{Y}) = X \cdot 1 = X\]</span></p>
+<ul>
+<li><p><strong>Core Insight:</strong> If a variable <span class="math inline">\(Y\)</span> changes state (<span class="math inline">\(0 \to 1\)</span> or <span class="math inline">\(1 \to 0\)</span>) across two output terms where <span class="math inline">\(F = 1\)</span> while all other literals (<span class="math inline">\(X\)</span>) remain constant, <span class="math inline">\(Y\)</span> has no impact on the output and can be eliminated.</p></li>
+<li><p><strong>Limitations of Algebraic Inspection:</strong> For functions with <span class="math inline">\(\ge 4\)</span> variables, finding optimal variable pairs visually is heuristic, error-prone, and non-deterministic. Automated Electronic Design Automation (EDA) tools require systematic algorithms.</p></li>
+</ul>
+<hr>
+</section>
+<section id="karnaugh-maps-k-maps-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="karnaugh-maps-k-maps-foundations">4. Karnaugh Maps (K-Maps) Foundations</h2>
+<p>A <strong>Karnaugh Map (K-Map)</strong> maps a truth table onto a 2D geometric grid where physical spatial adjacency corresponds strictly to <strong>logical adjacency</strong> (differing by exactly 1 literal state).</p>
+<section id="gray-code-labeling-rule" class="level3">
+<h3 class="anchored" data-anchor-id="gray-code-labeling-rule">Gray Code Labeling Rule</h3>
+<p>Grid rows and columns MUST follow <strong>Gray Code</strong> sequence (<span class="math inline">\(00, 01, 11, 10\)</span>) instead of standard binary sequence (<span class="math inline">\(00, 01, 10, 11\)</span>). This guarantees that moving between any two adjacent cells flips exactly one bit.</p>
+<pre><code>             BC
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  0  │ m0  │ m1  │ m3  │ m2  │
+A    ├─────┼─────┼─────┼─────┤
+  1  │ m4  │ m5  │ m7  │ m6  │
+     └─────┴─────┴─────┴─────┘
+        3-Variable K-Map
+</code></pre>
+<pre><code>             CD
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  00 │ m0  │ m1  │ m3  │ m2  │
+     ├─────┼─────┼─────┼─────┤
+  01 │ m4  │ m5  │ m7  │ m6  │
+AB   ├─────┼─────┼─────┼─────┤
+  11 │ m12 │ m13 │ m15 │ m14 │
+     ├─────┼─────┼─────┼─────┤
+  10 │ m8  │ m9  │ m11 │ m10 │
+     └─────┴─────┴─────┴─────┘
+        4-Variable K-Map
+</code></pre>
+</section>
+<section id="wrap-around-toroidal-adjacency" class="level3">
+<h3 class="anchored" data-anchor-id="wrap-around-toroidal-adjacency">Wrap-Around (Toroidal) Adjacency</h3>
+<p>Due to Gray code properties, boundary edges wrap around continuously:</p>
+<ul>
+<li><p>Leftmost column (<span class="math inline">\(00\)</span>) is logically adjacent to the Rightmost column (<span class="math inline">\(10\)</span>).</p></li>
+<li><p>Top row (<span class="math inline">\(00\)</span>) is logically adjacent to the Bottom row (<span class="math inline">\(10\)</span>).</p></li>
+<li><p>The 4 extreme corners (<span class="math inline">\(m_0, m_2, m_8, m_{10}\)</span>) form a single valid adjacent group of 4 cells.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="k-map-grouping-rules-prime-implicants" class="level2">
+<h2 class="anchored" data-anchor-id="k-map-grouping-rules-prime-implicants">5. K-Map Grouping Rules &amp; Prime Implicants</h2>
+<section id="standard-grouping-rules" class="level3">
+<h3 class="anchored" data-anchor-id="standard-grouping-rules">Standard Grouping Rules</h3>
+<ol type="1">
+<li><p><strong>Group Geometry:</strong> Groups must be rectangular blocks consisting of <span class="math inline">\(1\)</span>s.</p></li>
+<li><p><strong>Group Size:</strong> Must equal a power of two (<span class="math inline">\(2^k \in \{1, 2, 4, 8, 16\}\)</span>). Groups of size 3, 5, or 6 are illegal.</p></li>
+<li><p><strong>Maximize Group Size:</strong> Larger groups eliminate more variables (<span class="math inline">\(2^k\)</span> cells eliminate <span class="math inline">\(k\)</span> variables).</p></li>
+<li><p><strong>Minimize Group Count:</strong> Cover all <span class="math inline">\(1\)</span>s using the minimum total number of groups to yield fewer logic gates.</p></li>
+<li><p><strong>Overlapping:</strong> <span class="math inline">\(1\)</span>s can be included in multiple groups if doing so helps form a larger valid group.</p></li>
+</ol>
+</section>
+<section id="terminology" class="level3">
+<h3 class="anchored" data-anchor-id="terminology">Terminology</h3>
+<ul>
+<li><p><strong>Implicant:</strong> Any product term formed by a valid group of <span class="math inline">\(1\)</span>s.</p></li>
+<li><p><strong>Prime Implicant (PI):</strong> A valid group of <span class="math inline">\(1\)</span>s that cannot be combined into any larger group.</p></li>
+<li><p><strong>Essential Prime Implicant (EPI):</strong> A Prime Implicant containing at least one <span class="math inline">\(1\)</span> that is not covered by any other PI.</p></li>
+</ul>
+<hr>
+</section>
+<section id="worked-example-2-bit-magnitude-comparator" class="level3">
+<h3 class="anchored" data-anchor-id="worked-example-2-bit-magnitude-comparator">Worked Example: 2-Bit Magnitude Comparator</h3>
+<p>Comparing two 2-bit numbers <span class="math inline">\(A(A_1 A_0)\)</span> and <span class="math inline">\(B(B_1 B_0)\)</span> generates three distinct output functions:</p>
+<ul>
+<li><p><span class="math inline">\(F_1: A = B\)</span></p></li>
+<li><p><span class="math inline">\(F_2: A &lt; B\)</span></p></li>
+<li><p><span class="math inline">\(F_3: A &gt; B\)</span></p></li>
+</ul>
+<p>For output <span class="math inline">\(F_2\)</span> (<span class="math inline">\(A &lt; B\)</span>), identified minterms are <span class="math inline">\(m(1, 2, 3, 6, 7, 11)\)</span>.</p>
+<pre><code>             B1 B0
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  00 │  0  │  1  │  1  │  1  │  ──► Group 1 (m1,m3,m2): A1̄ A0̄ B0 + A1̄ A0̄ B1
+     ├─────┼─────┼─────┼─────┤
+  01 │  0  │  0  │  1  │  1  │  ──► Group 2 (m3,m7,m2,m6): A1̄ B1
+A1A0 ├─────┼─────┼─────┼─────┤
+  11 │  0  │  0  │  0  │  0  │
+     ├─────┼─────┼─────┼─────┤
+  10 │  0  │  0  │  1  │  0  │  ──► Group 3 (m7,m11): A0 B1 B0
+     └─────┴─────┴─────┴─────┘
+</code></pre>
+<p><strong>Minimized Output Expression for <span class="math inline">\(F_2\)</span>:</strong></p>
+<p><span class="math display">\[F_2(A, B) = \bar{A}_1 B_1 + \bar{A}_1 \bar{A}_0 B_0 + \bar{A}_0 B_1 B_0\]</span></p>
+<hr>
+</section>
+</section>
+<section id="dont-care-conditions-x-bcd-incrementer" class="level2">
+<h2 class="anchored" data-anchor-id="dont-care-conditions-x-bcd-incrementer">6. Don’t Care Conditions (<span class="math inline">\(X\)</span>) &amp; BCD Incrementer</h2>
+<section id="concept-of-dont-care-states" class="level3">
+<h3 class="anchored" data-anchor-id="concept-of-dont-care-states">Concept of Don’t Care States</h3>
+<p>A <strong>Don’t Care (<span class="math inline">\(X\)</span>)</strong> represents an input combination that either cannot physically occur or whose output state has no impact on system operation.</p>
+<pre><code>  Don't Care State (X) ──► Assign to 1  (If it enlarges a K-Map group)
+                       ──► Assign to 0  (If it offers no grouping benefit)
+</code></pre>
+<hr>
+</section>
+<section id="application-example-bcd-incrementer" class="level3">
+<h3 class="anchored" data-anchor-id="application-example-bcd-incrementer">Application Example: BCD Incrementer</h3>
+<p>A Binary Coded Decimal (BCD) incrementer accepts digits <span class="math inline">\(0_{10}\)</span> to <span class="math inline">\(9_{10}\)</span> (<span class="math inline">\(0000_2\)</span> to <span class="math inline">\(1001_2\)</span>) and outputs <span class="math inline">\((N+1)_{10}\)</span>. Input states <span class="math inline">\(10_{10}\)</span> to <span class="math inline">\(15_{10}\)</span> (<span class="math inline">\(1010_2\)</span> to <span class="math inline">\(1111_2\)</span>) are invalid BCD digits and marked as <strong>Don’t Cares (<span class="math inline">\(X\)</span>)</strong>.</p>
+<pre><code>             CD
+       00    01    11    10
+     ┌─────┬─────┬─────┬─────┐
+  00 │  0  │  1  │  0  │  1  │
+     ├─────┼─────┼─────┼─────┤
+  01 │  0  │  1  │  0  │  1  │  (For LSB Output Z)
+AB   ├─────┼─────┼─────┼─────┤
+  11 │  X  │  X  │  X  │  X  │  ◄── Invalid BCD States (m10..m15)
+     ├─────┼─────┼─────┼─────┤
+  10 │  0  │  1  │  X  │  X  │
+     └─────┴─────┴─────┴─────┘
+</code></pre>
+<section id="impact-of-dont-cares-on-output-z-least-significant-bit" class="level4">
+<h4 class="anchored" data-anchor-id="impact-of-dont-cares-on-output-z-least-significant-bit">Impact of Don’t Cares on Output <span class="math inline">\(Z\)</span> (Least Significant Bit)</h4>
+<ul>
+<li><p><strong>Without Don’t Cares (<span class="math inline">\(X = 0\)</span>):</strong> <span class="math inline">\(Z = \bar{A}\bar{B}\bar{C}D + \bar{A}B\bar{C}D + A\bar{B}\bar{C}D = \bar{C}D\)</span>.</p></li>
+<li><p><strong>With Don’t Cares (<span class="math inline">\(X = 1\)</span>):</strong> Combining active <span class="math inline">\(1\)</span>s with adjacent <span class="math inline">\(X\)</span> cells forms a single 8-cell octet covering two full columns (<span class="math inline">\(01\)</span> and <span class="math inline">\(10\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[Z = \bar{D}\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Key Takeaway:</strong> Treating invalid states as Don’t Cares drastically reduces hardware complexity, saving gates and lowering propagation delay.</p>
+</blockquote>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

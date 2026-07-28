@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>week-7 – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-7.html">Week-7</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -323,7 +350,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
+  <a href="./Week-7.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week-7</span></a>
   </div>
 </li>
@@ -385,35 +412,243 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-7-introduction-to-sequential-logic-memory-elements" id="toc-week-7-introduction-to-sequential-logic-memory-elements" class="nav-link active" data-scroll-target="#week-7-introduction-to-sequential-logic-memory-elements">Week 7: Introduction to Sequential Logic &amp; Memory Elements</a>
+  <ul class="collapse">
+  <li><a href="#combinational-vs.-sequential-logic" id="toc-combinational-vs.-sequential-logic" class="nav-link" data-scroll-target="#combinational-vs.-sequential-logic">1. Combinational vs.&nbsp;Sequential Logic</a>
+  <ul class="collapse">
+  <li><a href="#example-of-sequential-behavior-the-counter" id="toc-example-of-sequential-behavior-the-counter" class="nav-link" data-scroll-target="#example-of-sequential-behavior-the-counter">Example of Sequential Behavior: The Counter</a></li>
+  </ul></li>
+  <li><a href="#fundamental-storage-cross-coupled-inverters-sram" id="toc-fundamental-storage-cross-coupled-inverters-sram" class="nav-link" data-scroll-target="#fundamental-storage-cross-coupled-inverters-sram">2. Fundamental Storage: Cross-Coupled Inverters &amp; SRAM</a>
+  <ul class="collapse">
+  <li><a href="#static-ram-sram-cell" id="toc-static-ram-sram-cell" class="nav-link" data-scroll-target="#static-ram-sram-cell">Static RAM (SRAM) Cell</a></li>
+  </ul></li>
+  <li><a href="#the-rs-reset-set-latch" id="toc-the-rs-reset-set-latch" class="nav-link" data-scroll-target="#the-rs-reset-set-latch">3. The RS (Reset-Set) Latch</a>
+  <ul class="collapse">
+  <li><a href="#nand-based-rs-latch-truth-table" id="toc-nand-based-rs-latch-truth-table" class="nav-link" data-scroll-target="#nand-based-rs-latch-truth-table">NAND-Based RS Latch Truth Table</a></li>
+  </ul></li>
+  <li><a href="#the-gated-d-latch" id="toc-the-gated-d-latch" class="nav-link" data-scroll-target="#the-gated-d-latch">4. The Gated D-Latch</a>
+  <ul class="collapse">
+  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a></li>
+  <li><a href="#level-sensitive-operation" id="toc-level-sensitive-operation" class="nav-link" data-scroll-target="#level-sensitive-operation">Level-Sensitive Operation</a></li>
+  </ul></li>
+  <li><a href="#clocks-and-edge-triggered-flip-flops" id="toc-clocks-and-edge-triggered-flip-flops" class="nav-link" data-scroll-target="#clocks-and-edge-triggered-flip-flops">5. Clocks and Edge-Triggered Flip-Flops</a>
+  <ul class="collapse">
+  <li><a href="#the-clock-signal" id="toc-the-clock-signal" class="nav-link" data-scroll-target="#the-clock-signal">The Clock Signal</a></li>
+  <li><a href="#the-d-flip-flop-master-slave-configuration" id="toc-the-d-flip-flop-master-slave-configuration" class="nav-link" data-scroll-target="#the-d-flip-flop-master-slave-configuration">The D Flip-Flop (Master-Slave Configuration)</a></li>
+  </ul></li>
+  <li><a href="#the-jk-flip-flop" id="toc-the-jk-flip-flop" class="nav-link" data-scroll-target="#the-jk-flip-flop">6. The JK Flip-Flop</a>
+  <ul class="collapse">
+  <li><a href="#architecture-1" id="toc-architecture-1" class="nav-link" data-scroll-target="#architecture-1">Architecture</a></li>
+  <li><a href="#jk-flip-flop-modes-of-operation" id="toc-jk-flip-flop-modes-of-operation" class="nav-link" data-scroll-target="#jk-flip-flop-modes-of-operation">JK Flip-Flop Modes of Operation</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="week-7-introduction-to-sequential-logic-memory-elements" class="level1">
+<h1>Week 7: Introduction to Sequential Logic &amp; Memory Elements</h1>
+<section id="combinational-vs.-sequential-logic" class="level2">
+<h2 class="anchored" data-anchor-id="combinational-vs.-sequential-logic">1. Combinational vs.&nbsp;Sequential Logic</h2>
+<ul>
+<li><p><strong>Combinational Logic:</strong> “Memoryless” circuits where the output is strictly a function of the <em>current</em> inputs. Examples include adders, comparators, multiplexers, and decoders.</p></li>
+<li><p><strong>Sequential Logic:</strong> Circuits with “memory” where the current output depends on both the <em>current</em> inputs and the <em>previous</em> outputs (state).</p></li>
+</ul>
+<section id="example-of-sequential-behavior-the-counter" class="level3">
+<h3 class="anchored" data-anchor-id="example-of-sequential-behavior-the-counter">Example of Sequential Behavior: The Counter</h3>
+<p>A 3-bit up-counter cycles from <span class="math inline">\(000\)</span> (<span class="math inline">\(0_{10}\)</span>) to <span class="math inline">\(111\)</span> (<span class="math inline">\(7_{10}\)</span>) and wraps around. The next output (e.g., <span class="math inline">\(4\)</span>) is entirely determined by the previous output (<span class="math inline">\(3\)</span>), establishing a temporal state dependency not found in combinational circuits.</p>
+<hr>
+</section>
+</section>
+<section id="fundamental-storage-cross-coupled-inverters-sram" class="level2">
+<h2 class="anchored" data-anchor-id="fundamental-storage-cross-coupled-inverters-sram">2. Fundamental Storage: Cross-Coupled Inverters &amp; SRAM</h2>
+<p>The most basic storage element is formed by cross-coupling two NOT gates (inverters), where the output of each gate feeds the input of the other.</p>
+<pre><code>       ┌───────[NOT 1]◄──────┐
+       │                     │
+       ▼                     │
+(Q) ◄──┴───────►[NOT 2]──────┴──► (Q̄)
+</code></pre>
+<ul>
+<li><p><strong>Stable States:</strong> The circuit holds one of two stable states indefinitely as long as it is powered:</p></li>
+<li><p>State 0: <span class="math inline">\(Q = 0, \bar{Q} = 1\)</span></p></li>
+<li><p>State 1: <span class="math inline">\(Q = 1, \bar{Q} = 0\)</span></p></li>
+<li><p><strong>Limitation:</strong> It lacks a direct control mechanism to reliably write or change the stored state. Forcing a change can lead to transient oscillation or metastability.</p></li>
+</ul>
+<section id="static-ram-sram-cell" class="level3">
+<h3 class="anchored" data-anchor-id="static-ram-sram-cell">Static RAM (SRAM) Cell</h3>
+<p>SRAM cells build upon cross-coupled inverters by adding access transistors controlled by a <strong>Word Line (WL)</strong> and data pathways called <strong>Bit Lines (BL)</strong>.</p>
+<ul>
+<li><p>When <span class="math inline">\(WL = 0\)</span>, the cell is isolated and holds its memory state.</p></li>
+<li><p>When <span class="math inline">\(WL = 1\)</span>, the cell is connected to the Bit Lines, allowing reading or overwriting of the stored bit (<span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span>).</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="the-rs-reset-set-latch" class="level2">
+<h2 class="anchored" data-anchor-id="the-rs-reset-set-latch">3. The RS (Reset-Set) Latch</h2>
+<p>The RS (or SR) Latch adds control inputs to the cross-coupled structure, replacing inverters with NAND (or NOR) gates.</p>
+<section id="nand-based-rs-latch-truth-table" class="level3">
+<h3 class="anchored" data-anchor-id="nand-based-rs-latch-truth-table">NAND-Based RS Latch Truth Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(S\)</span> (Set)</th>
+<th><span class="math inline">\(R\)</span> (Reset)</th>
+<th>Next State (<span class="math inline">\(Q_{next}\)</span>)</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">\(Q_{current}\)</span></td>
+<td><strong>Hold / Memory:</strong> Retains previous state.</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><strong>Set:</strong> Forces output <span class="math inline">\(Q = 1\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><strong>Reset:</strong> Forces output <span class="math inline">\(Q = 0\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>Invalid</strong></td>
+<td><strong>Forbidden State:</strong> Forces both <span class="math inline">\(Q = 1\)</span> and <span class="math inline">\(\bar{Q} = 1\)</span>.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The Forbidden State:</strong> Setting both <span class="math inline">\(S=0\)</span> and <span class="math inline">\(R=0\)</span> violates the fundamental assumption that <span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span> must be logical complements. Furthermore, if both inputs transition back to <span class="math inline">\(1\)</span> simultaneously, the circuit enters a metastable, oscillating state where the final settled value is non-deterministic, relying entirely on microscopic variations in gate propagation delays.</li>
+</ul>
+</section>
+</section>
+<section id="the-gated-d-latch" class="level2">
+<h2 class="anchored" data-anchor-id="the-gated-d-latch">4. The Gated D-Latch</h2>
+<p>To prevent the forbidden <span class="math inline">\(S=0, R=0\)</span> state and add explicit control over <em>when</em> data is written, the RS Latch is modified into a <strong>Gated D-Latch</strong>.</p>
+<section id="architecture" class="level3">
+<h3 class="anchored" data-anchor-id="architecture">Architecture</h3>
+<ol type="1">
+<li><p>A single Data input (<span class="math inline">\(D\)</span>) is used.</p></li>
+<li><p><span class="math inline">\(D\)</span> is fed directly to the Set input, while an inverted version (<span class="math inline">\(\bar{D}\)</span>) is fed to the Reset input. This guarantees <span class="math inline">\(S\)</span> and <span class="math inline">\(R\)</span> are always complementary, preventing the <span class="math inline">\(00\)</span> forbidden state.</p></li>
+<li><p>A <strong>Write Enable (WE)</strong> or Clock input gates the incoming data.</p></li>
+</ol>
+</section>
+<section id="level-sensitive-operation" class="level3">
+<h3 class="anchored" data-anchor-id="level-sensitive-operation">Level-Sensitive Operation</h3>
+<ul>
+<li><p><strong>Enabled / Open (<span class="math inline">\(WE = 1\)</span>):</strong> The output <span class="math inline">\(Q\)</span> continuously mirrors the input <span class="math inline">\(D\)</span> (<span class="math inline">\(Q_{next} = D\)</span>).</p></li>
+<li><p><strong>Disabled / Closed (<span class="math inline">\(WE = 0\)</span>):</strong> The latch isolates the input and <strong>holds</strong> its previous state, regardless of how <span class="math inline">\(D\)</span> fluctuates.</p></li>
+<li><p><strong>Limitation (Asynchronicity):</strong> Because it is <em>level-sensitive</em>, any glitch or fluctuation on the <span class="math inline">\(D\)</span> line while <span class="math inline">\(WE = 1\)</span> will asynchronously ripple directly to the output <span class="math inline">\(Q\)</span>, creating timing and synchronization vulnerabilities in complex circuits.</p></li>
+</ul>
+</section>
+</section>
+<section id="clocks-and-edge-triggered-flip-flops" class="level2">
+<h2 class="anchored" data-anchor-id="clocks-and-edge-triggered-flip-flops">5. Clocks and Edge-Triggered Flip-Flops</h2>
+<p>To solve the synchronization issues of level-sensitive latches, sequential circuits utilize <strong>Clocks</strong> and <strong>Edge-Triggered Flip-Flops</strong>.</p>
+<section id="the-clock-signal" class="level3">
+<h3 class="anchored" data-anchor-id="the-clock-signal">The Clock Signal</h3>
+<p>A clock is an oscillating input signal oscillating between logic HIGH and logic LOW at a predetermined frequency.</p>
+<ul>
+<li><p><strong>Rising Edge (Positive Edge):</strong> The instantaneous transition from LOW (<span class="math inline">\(0\)</span>) to HIGH (<span class="math inline">\(1\)</span>).</p></li>
+<li><p><strong>Falling Edge (Negative Edge):</strong> The transition from HIGH (<span class="math inline">\(1\)</span>) to LOW (<span class="math inline">\(0\)</span>).</p></li>
+</ul>
+</section>
+<section id="the-d-flip-flop-master-slave-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="the-d-flip-flop-master-slave-configuration">The D Flip-Flop (Master-Slave Configuration)</h3>
+<p>A D Flip-Flop is <strong>edge-sensitive</strong> (not level-sensitive). It is constructed by cascading two D-Latches in series with opposite clock polarities.</p>
+<pre><code>  Data (D) ──►[ Master D-Latch ]──(Q_L1)──►[ Slave D-Latch ]──► Output (Q)
+                     ▲                             ▲
+  Clock ─────────────┴───────────[NOT]─────────────┘
+</code></pre>
+<ul>
+<li><p><strong>Operation (Positive Edge Trigger):</strong></p></li>
+<li><p>When <span class="math inline">\(CLK = 0\)</span>: Master is enabled and tracks <span class="math inline">\(D\)</span>. Slave is disabled.</p></li>
+<li><p>At the <strong>Rising Edge</strong> (<span class="math inline">\(CLK \to 1\)</span>): Master locks its value, taking a rapid “snapshot” of <span class="math inline">\(D\)</span>. Slave becomes enabled and passes this locked snapshot to the final output <span class="math inline">\(Q\)</span>.</p></li>
+<li><p><strong>Result:</strong> Data <span class="math inline">\(D\)</span> is copied to <span class="math inline">\(Q\)</span> <em>only</em> at the precise instant of the clock edge. At all other times, <span class="math inline">\(Q\)</span> holds its value, guaranteeing perfect synchronicity.</p></li>
+</ul>
+</section>
+</section>
+<section id="the-jk-flip-flop" class="level2">
+<h2 class="anchored" data-anchor-id="the-jk-flip-flop">6. The JK Flip-Flop</h2>
+<p>The <strong>JK Flip-Flop</strong> resolves the RS Latch’s forbidden state problem while restoring the two-input flexibility lost in the single-input D Flip-Flop.</p>
+<section id="architecture-1" class="level3">
+<h3 class="anchored" data-anchor-id="architecture-1">Architecture</h3>
+<p>The JK Flip-Flop builds upon the edge-triggered SR framework by feeding the outputs <span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span> back into the input NAND gates.</p>
+</section>
+<section id="jk-flip-flop-modes-of-operation" class="level3">
+<h3 class="anchored" data-anchor-id="jk-flip-flop-modes-of-operation">JK Flip-Flop Modes of Operation</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(J\)</span></th>
+<th><span class="math inline">\(K\)</span></th>
+<th>Next State (<span class="math inline">\(Q_{next}\)</span>)</th>
+<th>Action Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(Q_{current}\)</span></td>
+<td><strong>Memory / Hold:</strong> Output is retained.</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><strong>Reset:</strong> Forces output <span class="math inline">\(Q\)</span> to <span class="math inline">\(0\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td><strong>Set:</strong> Forces output <span class="math inline">\(Q\)</span> to <span class="math inline">\(1\)</span>.</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">\(\bar{Q}_{current}\)</span></td>
+<td><strong>Toggle:</strong> Output flips its current state (0 to 1, or 1 to 0). <em>(Solves the SR forbidden state)</em>.</td>
+</tr>
+</tbody>
+</table>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

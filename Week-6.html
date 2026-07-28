@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>week-6 – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-6.html">Week-6</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -317,7 +344,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
+  <a href="./Week-6.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week-6</span></a>
   </div>
 </li>
@@ -385,35 +412,231 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-6-circuit-simulation-7-segment-display-drivers" id="toc-week-6-circuit-simulation-7-segment-display-drivers" class="nav-link active" data-scroll-target="#week-6-circuit-simulation-7-segment-display-drivers">Week 6: Circuit Simulation &amp; 7-Segment Display Drivers</a>
+  <ul class="collapse">
+  <li><a href="#digital-logic-simulation-circuitverse" id="toc-digital-logic-simulation-circuitverse" class="nav-link" data-scroll-target="#digital-logic-simulation-circuitverse">1. Digital Logic Simulation (CircuitVerse)</a>
+  <ul class="collapse">
+  <li><a href="#core-simulator-components" id="toc-core-simulator-components" class="nav-link" data-scroll-target="#core-simulator-components">Core Simulator Components</a></li>
+  <li><a href="#prototyping-workflows" id="toc-prototyping-workflows" class="nav-link" data-scroll-target="#prototyping-workflows">Prototyping Workflows</a></li>
+  <li><a href="#simulator-examples" id="toc-simulator-examples" class="nav-link" data-scroll-target="#simulator-examples">Simulator Examples</a></li>
+  </ul></li>
+  <li><a href="#the-7-segment-led-display-driver" id="toc-the-7-segment-led-display-driver" class="nav-link" data-scroll-target="#the-7-segment-led-display-driver">2. The 7-Segment LED Display Driver</a>
+  <ul class="collapse">
+  <li><a href="#display-architecture" id="toc-display-architecture" class="nav-link" data-scroll-target="#display-architecture">Display Architecture</a></li>
+  <li><a href="#designing-a-custom-vending-machine-display" id="toc-designing-a-custom-vending-machine-display" class="nav-link" data-scroll-target="#designing-a-custom-vending-machine-display">Designing a Custom Vending Machine Display</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="week-6-circuit-simulation-7-segment-display-drivers" class="level1">
+<h1>Week 6: Circuit Simulation &amp; 7-Segment Display Drivers</h1>
+<section id="digital-logic-simulation-circuitverse" class="level2">
+<h2 class="anchored" data-anchor-id="digital-logic-simulation-circuitverse">1. Digital Logic Simulation (CircuitVerse)</h2>
+<p>While physical breadboards use actual integrated circuits (ICs) for validation, simulators like <strong>CircuitVerse</strong> provide a rapid, browser-based environment for prototyping and verifying combinational logic circuits.</p>
+<section id="core-simulator-components" class="level3">
+<h3 class="anchored" data-anchor-id="core-simulator-components">Core Simulator Components</h3>
+<ul>
+<li><p><strong>Inputs (Sources):</strong> Toggles that provide boolean binary states (<code>0</code> or <code>1</code>) to the circuit.</p></li>
+<li><p>Green wire = Logic HIGH (<code>1</code>)</p></li>
+<li><p>Dark Green wire = Logic LOW (<code>0</code>)</p></li>
+<li><p><strong>Logic Gates:</strong> Standard primitive blocks (AND, OR, NOT, NAND, NOR, XOR, XNOR) used to build boolean expressions.</p></li>
+<li><p><strong>MSI Modules:</strong> Pre-packaged Medium Scale Integration blocks like Multiplexers, Decoders, and Priority Encoders.</p></li>
+<li><p><strong>Outputs (Indicators):</strong> LED elements used to visually confirm the logic state (LED glows red when input is Logic HIGH).</p></li>
+</ul>
+</section>
+<section id="prototyping-workflows" class="level3">
+<h3 class="anchored" data-anchor-id="prototyping-workflows">Prototyping Workflows</h3>
+<ol type="1">
+<li><p><strong>Validation:</strong> Implement a Boolean expression (e.g., K-Map optimized output) and toggle input states to ensure the physical LED output perfectly matches the expected truth table.</p></li>
+<li><p><strong>Equivalence Checking:</strong> Build an unoptimized circuit and an optimized circuit simultaneously on the canvas, feed them identical inputs, and verify that their LED outputs match under all conditions.</p></li>
+</ol>
+<hr>
+</section>
+<section id="simulator-examples" class="level3">
+<h3 class="anchored" data-anchor-id="simulator-examples">Simulator Examples</h3>
+<section id="half-adder" class="level4">
+<h4 class="anchored" data-anchor-id="half-adder">1. Half Adder</h4>
+<ul>
+<li><p><strong>Sum:</strong> Uses an XOR gate (<span class="math inline">\(X \oplus Y\)</span>) or manually built using logic (<span class="math inline">\(X\bar{Y} + \bar{X}Y\)</span>).</p></li>
+<li><p><strong>Carry:</strong> Uses an AND gate (<span class="math inline">\(X \cdot Y\)</span>).</p></li>
+</ul>
+</section>
+<section id="to-4-line-decoder" class="level4">
+<h4 class="anchored" data-anchor-id="to-4-line-decoder">2. 2-to-4 Line Decoder</h4>
+<ul>
+<li><p>Uses two input lines (<span class="math inline">\(A, B\)</span>), NOT gates to generate inverted literals (<span class="math inline">\(\bar{A}, \bar{B}\)</span>), and four 2-input AND gates to compute the minterms.</p></li>
+<li><p><strong>Behavior:</strong> Input <code>00</code> lights LED 1 (<span class="math inline">\(m_0\)</span>), <code>01</code> lights LED 2 (<span class="math inline">\(m_1\)</span>), <code>10</code> lights LED 3 (<span class="math inline">\(m_2\)</span>), and <code>11</code> lights LED 4 (<span class="math inline">\(m_3\)</span>).</p></li>
+</ul>
+</section>
+<section id="to-1-multiplexer-mux" class="level4">
+<h4 class="anchored" data-anchor-id="to-1-multiplexer-mux">3. 2-to-1 Multiplexer (MUX)</h4>
+<ul>
+<li><p><strong>Inputs:</strong> Two data lines (<span class="math inline">\(A, B\)</span>) and one Select line (<span class="math inline">\(S\)</span>).</p></li>
+<li><p><strong>Logic:</strong> Two AND gates pass the data, and one OR gate combines them: <span class="math inline">\(Y = S \cdot A + \bar{S} \cdot B\)</span>.</p></li>
+<li><p><strong>Behavior:</strong> When <span class="math inline">\(S = 1\)</span>, toggling <span class="math inline">\(A\)</span> affects the output while <span class="math inline">\(B\)</span> is ignored. When <span class="math inline">\(S = 0\)</span>, toggling <span class="math inline">\(B\)</span> affects the output while <span class="math inline">\(A\)</span> is ignored.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-7-segment-led-display-driver" class="level2">
+<h2 class="anchored" data-anchor-id="the-7-segment-led-display-driver">2. The 7-Segment LED Display Driver</h2>
+<p>A 7-segment display consists of seven individual Light Emitting Diodes arranged in a figure-eight pattern, allowing for the display of decimal numbers (<span class="math inline">\(0-9\)</span>) and select alphabetical characters.</p>
+<section id="display-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="display-architecture">Display Architecture</h3>
+<ul>
+<li><p><strong>Segments:</strong> Labeled <span class="math inline">\(a\)</span> through <span class="math inline">\(g\)</span> (and optionally <span class="math inline">\(DP\)</span> for decimal point).</p></li>
+<li><p><strong>Total Patterns:</strong> A 7-segment display can theoretically represent <span class="math inline">\(2^7 = 128\)</span> unique visual patterns.</p></li>
+<li><p><strong>Application Scope:</strong> Drivers are designed to output only the specific patterns required for a given application (e.g., <span class="math inline">\(0-9\)</span> for a digital clock, or custom letters for a vending machine).</p></li>
+</ul>
+<pre><code>       a
+     ─────
+  f │     │ b
+    │  g  │
+     ─────
+  e │     │ c
+    │  d  │
+     ─────
+</code></pre>
+<hr>
+</section>
+<section id="designing-a-custom-vending-machine-display" class="level3">
+<h3 class="anchored" data-anchor-id="designing-a-custom-vending-machine-display">Designing a Custom Vending Machine Display</h3>
+<p><strong>Objective:</strong> Design a combinational logic driver that outputs the letters <strong>P, E, S, I</strong> based on a 2-bit input sequence.</p>
+<section id="determine-inputoutput-size" class="level4">
+<h4 class="anchored" data-anchor-id="determine-inputoutput-size">1. Determine Input/Output Size</h4>
+<ul>
+<li><p><strong>Inputs:</strong> To support 4 unique characters, the driver requires <span class="math inline">\(\log_2(4) = 2\)</span> input bits (<span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>).</p></li>
+<li><p><strong>Outputs:</strong> 7 discrete output lines (<span class="math inline">\(a, b, c, d, e, f, g\)</span>), one for each LED segment.</p></li>
+</ul>
+</section>
+<section id="define-the-mapping-truth-table" class="level4">
+<h4 class="anchored" data-anchor-id="define-the-mapping-truth-table">2. Define the Mapping &amp; Truth Table</h4>
+<p>Map each input sequence to the corresponding active segments required to form the target character.</p>
+<ul>
+<li><p>Logic <code>1</code> = LED ON</p></li>
+<li><p>Logic <code>0</code> = LED OFF</p></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Input (<span class="math inline">\(X\)</span>)</th>
+<th>Input (<span class="math inline">\(Y\)</span>)</th>
+<th>Target Char</th>
+<th>Active Segments</th>
+<th><span class="math inline">\(a\)</span></th>
+<th><span class="math inline">\(b\)</span></th>
+<th><span class="math inline">\(c\)</span></th>
+<th><span class="math inline">\(d\)</span></th>
+<th><span class="math inline">\(e\)</span></th>
+<th><span class="math inline">\(f\)</span></th>
+<th><span class="math inline">\(g\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td><strong>P</strong></td>
+<td><span class="math inline">\(a, b, e, f, g\)</span><br></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td><strong>E</strong></td>
+<td><span class="math inline">\(a, d, e, f, g\)</span><br></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td><strong>S</strong></td>
+<td><span class="math inline">\(a, c, d, f, g\)</span><br></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td><strong>I</strong></td>
+<td><span class="math inline">\(e, f\)</span><br></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="derive-boolean-expressions-sop" class="level4">
+<h4 class="anchored" data-anchor-id="derive-boolean-expressions-sop">3. Derive Boolean Expressions (SOP)</h4>
+<p>Extract the sum of minterms for each individual output segment (<span class="math inline">\(a\)</span> through <span class="math inline">\(g\)</span>).</p>
+<ul>
+<li><p><strong>Segment <span class="math inline">\(a\)</span>:</strong> active for <code>00</code>, <code>01</code>, <code>10</code>. <span class="math inline">\(a = \bar{X}\bar{Y} + \bar{X}Y + X\bar{Y} = \overline{X \cdot Y}\)</span> (NAND function)</p></li>
+<li><p><strong>Segment <span class="math inline">\(b\)</span>:</strong> active for <code>00</code>. <span class="math inline">\(b = \bar{X}\bar{Y} = \overline{X + Y}\)</span> (NOR function)</p></li>
+<li><p><strong>Segment <span class="math inline">\(c\)</span>:</strong> active for <code>10</code>. <span class="math inline">\(c = X\bar{Y}\)</span></p></li>
+<li><p><strong>Segment <span class="math inline">\(d\)</span>:</strong> active for <code>01</code>, <code>10</code>. <span class="math inline">\(d = \bar{X}Y + X\bar{Y} = X \oplus Y\)</span> (XOR function)</p></li>
+<li><p><strong>Segment <span class="math inline">\(e\)</span>:</strong> active for <code>00</code>, <code>01</code>, <code>11</code>. <span class="math inline">\(e = \bar{X}\bar{Y} + \bar{X}Y + XY = \bar{X} + XY\)</span></p></li>
+<li><p><strong>Segment <span class="math inline">\(f\)</span>:</strong> active for all inputs. <span class="math inline">\(f = 1\)</span> (Always High)</p></li>
+<li><p><strong>Segment <span class="math inline">\(g\)</span>:</strong> active for <code>00</code>, <code>01</code>, <code>10</code>. <span class="math inline">\(g = \bar{X}\bar{Y} + \bar{X}Y + X\bar{Y} = \bar{X} + X\bar{Y}\)</span></p></li>
+</ul>
+</section>
+<section id="hardware-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="hardware-implementation">4. Hardware Implementation</h4>
+<p>Using a simulator, construct the logic gates defined above and map their outputs to the corresponding <span class="math inline">\(a-g\)</span> pins of the 7-segment display element. Toggling inputs (<span class="math inline">\(00 \to 01 \to 10 \to 11\)</span>) will dynamically render the letters <strong>P <span class="math inline">\(\to\)</span> E <span class="math inline">\(\to\)</span> S <span class="math inline">\(\to\)</span> I</strong> on the display.</p>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

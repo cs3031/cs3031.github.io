@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>week-8 – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-8.html">Week-8</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -329,7 +356,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
+  <a href="./Week-8.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week-8</span></a>
   </div>
 </li>
@@ -385,35 +412,215 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-8-advanced-flip-flops-sequential-circuit-design" id="toc-week-8-advanced-flip-flops-sequential-circuit-design" class="nav-link active" data-scroll-target="#week-8-advanced-flip-flops-sequential-circuit-design">Week 8: Advanced Flip-Flops &amp; Sequential Circuit Design</a>
+  <ul class="collapse">
+  <li><a href="#the-jk-flip-flop-racing-and-the-master-slave-solution" id="toc-the-jk-flip-flop-racing-and-the-master-slave-solution" class="nav-link" data-scroll-target="#the-jk-flip-flop-racing-and-the-master-slave-solution">1. The JK Flip-Flop: Racing and the Master-Slave Solution</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-race-around-condition" id="toc-the-problem-race-around-condition" class="nav-link" data-scroll-target="#the-problem-race-around-condition">The Problem: Race Around Condition</a></li>
+  <li><a href="#the-solution-master-slave-configuration" id="toc-the-solution-master-slave-configuration" class="nav-link" data-scroll-target="#the-solution-master-slave-configuration">The Solution: Master-Slave Configuration</a></li>
+  </ul></li>
+  <li><a href="#excitation-tables-the-blueprint-for-sequential-design" id="toc-excitation-tables-the-blueprint-for-sequential-design" class="nav-link" data-scroll-target="#excitation-tables-the-blueprint-for-sequential-design">2. Excitation Tables: The Blueprint for Sequential Design</a>
+  <ul class="collapse">
+  <li><a href="#jk-flip-flop-excitation-table" id="toc-jk-flip-flop-excitation-table" class="nav-link" data-scroll-target="#jk-flip-flop-excitation-table">JK Flip-Flop Excitation Table</a></li>
+  </ul></li>
+  <li><a href="#systematic-design-of-synchronous-sequential-circuits" id="toc-systematic-design-of-synchronous-sequential-circuits" class="nav-link" data-scroll-target="#systematic-design-of-synchronous-sequential-circuits">3. Systematic Design of Synchronous Sequential Circuits</a>
+  <ul class="collapse">
+  <li><a href="#step-1-identify-unique-states-ordering" id="toc-step-1-identify-unique-states-ordering" class="nav-link" data-scroll-target="#step-1-identify-unique-states-ordering">Step 1: Identify Unique States &amp; Ordering</a></li>
+  <li><a href="#step-2-define-the-state-transition-table" id="toc-step-2-define-the-state-transition-table" class="nav-link" data-scroll-target="#step-2-define-the-state-transition-table">Step 2: Define the State Transition Table</a></li>
+  <li><a href="#step-3-determine-required-flip-flop-inputs" id="toc-step-3-determine-required-flip-flop-inputs" class="nav-link" data-scroll-target="#step-3-determine-required-flip-flop-inputs">Step 3: Determine Required Flip-Flop Inputs</a></li>
+  <li><a href="#step-4-combinational-logic-minimization-k-maps" id="toc-step-4-combinational-logic-minimization-k-maps" class="nav-link" data-scroll-target="#step-4-combinational-logic-minimization-k-maps">Step 4: Combinational Logic Minimization (K-Maps)</a></li>
+  <li><a href="#step-5-hardware-implementation" id="toc-step-5-hardware-implementation" class="nav-link" data-scroll-target="#step-5-hardware-implementation">Step 5: Hardware Implementation</a></li>
+  </ul></li>
+  <li><a href="#state-vs.-output-optimization" id="toc-state-vs.-output-optimization" class="nav-link" data-scroll-target="#state-vs.-output-optimization">4. State vs.&nbsp;Output Optimization</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="week-8-advanced-flip-flops-sequential-circuit-design" class="level1">
+<h1>Week 8: Advanced Flip-Flops &amp; Sequential Circuit Design</h1>
+<section id="the-jk-flip-flop-racing-and-the-master-slave-solution" class="level2">
+<h2 class="anchored" data-anchor-id="the-jk-flip-flop-racing-and-the-master-slave-solution">1. The JK Flip-Flop: Racing and the Master-Slave Solution</h2>
+<p>As established previously, the basic SR latch suffers from a forbidden state (<span class="math inline">\(S=1, R=1\)</span>). The <strong>JK Flip-Flop</strong> resolves this by feeding its own outputs (<span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span>) back into the input NAND gates, allowing for a safe “Toggle” state when <span class="math inline">\(J=1, K=1\)</span>.</p>
+<section id="the-problem-race-around-condition" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem-race-around-condition">The Problem: Race Around Condition</h3>
+<p>If a basic JK latch is <strong>level-triggered</strong>, a critical failure occurs during the toggle state (<span class="math inline">\(J=1, K=1\)</span>).</p>
+<ul>
+<li><p>While the clock is HIGH, the outputs <span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span> toggle.</p></li>
+<li><p>Because the clock remains HIGH, the newly toggled outputs instantly feed back into the input gates, causing the circuit to toggle <em>again</em>.</p></li>
+<li><p>This creates an uncontrolled oscillation called the <strong>Race Around Condition</strong>. The final settled state depends entirely on whether the clock happened to go LOW after an even or odd number of microscopic toggles, making the output non-deterministic.</p></li>
+</ul>
+</section>
+<section id="the-solution-master-slave-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="the-solution-master-slave-configuration">The Solution: Master-Slave Configuration</h3>
+<p>To eliminate racing, the JK Flip-Flop must be made strictly <strong>edge-triggered</strong>. This is achieved using the <strong>Master-Slave</strong> architecture.</p>
+<pre class="text"><code>  Inputs (J, K) ──►[ Master JK Latch ]────►[ Slave SR Latch ]──► Outputs (Q, Q̄)
+                          ▲                       ▲                 │
+  Clock ──────────────────┴─────────[NOT]─────────┘                 │
+    │                                                               │
+    └◄───────────────────────────(Feedback)─────────────────────────┘
+</code></pre>
+<ul>
+<li><p><strong>How it works:</strong> The Master latch is driven by the regular clock, while the Slave latch is driven by an inverted clock.</p></li>
+<li><p><strong>The Edge Effect:</strong> When the clock transitions from LOW to HIGH (Positive Edge), the Master locks its state and the Slave briefly opens to pass the output to <span class="math inline">\(Q\)</span>.</p></li>
+<li><p>Because the feedback loop to <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> comes from the Slave (which only updates exactly at the clock edge), continuous toggling while the clock is HIGH is mechanically impossible.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="excitation-tables-the-blueprint-for-sequential-design" class="level2">
+<h2 class="anchored" data-anchor-id="excitation-tables-the-blueprint-for-sequential-design">2. Excitation Tables: The Blueprint for Sequential Design</h2>
+<p>For combinational circuits, we use <strong>Truth Tables</strong> to map current inputs to current outputs. For sequential circuits, we use <strong>Excitation Tables</strong> to map the <em>desired transition</em> (from Present State to Next State) to the <em>required inputs</em>.</p>
+<section id="jk-flip-flop-excitation-table" class="level3">
+<h3 class="anchored" data-anchor-id="jk-flip-flop-excitation-table">JK Flip-Flop Excitation Table</h3>
+<p>When designing a circuit, you look at what your Flip-Flop <em>is</em> currently outputting (<span class="math inline">\(Q(t)\)</span>) and what you <em>want</em> it to output next (<span class="math inline">\(Q(t+1)\)</span>), then look up the required <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> inputs.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Present State (<span class="math inline">\(Q_t\)</span>)</th>
+<th>Next State (<span class="math inline">\(Q_{t+1}\)</span>)</th>
+<th>Required <span class="math inline">\(J\)</span></th>
+<th>Required <span class="math inline">\(K\)</span></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>X</strong></td>
+<td>Can be achieved by <em>Holding</em> (<span class="math inline">\(00\)</span>) or <em>Resetting</em> (<span class="math inline">\(01\)</span>). Therefore, <span class="math inline">\(J\)</span> must be <span class="math inline">\(0\)</span>, <span class="math inline">\(K\)</span> is Don’t Care (<span class="math inline">\(X\)</span>).</td>
+</tr>
+<tr class="even">
+<td><strong>0</strong></td>
+<td><strong>1</strong></td>
+<td><strong>1</strong></td>
+<td><strong>X</strong></td>
+<td>Can be achieved by <em>Setting</em> (<span class="math inline">\(10\)</span>) or <em>Toggling</em> (<span class="math inline">\(11\)</span>). Therefore, <span class="math inline">\(J\)</span> must be <span class="math inline">\(1\)</span>, <span class="math inline">\(K\)</span> is Don’t Care (<span class="math inline">\(X\)</span>).</td>
+</tr>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+<td><strong>X</strong></td>
+<td><strong>1</strong></td>
+<td>Can be achieved by <em>Resetting</em> (<span class="math inline">\(01\)</span>) or <em>Toggling</em> (<span class="math inline">\(11\)</span>). Therefore, <span class="math inline">\(J\)</span> is Don’t Care (<span class="math inline">\(X\)</span>), <span class="math inline">\(K\)</span> must be <span class="math inline">\(1\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td><strong>1</strong></td>
+<td><strong>X</strong></td>
+<td><strong>0</strong></td>
+<td>Can be achieved by <em>Holding</em> (<span class="math inline">\(00\)</span>) or <em>Setting</em> (<span class="math inline">\(10\)</span>). Therefore, <span class="math inline">\(J\)</span> is Don’t Care (<span class="math inline">\(X\)</span>), <span class="math inline">\(K\)</span> must be <span class="math inline">\(0\)</span>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="systematic-design-of-synchronous-sequential-circuits" class="level2">
+<h2 class="anchored" data-anchor-id="systematic-design-of-synchronous-sequential-circuits">3. Systematic Design of Synchronous Sequential Circuits</h2>
+<p>To build a custom sequential circuit (like a specific pattern generator or a counter), follow this strict multi-step methodology.</p>
+<section id="step-1-identify-unique-states-ordering" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-identify-unique-states-ordering">Step 1: Identify Unique States &amp; Ordering</h3>
+<p>Determine the exact sequence of outputs required by the problem.</p>
+<ul>
+<li><p><em>Example:</em> A “Poor Man’s Tesla” turn signal uses 3 LEDs that light up sequentially.</p></li>
+<li><p><strong>Sequence:</strong> <span class="math inline">\(000 \to 001 \to 011 \to 111 \to \text{Repeat}\)</span>.</p></li>
+</ul>
+</section>
+<section id="step-2-define-the-state-transition-table" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-define-the-state-transition-table">Step 2: Define the State Transition Table</h3>
+<p>Create a table listing the Present State and the required Next State for the entire sequence. Assign one Flip-Flop (<span class="math inline">\(FF\)</span>) to each bit of the state.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Present State (<span class="math inline">\(Q_3 Q_2 Q_1\)</span>)</th>
+<th>Next State (<span class="math inline">\(Q_3 Q_2 Q_1\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0 0 0</td>
+<td>0 0 1</td>
+</tr>
+<tr class="even">
+<td>0 0 1</td>
+<td>0 1 1</td>
+</tr>
+<tr class="odd">
+<td>0 1 1</td>
+<td>1 1 1</td>
+</tr>
+<tr class="even">
+<td>1 1 1</td>
+<td>0 0 0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-3-determine-required-flip-flop-inputs" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-determine-required-flip-flop-inputs">Step 3: Determine Required Flip-Flop Inputs</h3>
+<p>Using the Excitation Table from Section 2, determine the required <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> inputs for <em>each</em> flip-flop to achieve the desired transition from Present to Next state.</p>
+<ul>
+<li><p><em>Example for <span class="math inline">\(FF_1\)</span> (Looking only at bit <span class="math inline">\(Q_1\)</span>):</em></p></li>
+<li><p>Transition from <code>000</code> to <code>001</code>: <span class="math inline">\(Q_1\)</span> goes <span class="math inline">\(0 \to 1\)</span>. Excitation table requires <span class="math inline">\(J_1=1, K_1=X\)</span>.</p></li>
+<li><p>Transition from <code>001</code> to <code>011</code>: <span class="math inline">\(Q_1\)</span> goes <span class="math inline">\(1 \to 1\)</span>. Excitation table requires <span class="math inline">\(J_1=X, K_1=0\)</span>.</p></li>
+</ul>
+</section>
+<section id="step-4-combinational-logic-minimization-k-maps" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-combinational-logic-minimization-k-maps">Step 4: Combinational Logic Minimization (K-Maps)</h3>
+<p>Treat the Present State (<span class="math inline">\(Q_3, Q_2, Q_1\)</span>) as the <em>inputs</em> to a combinational logic problem, and the required <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> values as the <em>outputs</em>.</p>
+<ol type="1">
+<li><p>Draw Karnaugh Maps for <span class="math inline">\(J_1, K_1, J_2, K_2\)</span>, etc.</p></li>
+<li><p>Use the Don’t Care (<span class="math inline">\(X\)</span>) conditions heavily to maximize group sizes and minimize the required logic gates.</p></li>
+<li><p>Derive the final minimized Boolean expressions.</p></li>
+</ol>
+<ul>
+<li><em>Example Result:</em> <span class="math inline">\(J_1 = Q_2 \cdot Q_3\)</span>, <span class="math inline">\(K_1 = 1\)</span>.</li>
+</ul>
+</section>
+<section id="step-5-hardware-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-hardware-implementation">Step 5: Hardware Implementation</h3>
+<p>Draw the final circuit.</p>
+<ol type="1">
+<li><p>Place the required number of Flip-Flops.</p></li>
+<li><p>Connect a single, common Clock to all Flip-Flops (ensuring synchronous operation).</p></li>
+<li><p>Wire the minimized combinational logic (derived in Step 4) to feed the correct feedback signals from the <span class="math inline">\(Q\)</span> outputs back into the <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> inputs.</p></li>
+</ol>
+</section>
+</section>
+<section id="state-vs.-output-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="state-vs.-output-optimization">4. State vs.&nbsp;Output Optimization</h2>
+<p>When designing sequential circuits, it is crucial to separate the concept of internal <strong>State</strong> from the final visible <strong>Output</strong>.</p>
+<ul>
+<li><p><strong>Direct Mapping (Inefficient):</strong> Assuming the output pattern <em>is</em> the internal state. In the 3-LED example above, representing the 4 sequence steps directly required 3 Flip-Flops (<span class="math inline">\(Q_3, Q_2, Q_1\)</span>).</p></li>
+<li><p><strong>Encoded State Mapping (Optimized):</strong> Since there are only 4 unique steps in the sequence (<span class="math inline">\(A, B, C, D\)</span>), they can be internally encoded using just <strong>2 Flip-Flops</strong> (<span class="math inline">\(2^2 = 4\)</span> states).</p></li>
+<li><p>The 2 Flip-Flops cycle through states <span class="math inline">\(00 \to 01 \to 10 \to 11\)</span>.</p></li>
+<li><p>A separate, simple combinational logic block translates these internal 2-bit states into the required 3-bit LED outputs.</p></li>
+<li><p>This approach heavily reduces the number of expensive sequential elements (Flip-Flops) required in the final hardware.</p></li>
+</ul>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>week-3 – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-3.html">Week-3</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -299,7 +326,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
+  <a href="./Week-3.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week-3</span></a>
   </div>
 </li>
@@ -385,35 +412,328 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-3-canonical-pos-universal-gates-circuit-optimization" id="toc-week-3-canonical-pos-universal-gates-circuit-optimization" class="nav-link active" data-scroll-target="#week-3-canonical-pos-universal-gates-circuit-optimization">Week 3: Canonical POS, Universal Gates &amp; Circuit Optimization</a>
+  <ul class="collapse">
+  <li><a href="#product-of-sums-pos-canonical-form" id="toc-product-of-sums-pos-canonical-form" class="nav-link" data-scroll-target="#product-of-sums-pos-canonical-form">1. Product of Sums (POS) Canonical Form</a>
+  <ul class="collapse">
+  <li><a href="#key-concepts-notation" id="toc-key-concepts-notation" class="nav-link" data-scroll-target="#key-concepts-notation">Key Concepts &amp; Notation</a></li>
+  <li><a href="#example-truth-table-to-pos-construction" id="toc-example-truth-table-to-pos-construction" class="nav-link" data-scroll-target="#example-truth-table-to-pos-construction">Example: Truth Table to POS Construction</a></li>
+  <li><a href="#sop-leftrightarrow-pos-conversions" id="toc-sop-leftrightarrow-pos-conversions" class="nav-link" data-scroll-target="#sop-leftrightarrow-pos-conversions">SOP <span class="math inline">\(\leftrightarrow\)</span> POS Conversions</a></li>
+  </ul></li>
+  <li><a href="#universal-gates-nand-nor" id="toc-universal-gates-nand-nor" class="nav-link" data-scroll-target="#universal-gates-nand-nor">2. Universal Gates (NAND &amp; NOR)</a>
+  <ul class="collapse">
+  <li><a href="#why-prefer-nandnor-gates" id="toc-why-prefer-nandnor-gates" class="nav-link" data-scroll-target="#why-prefer-nandnor-gates">Why Prefer NAND/NOR Gates?</a></li>
+  <li><a href="#converting-two-level-logic-to-universal-gate-implementations" id="toc-converting-two-level-logic-to-universal-gate-implementations" class="nav-link" data-scroll-target="#converting-two-level-logic-to-universal-gate-implementations">Converting Two-Level Logic to Universal Gate Implementations</a></li>
+  </ul></li>
+  <li><a href="#multilevel-logic-vs.-two-level-logic" id="toc-multilevel-logic-vs.-two-level-logic" class="nav-link" data-scroll-target="#multilevel-logic-vs.-two-level-logic">3. Multilevel Logic vs.&nbsp;Two-Level Logic</a>
+  <ul class="collapse">
+  <li><a href="#decomposing-multi-input-gates" id="toc-decomposing-multi-input-gates" class="nav-link" data-scroll-target="#decomposing-multi-input-gates">Decomposing Multi-Input Gates</a></li>
+  </ul></li>
+  <li><a href="#canonical-vs.-minimal-forms-worked-example" id="toc-canonical-vs.-minimal-forms-worked-example" class="nav-link" data-scroll-target="#canonical-vs.-minimal-forms-worked-example">4. Canonical vs.&nbsp;Minimal Forms: Worked Example</a>
+  <ul class="collapse">
+  <li><a href="#algebraic-simplification-steps" id="toc-algebraic-simplification-steps" class="nav-link" data-scroll-target="#algebraic-simplification-steps">Algebraic Simplification Steps</a></li>
+  <li><a href="#hardware-resource-reduction" id="toc-hardware-resource-reduction" class="nav-link" data-scroll-target="#hardware-resource-reduction">Hardware Resource Reduction</a></li>
+  </ul></li>
+  <li><a href="#circuit-analysis-optimization-techniques" id="toc-circuit-analysis-optimization-techniques" class="nav-link" data-scroll-target="#circuit-analysis-optimization-techniques">5. Circuit Analysis &amp; Optimization Techniques</a>
+  <ul class="collapse">
+  <li><a href="#analyzing-timing-diagrams" id="toc-analyzing-timing-diagrams" class="nav-link" data-scroll-target="#analyzing-timing-diagrams">Analyzing Timing Diagrams</a></li>
+  <li><a href="#handling-dont-care-conditions-x" id="toc-handling-dont-care-conditions-x" class="nav-link" data-scroll-target="#handling-dont-care-conditions-x">Handling “Don’t Care” Conditions (<span class="math inline">\(X\)</span>)</a></li>
+  <li><a href="#netlist-reduction-example" id="toc-netlist-reduction-example" class="nav-link" data-scroll-target="#netlist-reduction-example">Netlist Reduction Example</a></li>
+  <li><a href="#application-puzzle-the-3-door-light-switch-system" id="toc-application-puzzle-the-3-door-light-switch-system" class="nav-link" data-scroll-target="#application-puzzle-the-3-door-light-switch-system">Application Puzzle: The 3-Door Light Switch System</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="week-3-canonical-pos-universal-gates-circuit-optimization" class="level1">
+<h1>Week 3: Canonical POS, Universal Gates &amp; Circuit Optimization</h1>
+<section id="product-of-sums-pos-canonical-form" class="level2">
+<h2 class="anchored" data-anchor-id="product-of-sums-pos-canonical-form">1. Product of Sums (POS) Canonical Form</h2>
+<p>The <strong>Product of Sums (POS)</strong> representation is a canonical form constructed as a logical product (AND) of <strong>Maxterms</strong>. While Sum of Products (SOP) focuses on truth table outputs equal to <span class="math inline">\(1\)</span>, POS constructs equations from rows where the output is <span class="math inline">\(0\)</span>.</p>
+<section id="key-concepts-notation" class="level3">
+<h3 class="anchored" data-anchor-id="key-concepts-notation">Key Concepts &amp; Notation</h3>
+<ul>
+<li><p><strong>Maxterm (<span class="math inline">\(M_i\)</span>):</strong> A logical sum (OR) of all input literals in a function where the output equals <span class="math inline">\(0\)</span>.</p></li>
+<li><p><strong>Literal Assignment Convention for Maxterms:</strong></p></li>
+<li><p>Input bit <span class="math inline">\(= 0 \implies\)</span> True variable (<span class="math inline">\(X\)</span>).</p></li>
+<li><p>Input bit <span class="math inline">\(= 1 \implies\)</span> Complemented variable (<span class="math inline">\(\bar{X}\)</span>).</p></li>
+<li><p><strong>Shorthand Notation (<span class="math inline">\(\prod M\)</span>):</strong> Uses the product symbol <span class="math inline">\(\prod\)</span> with uppercase <span class="math inline">\(M\)</span> to list row indices where <span class="math inline">\(F = 0\)</span>.</p></li>
+</ul>
+<p><span class="math display">\[\text{POS Expression: } F(A, B, C) = \prod M(i_1, i_2, \dots)\]</span></p>
+<hr>
+</section>
+<section id="example-truth-table-to-pos-construction" class="level3">
+<h3 class="anchored" data-anchor-id="example-truth-table-to-pos-construction">Example: Truth Table to POS Construction</h3>
+<p>Given a 3-variable system (<span class="math inline">\(A, B, C\)</span>):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Row (<span class="math inline">\(i\)</span>)</th>
+<th><span class="math inline">\(A\)</span></th>
+<th><span class="math inline">\(B\)</span></th>
+<th><span class="math inline">\(C\)</span></th>
+<th>Output (<span class="math inline">\(F\)</span>)</th>
+<th>Maxterm (<span class="math inline">\(M_i\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><span class="math inline">\(A + B + C\)</span><br></td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+<td><span class="math inline">\(A + B + \bar{C}\)</span><br></td>
+</tr>
+<tr class="odd">
+<td><strong>2</strong></td>
+<td><strong>0</strong></td>
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><span class="math inline">\(A + \bar{B} + C\)</span><br></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Canonical POS Form:</strong></li>
+</ul>
+<p><span class="math display">\[F(A, B, C) = (A + B + C)(A + B + \bar{C})(A + \bar{B} + C)\]</span></p>
+<p><span class="math display">\[F(A, B, C) = \prod M(0, 1, 2)\]</span></p>
+</section>
+<section id="sop-leftrightarrow-pos-conversions" class="level3">
+<h3 class="anchored" data-anchor-id="sop-leftrightarrow-pos-conversions">SOP <span class="math inline">\(\leftrightarrow\)</span> POS Conversions</h3>
+<p>For an <span class="math inline">\(n\)</span>-variable function with <span class="math inline">\(2^n\)</span> total rows:</p>
+<ol type="1">
+<li><p><strong>Index Complementarity:</strong> If <span class="math inline">\(F = \sum m(3, 4, 5, 6, 7)\)</span>, then <span class="math inline">\(F = \prod M(0, 1, 2)\)</span>.</p></li>
+<li><p><strong>De Morgan’s Duality:</strong> The POS of a function <span class="math inline">\(F\)</span> is mathematically equivalent to applying De Morgan’s Law to the SOP expansion of <span class="math inline">\(\bar{F}\)</span>:</p></li>
+</ol>
+<p><span class="math display">\[F = \prod M_k = \overline{\sum m_k(\text{where } F = 0)}\]</span></p>
+<hr>
+</section>
+</section>
+<section id="universal-gates-nand-nor" class="level2">
+<h2 class="anchored" data-anchor-id="universal-gates-nand-nor">2. Universal Gates (NAND &amp; NOR)</h2>
+<p>A gate type is <strong>Universal</strong> if any Boolean function can be implemented using <em>only</em> that specific gate type, eliminating the need for separate AND, OR, and NOT gates.</p>
+<pre><code>                  ┌─────────┐
+                  │   AND   │
+   Universal ───► │   OR    │
+    Gates         │   NOT   │
+                  └─────────┘
+</code></pre>
+<section id="why-prefer-nandnor-gates" class="level3">
+<h3 class="anchored" data-anchor-id="why-prefer-nandnor-gates">Why Prefer NAND/NOR Gates?</h3>
+<ul>
+<li><p><strong>CMOS Manufacturing:</strong> NAND gates are easier to fabricate on silicon dies, take less physical area, and exhibit superior power-delay characteristics.</p></li>
+<li><p><strong>Homogeneity:</strong> Using a single gate type across a circuit reduces design variability and timing asynchronous mismatches.</p></li>
+</ul>
+<hr>
+</section>
+<section id="converting-two-level-logic-to-universal-gate-implementations" class="level3">
+<h3 class="anchored" data-anchor-id="converting-two-level-logic-to-universal-gate-implementations">Converting Two-Level Logic to Universal Gate Implementations</h3>
+<section id="and-or-sop-longrightarrow-nand-nand" class="level4">
+<h4 class="anchored" data-anchor-id="and-or-sop-longrightarrow-nand-nand">1. AND-OR (SOP) <span class="math inline">\(\longrightarrow\)</span> NAND-NAND</h4>
+<p>Applying De Morgan’s law twice converts an AND-OR SOP network directly into a 2-level NAND-NAND structure:</p>
+<p><span class="math display">\[\bar{\bar{F}} = \overline{\overline{P_1 + P_2 + \dots}} = \overline{\bar{P_1} \cdot \bar{P_2} \cdots}\]</span></p>
+<pre><code>  Standard SOP (AND-OR):              Universal (NAND-NAND):
+  Level 1: AND Gates                   Level 1: NAND Gates
+  Level 2: OR Gate      ──► Equivalent ──► Level 2: NAND Gate
+</code></pre>
+</section>
+<section id="or-and-pos-longrightarrow-nor-nor" class="level4">
+<h4 class="anchored" data-anchor-id="or-and-pos-longrightarrow-nor-nor">2. OR-AND (POS) <span class="math inline">\(\longrightarrow\)</span> NOR-NOR</h4>
+<p>Similarly, a 2-level OR-AND POS structure converts directly into a 2-level NOR-NOR logic network.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="multilevel-logic-vs.-two-level-logic" class="level2">
+<h2 class="anchored" data-anchor-id="multilevel-logic-vs.-two-level-logic">3. Multilevel Logic vs.&nbsp;Two-Level Logic</h2>
+<p>While SOP and POS guarantee two-level gate depth, expanding equations into <strong>Multilevel Logic Networks</strong> (&gt; 2 gate stages) alters physical layout trade-offs.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Two-Level Logic (SOP / POS)</th>
+<th>Multilevel Logic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Gate Count / Area</strong></td>
+<td>Higher gate count; larger area</td>
+<td>Compact; lower logic gate count</td>
+</tr>
+<tr class="even">
+<td><strong>Cost &amp; Power</strong></td>
+<td>Higher power consumption</td>
+<td>Lower overall cost and power</td>
+</tr>
+<tr class="odd">
+<td><strong>Propagation Delay</strong></td>
+<td>Low latency (<span class="math inline">\(2\Delta\)</span> depth)</td>
+<td>Higher cumulative gate delay (<span class="math inline">\(&gt; 2\Delta\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<section id="decomposing-multi-input-gates" class="level3">
+<h3 class="anchored" data-anchor-id="decomposing-multi-input-gates">Decomposing Multi-Input Gates</h3>
+<p>When physical hardware limits gate fan-in (e.g., executing a 4-input AND with 2-input gates), implementation structure impacts speed:</p>
+<pre><code>Serial Cascading (High Delay):            Parallel Tree (Low Delay):
+   A ──┐                                     A ──┐
+       ├──[AND]──┐                               ├──[AND]──┐
+   B ──┘         │                           B ──┘         │
+                 ├──[AND]──┐                               ├──[AND]──► Output
+   C ────────────┘         │                 C ──┐         │
+                           ├──[AND]──►       │   ├──[AND]──┘
+   D ──────────────────────┘                 D ──┘
+   Delay = 3Δ                                Delay = 2Δ
+</code></pre>
+<ul>
+<li><p><strong>Serial Decomposition:</strong> Adds gates sequentially, yielding <span class="math inline">\(N - 1\)</span> gate delays (<span class="math inline">\(3\Delta\)</span>).</p></li>
+<li><p><strong>Parallel Tree (Divide-and-Conquer):</strong> Evaluates terms concurrently, scaling latency to <span class="math inline">\(\lceil \log_2 N \rceil \Delta\)</span> (<span class="math inline">\(2\Delta\)</span>).</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="canonical-vs.-minimal-forms-worked-example" class="level2">
+<h2 class="anchored" data-anchor-id="canonical-vs.-minimal-forms-worked-example">4. Canonical vs.&nbsp;Minimal Forms: Worked Example</h2>
+<p>Canonical expressions provide a baseline, unoptimized implementation. Algebraic reduction yields significant resource savings.</p>
+<p>Given canonical SOP function:</p>
+<p><span class="math display">\[F(A, B, C) = \sum m(3, 4, 5, 6, 7) = \bar{A}BC + A\bar{B}\bar{C} + A\bar{B}C + AB\bar{C} + ABC\]</span></p>
+<section id="algebraic-simplification-steps" class="level3">
+<h3 class="anchored" data-anchor-id="algebraic-simplification-steps">Algebraic Simplification Steps</h3>
+<p><span class="math display">\[\begin{aligned} F &amp;= \bar{A}BC + A\bar{B}(\bar{C} + C) + AB(\bar{C} + C) &amp;&amp; \text{(Distributive Law)}[cite: 15] \\ &amp;= \bar{A}BC + A\bar{B}(1) + AB(1) &amp;&amp; \text{(Complementarity: } X + \bar{X} = 1\text{)}[cite: 15] \\ &amp;= \bar{A}BC + A(\bar{B} + B) &amp;&amp; \text{(Distributive Law)}[cite: 15] \\ &amp;= \bar{A}BC + A(1) = A + \bar{A}BC &amp;&amp; \text{(Identity)}[cite: 15] \\ &amp;= A + BC &amp;&amp; \text{(Elimination Law: } X + \bar{X}Y = X + Y\text{)}[cite: 15] \end{aligned}\]</span></p>
+</section>
+<section id="hardware-resource-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="hardware-resource-reduction">Hardware Resource Reduction</h3>
+<pre><code>Canonical Realization:                     Minimized Realization:
+• 5 × 3-input AND Gates                    • 1 × 2-input AND Gate
+• 1 × 5-input OR Gate       ──► Saves ──►  • 1 × 2-input OR Gate
+• 3 × NOT Gates                        • 0 × NOT Gates
+</code></pre>
+<hr>
+</section>
+</section>
+<section id="circuit-analysis-optimization-techniques" class="level2">
+<h2 class="anchored" data-anchor-id="circuit-analysis-optimization-techniques">5. Circuit Analysis &amp; Optimization Techniques</h2>
+<section id="analyzing-timing-diagrams" class="level3">
+<h3 class="anchored" data-anchor-id="analyzing-timing-diagrams">Analyzing Timing Diagrams</h3>
+<p>Timing diagrams depict binary logic signals over time intervals.</p>
+<pre><code>        Chunk 1   Chunk 2   Chunk 3   Chunk 4
+X1   : ────0──── │ ────0──── │ ────1──── │ ────1────
+X2   : ────0──── │ ────1──── │ ────0──── │ ────1────
+F    : ────1──── │ ────1──── │ ────0──── │ ────1────
+Row  :     m0         m1         m2         m3
+</code></pre>
+<p>Extracting functional terms gives:</p>
+<p><span class="math display">\[F = \bar{X}_1\bar{X}_2 + \bar{X}_1 X_2 + X_1 X_2 = \sum m(0, 1, 3)\]</span></p>
+<hr>
+</section>
+<section id="handling-dont-care-conditions-x" class="level3">
+<h3 class="anchored" data-anchor-id="handling-dont-care-conditions-x">Handling “Don’t Care” Conditions (<span class="math inline">\(X\)</span>)</h3>
+<p>When certain input combinations cannot occur or output states do not impact system performance, they are designated as <strong>Don’t Care (<span class="math inline">\(X\)</span>)</strong> conditions.</p>
+<ul>
+<li>In truth tables, <span class="math inline">\(X\)</span> terms can be set flexibly to either <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> during simplification to maximize term cancellation.</li>
+</ul>
+<hr>
+</section>
+<section id="netlist-reduction-example" class="level3">
+<h3 class="anchored" data-anchor-id="netlist-reduction-example">Netlist Reduction Example</h3>
+<p>Analyzing a given multi-gate netlist yields:</p>
+<p><span class="math display">\[F = X_1 X_2 + \bar{X}_1 X_2 + \bar{X}_1 \bar{X}_2\]</span></p>
+<p>Algebraic minimization:</p>
+<p><span class="math display">\[F = X_2(X_1 + \bar{X}_1) + \bar{X}_1 \bar{X}_2 = X_2 + \bar{X}_1 \bar{X}_2 = \bar{X}_1 + X_2\]</span></p>
+<pre><code> Unoptimized Netlist (3 AND + 1 OR)         Optimized Netlist (1 NOT + 1 OR)
+           ┌─────┐                                     ┌─────┐
+ X1, X2 ──►│ AND │──┐                                  │     │
+           └─────┘  │  ┌────┐             X1 ──[NOT]──►│ OR  ├──► F
+ X1̄, X2 ──►[ AND ]──┼─►│ OR │──► F                     │     │
+           [ AND ]──┘  └────┘             X2 ─────────►│     │
+ X1̄, X2̄ ──►└─────┘                                     └─────┘
+</code></pre>
+<hr>
+</section>
+<section id="application-puzzle-the-3-door-light-switch-system" class="level3">
+<h3 class="anchored" data-anchor-id="application-puzzle-the-3-door-light-switch-system">Application Puzzle: The 3-Door Light Switch System</h3>
+<ul>
+<li><p><strong>Problem:</strong> A single room contains 1 light bulb and 3 independent door switches. Toggling <em>any</em> single switch must invert the light bulb’s current state.</p></li>
+<li><p><strong>System Type:</strong> Memoryless combinational logic implementing odd parity across inputs.</p></li>
+</ul>
+<pre><code>  Switches (S1, S2, S3) ──► [ Combinational Logic ] ──► Bulb State (L)
+</code></pre>
+<p>Truth Table Formulation:</p>
+<p><span class="math display">\[L(S_1, S_2, S_3) = S_1 \oplus S_2 \oplus S_3 = \sum m(1, 2, 4, 7)\]</span></p>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>week-1 – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -249,9 +278,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-1.html">Week-1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -287,7 +314,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
+  <a href="./Week-1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week-1</span></a>
   </div>
 </li>
@@ -385,35 +412,184 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-1-foundations-digital-logic-basics" id="toc-week-1-foundations-digital-logic-basics" class="nav-link active" data-scroll-target="#week-1-foundations-digital-logic-basics">Week 1: Foundations &amp; Digital Logic Basics</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-computer-systems-design" id="toc-introduction-to-computer-systems-design" class="nav-link" data-scroll-target="#introduction-to-computer-systems-design">1. Introduction to Computer Systems Design</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-computer-system" id="toc-what-is-a-computer-system" class="nav-link" data-scroll-target="#what-is-a-computer-system">What is a Computer System?</a></li>
+  </ul></li>
+  <li><a href="#the-transformation-hierarchy-building-blocks" id="toc-the-transformation-hierarchy-building-blocks" class="nav-link" data-scroll-target="#the-transformation-hierarchy-building-blocks">2. The Transformation Hierarchy &amp; Building Blocks</a>
+  <ul class="collapse">
+  <li><a href="#system-hierarchy-bottom-up-abstraction" id="toc-system-hierarchy-bottom-up-abstraction" class="nav-link" data-scroll-target="#system-hierarchy-bottom-up-abstraction">System Hierarchy (Bottom-Up Abstraction)</a></li>
+  </ul></li>
+  <li><a href="#information-representation-analog-vs.-digital" id="toc-information-representation-analog-vs.-digital" class="nav-link" data-scroll-target="#information-representation-analog-vs.-digital">3. Information Representation: Analog vs.&nbsp;Digital</a>
+  <ul class="collapse">
+  <li><a href="#physical-encoding-choices" id="toc-physical-encoding-choices" class="nav-link" data-scroll-target="#physical-encoding-choices">Physical Encoding Choices</a></li>
+  <li><a href="#the-binary-digital-system-abstraction" id="toc-the-binary-digital-system-abstraction" class="nav-link" data-scroll-target="#the-binary-digital-system-abstraction">The Binary Digital System Abstraction</a></li>
+  </ul></li>
+  <li><a href="#binary-positional-number-representation" id="toc-binary-positional-number-representation" class="nav-link" data-scroll-target="#binary-positional-number-representation">4. Binary Positional Number Representation</a>
+  <ul class="collapse">
+  <li><a href="#positional-evaluation-formula" id="toc-positional-evaluation-formula" class="nav-link" data-scroll-target="#positional-evaluation-formula">Positional Evaluation Formula</a></li>
+  </ul></li>
+  <li><a href="#prelude-to-digital-logic-design" id="toc-prelude-to-digital-logic-design" class="nav-link" data-scroll-target="#prelude-to-digital-logic-design">5. Prelude to Digital Logic Design</a>
+  <ul class="collapse">
+  <li><a href="#boolean-algebra-circuit-design" id="toc-boolean-algebra-circuit-design" class="nav-link" data-scroll-target="#boolean-algebra-circuit-design">Boolean Algebra &amp; Circuit Design</a></li>
+  <li><a href="#design-goal" id="toc-design-goal" class="nav-link" data-scroll-target="#design-goal">Design Goal</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="week-1-foundations-digital-logic-basics" class="level1">
+<h1>Week 1: Foundations &amp; Digital Logic Basics</h1>
+<section id="introduction-to-computer-systems-design" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-computer-systems-design">1. Introduction to Computer Systems Design</h2>
+<section id="what-is-a-computer-system" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-computer-system">What is a Computer System?</h3>
+<p>A computer system consists of internal digital processing units (CPUs) that execute instructions or programs.</p>
+<ul>
+<li><p><strong>Spectrum of Complexity:</strong> Ranges from fixed/pre-programmed embedded microcontrollers (e.g., washing machines, smart thermometers) to multi-sensor compute-intensive devices (e.g., smartphones, drones, self-driving cars).</p></li>
+<li><p><strong>Core Abstraction (Von Neumann Architecture):</strong></p></li>
+<li><p><strong>Computing Unit (CPU):</strong> Processes data via arithmetic and logical operations.</p></li>
+<li><p><strong>Storage Unit:</strong> Houses temporary data (RAM, registers) and persistent data (hard disks).</p></li>
+<li><p><strong>Communication Unit:</strong> Transfers data between storage and compute units via read/write operations or networks.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="the-transformation-hierarchy-building-blocks" class="level2">
+<h2 class="anchored" data-anchor-id="the-transformation-hierarchy-building-blocks">2. The Transformation Hierarchy &amp; Building Blocks</h2>
+<p>Computers solve complex computational problems by manipulating physical phenomena (electrons) through structured abstraction layers.</p>
+<pre><code>  [ Computational Problem / Algorithm ]
+                   │
+    [ High-Level Language (C++, Python) ]
+                   │
+      [ System Software (Compiler, OS) ]
+                   │
+    [ Hardware/Software Interface (ISA) ]
+                   │
+           [ Microarchitecture ]
+                   │
+         [ Digital Logic Circuits ]
+                   │
+        [ Microelectronic Devices ]  (Transistors, Diodes)
+                   │
+               [ Electrons ]
+</code></pre>
+<section id="system-hierarchy-bottom-up-abstraction" class="level3">
+<h3 class="anchored" data-anchor-id="system-hierarchy-bottom-up-abstraction">System Hierarchy (Bottom-Up Abstraction)</h3>
+<ol type="1">
+<li><p><strong>Transistors:</strong> Electronic switches operating in <code>ON</code> (closed, current flows) or <code>OFF</code> (open, current restricted) states.</p></li>
+<li><p><strong>Logic Gates:</strong> Transistor combinations implementing primitive logical operations (AND, OR, NOT, XOR).</p></li>
+<li><p><strong>Cells &amp; Modules:</strong> Gate collections performing specific tasks (e.g., Adders, Multipliers).</p></li>
+<li><p><strong>Integrated Circuits (ICs) &amp; PCBs:</strong> Packaging thousands to billions of transistors onto silicon dies and printed circuit boards.</p></li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Historical Context — Moore’s Law:</strong> Observation by Gordon Moore (1965) that transistor density on dense ICs doubles approximately every two years. In modern computing, physical limits like power dissipation and heat have led to the post-Moore era.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="information-representation-analog-vs.-digital" class="level2">
+<h2 class="anchored" data-anchor-id="information-representation-analog-vs.-digital">3. Information Representation: Analog vs.&nbsp;Digital</h2>
+<section id="physical-encoding-choices" class="level3">
+<h3 class="anchored" data-anchor-id="physical-encoding-choices">Physical Encoding Choices</h3>
+<ul>
+<li><p><strong>Electrical Voltage</strong> is the primary choice for information encoding due to continuous engineering history, ease of generation/detection, and low power in steady states.</p></li>
+<li><p><strong>Limitations of Analog Voltage Encoding:</strong></p></li>
+<li><p><strong>Continuous States:</strong> Analog signals can assume infinite voltage levels, making exact value retention impossible under hardware noise.</p></li>
+<li><p><strong>Accumulated Noise:</strong> Cascading multiple processing elements accumulates minor voltage degradations across the pipeline, distorting the final result.</p></li>
+</ul>
+<pre><code>Analog Pipeline:  Input V ──► [Copy] ──► V + Noise ──► [Invert] ──► Distorted Output
+</code></pre>
+<hr>
+</section>
+<section id="the-binary-digital-system-abstraction" class="level3">
+<h3 class="anchored" data-anchor-id="the-binary-digital-system-abstraction">The Binary Digital System Abstraction</h3>
+<p>Digital systems restore noisy inputs into discrete, legal values, preventing error accumulation across deep logic pipelines.</p>
+<section id="voltage-thresholding-schemes" class="level4">
+<h4 class="anchored" data-anchor-id="voltage-thresholding-schemes">Voltage Thresholding Schemes</h4>
+<ol type="1">
+<li><strong>Single Threshold (<span class="math inline">\(V_{th}\)</span>):</strong></li>
+</ol>
+<ul>
+<li><span class="math inline">\(V &gt; V_{th} \implies 1\)</span></li>
+<li><span class="math inline">\(V \le V_{th} \implies 0\)</span></li>
+<li><em>Issue:</em> Voltages near <span class="math inline">\(V_{th}\)</span> risk misclassification due to small environmental noise spikes.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Noise Margin / Band-Based Representation (Forbidden Zone):</strong></li>
+</ol>
+<ul>
+<li><p><span class="math inline">\(V \ge V_H \implies 1\)</span> (High)</p></li>
+<li><p><span class="math inline">\(V \le V_L \implies 0\)</span> (Low)</p></li>
+<li><p><span class="math inline">\(V_L &lt; V &lt; V_H \implies \text{Forbidden / Illegal Zone}\)</span> (Prevents false logic state transitions).</p></li>
+</ul>
+<pre><code>  5.0V ┌─────────────────────────┐  Logic 1 (HIGH)
+       │                         │
+  V_H  ├─────────────────────────┤
+       │     FORBIDDEN ZONE      │  (Illegal Region)
+  V_L  ├─────────────────────────┤
+       │                         │
+  0.0V └─────────────────────────┘  Logic 0 (LOW)
+</code></pre>
+<hr>
+</section>
+</section>
+</section>
+<section id="binary-positional-number-representation" class="level2">
+<h2 class="anchored" data-anchor-id="binary-positional-number-representation">4. Binary Positional Number Representation</h2>
+<p>A binary digital system uses base <span class="math inline">\(b = 2\)</span>. An <span class="math inline">\(n\)</span>-bit binary integer spans <span class="math inline">\(2^n\)</span> unique states (from <span class="math inline">\(0\)</span> to <span class="math inline">\(2^n - 1\)</span>).</p>
+<section id="positional-evaluation-formula" class="level3">
+<h3 class="anchored" data-anchor-id="positional-evaluation-formula">Positional Evaluation Formula</h3>
+<p>For an <span class="math inline">\(n\)</span>-bit binary sequence <span class="math inline">\(B = b_{n-1} b_{n-2} \dots b_1 b_0\)</span>:</p>
+<p><span class="math display">\[V(B) = \sum_{i=0}^{n-1} b_i \cdot 2^i\]</span></p>
+<ul>
+<li><p><strong>Least Significant Bit (LSB):</strong> Bit <span class="math inline">\(b_0\)</span> holding weight <span class="math inline">\(2^0\)</span>.</p></li>
+<li><p><strong>Most Significant Bit (MSB):</strong> Bit <span class="math inline">\(b_{n-1}\)</span> holding weight <span class="math inline">\(2^{n-1}\)</span>.</p></li>
+</ul>
+<section id="example-binary-to-decimal-conversion" class="level4">
+<h4 class="anchored" data-anchor-id="example-binary-to-decimal-conversion">Example: Binary to Decimal Conversion</h4>
+<p>Convert the binary number <span class="math inline">\((1011)_2\)</span> to decimal:</p>
+<p><span class="math display">\[\begin{aligned} (1011)_2 &amp;= (1 \cdot 2^3) + (0 \cdot 2^2) + (1 \cdot 2^1) + (1 \cdot 2^0) \\ &amp;= 8 + 0 + 2 + 1 \\ &amp;= (11)_{10} \end{aligned}\]</span></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="prelude-to-digital-logic-design" class="level2">
+<h2 class="anchored" data-anchor-id="prelude-to-digital-logic-design">5. Prelude to Digital Logic Design</h2>
+<section id="boolean-algebra-circuit-design" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-algebra-circuit-design">Boolean Algebra &amp; Circuit Design</h3>
+<ul>
+<li><p>Introduced by George Boole (1854) as a mathematical system for binary variable manipulation.</p></li>
+<li><p>Claude Shannon (1930s) connected Boolean algebra directly to switching circuits, forming the foundation of modern digital circuit design.</p></li>
+</ul>
+</section>
+<section id="design-goal" class="level3">
+<h3 class="anchored" data-anchor-id="design-goal">Design Goal</h3>
+<p>Given a computational specification:</p>
+<ol type="1">
+<li><p>Express logic parameters using <strong>Boolean Algebra</strong>.</p></li>
+<li><p>Minimize logic expressions for resource/power efficiency.</p></li>
+<li><p>Map functions into <strong>Combinational Logic</strong> or <strong>Sequential Logic</strong> networks using hardware logic gates.</p></li>
+</ol>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
