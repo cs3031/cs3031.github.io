@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>week-9 – CSD [CS3031]</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2f904ce0f39301baecb09c48ad690999.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-303c5975805164d195c888eb1d514ae1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2f904ce0f39301baecb09c48ad690999.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-9.html">Week-9</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">CSD [CS3031]</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-9.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week-9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Week-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-12</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Digital Logics For GATE</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Number_Systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Number Systems</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-9-sequential-circuit-optimization-counters-registers-memory-systems" id="toc-week-9-sequential-circuit-optimization-counters-registers-memory-systems" class="nav-link active" data-scroll-target="#week-9-sequential-circuit-optimization-counters-registers-memory-systems">Week 9: Sequential Circuit Optimization, Counters, Registers &amp; Memory Systems</a>
+  <ul class="collapse">
+  <li><a href="#state-optimization-decoupling-state-from-output" id="toc-state-optimization-decoupling-state-from-output" class="nav-link" data-scroll-target="#state-optimization-decoupling-state-from-output">1. State Optimization: Decoupling State from Output</a>
+  <ul class="collapse">
+  <li><a href="#optimization-formula" id="toc-optimization-formula" class="nav-link" data-scroll-target="#optimization-formula">Optimization Formula</a></li>
+  <li><a href="#step-by-step-optimization-calculation-3-led-sequence" id="toc-step-by-step-optimization-calculation-3-led-sequence" class="nav-link" data-scroll-target="#step-by-step-optimization-calculation-3-led-sequence">Step-by-Step Optimization Calculation: 3-LED Sequence</a></li>
+  </ul></li>
+  <li><a href="#synchronous-counter-design-methodology" id="toc-synchronous-counter-design-methodology" class="nav-link" data-scroll-target="#synchronous-counter-design-methodology">2. Synchronous Counter Design Methodology</a>
+  <ul class="collapse">
+  <li><a href="#complete-worked-example-3-bit-synchronous-down-counter" id="toc-complete-worked-example-3-bit-synchronous-down-counter" class="nav-link" data-scroll-target="#complete-worked-example-3-bit-synchronous-down-counter">Complete Worked Example: 3-Bit Synchronous Down Counter</a></li>
+  </ul></li>
+  <li><a href="#specialized-sequential-counters" id="toc-specialized-sequential-counters" class="nav-link" data-scroll-target="#specialized-sequential-counters">3. Specialized Sequential Counters</a>
+  <ul class="collapse">
+  <li><a href="#ring-counter" id="toc-ring-counter" class="nav-link" data-scroll-target="#ring-counter">1. Ring Counter</a></li>
+  <li><a href="#johnson-twisted-ring-counter" id="toc-johnson-twisted-ring-counter" class="nav-link" data-scroll-target="#johnson-twisted-ring-counter">2. Johnson (Twisted Ring) Counter</a></li>
+  <li><a href="#bcd-binary-coded-decimal-mod-10-counter" id="toc-bcd-binary-coded-decimal-mod-10-counter" class="nav-link" data-scroll-target="#bcd-binary-coded-decimal-mod-10-counter">3. BCD (Binary Coded Decimal / Mod-10) Counter</a></li>
+  <li><a href="#counter-types-comparison-table" id="toc-counter-types-comparison-table" class="nav-link" data-scroll-target="#counter-types-comparison-table">Counter Types Comparison Table</a></li>
+  </ul></li>
+  <li><a href="#registers-memory-array-architecture" id="toc-registers-memory-array-architecture" class="nav-link" data-scroll-target="#registers-memory-array-architecture">4. Registers &amp; Memory Array Architecture</a>
+  <ul class="collapse">
+  <li><a href="#memory-system-definitions" id="toc-memory-system-definitions" class="nav-link" data-scroll-target="#memory-system-definitions">Memory System Definitions</a></li>
+  <li><a href="#memory-readwrite-architecture" id="toc-memory-readwrite-architecture" class="nav-link" data-scroll-target="#memory-readwrite-architecture">Memory Read/Write Architecture</a></li>
+  </ul></li>
+  <li><a href="#shift-registers-applications" id="toc-shift-registers-applications" class="nav-link" data-scroll-target="#shift-registers-applications">5. Shift Registers &amp; Applications</a>
+  <ul class="collapse">
+  <li><a href="#arithmetic-shifting-rules" id="toc-arithmetic-shifting-rules" class="nav-link" data-scroll-target="#arithmetic-shifting-rules">Arithmetic Shifting Rules</a></li>
+  <li><a href="#parallel-in-serial-out-piso-shift-register" id="toc-parallel-in-serial-out-piso-shift-register" class="nav-link" data-scroll-target="#parallel-in-serial-out-piso-shift-register">Parallel-In / Serial-Out (PISO) Shift Register</a></li>
+  </ul></li>
+  <li><a href="#executive-summary-quick-recap" id="toc-executive-summary-quick-recap" class="nav-link" data-scroll-target="#executive-summary-quick-recap">6. Executive Summary / Quick Recap</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+
+<section id="week-9-sequential-circuit-optimization-counters-registers-memory-systems" class="level1">
+<h1>Week 9: Sequential Circuit Optimization, Counters, Registers &amp; Memory Systems</h1>
+<section id="state-optimization-decoupling-state-from-output" class="level2">
+<h2 class="anchored" data-anchor-id="state-optimization-decoupling-state-from-output">1. State Optimization: Decoupling State from Output</h2>
+<p>When designing sequential circuits, beginner designers often make the mistake of equating the <strong>internal machine states</strong> directly with the <strong>external physical outputs</strong>. Decoupling internal state tracking from external output logic significantly reduces expensive hardware components like flip-flops.</p>
+<pre class="text"><code>               ┌────────────────────────┐
+   Clock ─────►│  Internal State Logic  │ (k Flip-Flops)
+               │ (Tracks State Q1, Q0)  │
+               └───────────┬────────────┘
+                           │ 2-bit State
+                           ▼
+               ┌────────────────────────┐
+               │  Combinational Output  │ 
+               │   Decoder Logic Block  │
+               └───────────┬────────────┘
+                           │ 3-bit Physical Output
+                           ▼
+                       [ LEDs A, B, C ]
+</code></pre>
+<section id="optimization-formula" class="level3">
+<h3 class="anchored" data-anchor-id="optimization-formula">Optimization Formula</h3>
+<p>For a sequence requiring <span class="math inline">\(N\)</span> unique output patterns, the minimum number of flip-flops <span class="math inline">\(k\)</span> required is:</p>
+<p><span class="math display">\[k = \lceil \log_2 N \rceil\]</span></p>
+</section>
+<section id="step-by-step-optimization-calculation-3-led-sequence" class="level3">
+<h3 class="anchored" data-anchor-id="step-by-step-optimization-calculation-3-led-sequence">Step-by-Step Optimization Calculation: 3-LED Sequence</h3>
+<p>Consider the 3-LED tail light sequence: <span class="math inline">\(000 \to 001 \to 011 \to 111 \to 000\)</span>.</p>
+<ol type="1">
+<li><p><strong>Count Unique States (<span class="math inline">\(N\)</span>):</strong> There are <span class="math inline">\(N = 4\)</span> unique output patterns.</p></li>
+<li><p><strong>Calculate Required Flip-Flops (<span class="math inline">\(k\)</span>):</strong> <span class="math inline">\(k = \log_2(4) = 2\)</span> flip-flops (<span class="math inline">\(Q_1, Q_0\)</span>) instead of <span class="math inline">\(3\)</span> flip-flops.</p></li>
+<li><p><strong>Assign State Encodings:</strong> Encode the 4 states using 2 bits (<span class="math inline">\(00, 01, 10, 11\)</span>).</p></li>
+</ol>
+<section id="state-output-mapping-table" class="level4">
+<h4 class="anchored" data-anchor-id="state-output-mapping-table">State &amp; Output Mapping Table</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sequence Step</th>
+<th>Internal State (<span class="math inline">\(Q_1 Q_0\)</span>)</th>
+<th>Desired Output (<span class="math inline">\(A B C\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>State A</strong></td>
+<td>0 0</td>
+<td>0 0 0</td>
+</tr>
+<tr class="even">
+<td><strong>State B</strong></td>
+<td>0 1</td>
+<td>0 0 1</td>
+</tr>
+<tr class="odd">
+<td><strong>State C</strong></td>
+<td>1 0</td>
+<td>0 1 1</td>
+</tr>
+<tr class="even">
+<td><strong>State D</strong></td>
+<td>1 1</td>
+<td>1 1 1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-by-step-output-logic-derivation" class="level4">
+<h4 class="anchored" data-anchor-id="step-by-step-output-logic-derivation">Step-by-Step Output Logic Derivation</h4>
+<p>Treat <span class="math inline">\(Q_1, Q_0\)</span> as inputs to derive simple combinational equations for output lines <span class="math inline">\(A, B, C\)</span>:</p>
+<ul>
+<li><strong>Deriving Output <span class="math inline">\(A\)</span>:</strong></li>
+</ul>
+<p><span class="math display">\[A = m_3 = Q_1 Q_0\]</span></p>
+<ul>
+<li><strong>Deriving Output <span class="math inline">\(B\)</span>:</strong></li>
+</ul>
+<p><span class="math display">\[B = m_2 + m_3 = Q_1 \bar{Q}_0 + Q_1 Q_0 = Q_1(\bar{Q}_0 + Q_0) = Q_1\]</span></p>
+<ul>
+<li><strong>Deriving Output <span class="math inline">\(C\)</span>:</strong></li>
+</ul>
+<p><span class="math display">\[C = m_1 + m_2 + m_3 = \bar{Q}_1 Q_0 + Q_1 \bar{Q}_0 + Q_1 Q_0 = Q_1 + Q_0\]</span></p>
+<blockquote class="blockquote">
+<p>💡 <strong>PRO-TIP:</strong> Using 2 flip-flops plus 2 simple logic gates (<span class="math inline">\(\text{AND}, \text{OR}\)</span>) is drastically cheaper and consumes less silicon area than running 3 full flip-flops!</p>
+</blockquote>
+</section>
+</section>
+</section>
+<section id="synchronous-counter-design-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="synchronous-counter-design-methodology">2. Synchronous Counter Design Methodology</h2>
+<p>A <strong>Synchronous Counter</strong> drives all internal flip-flops using a single, shared clock signal, preventing propagation delays from accumulating across bit stages (unlike asynchronous/ripple counters).</p>
+<pre class="text"><code>               Shared Common Clock Line
+  CLK ─┬───────────────────┬───────────────────┐
+       │                   │                   │
+       ▼                   ▼                   ▼
+  ┌─────────┐         ┌─────────┐         ┌─────────┐
+  │  FF 2   │         │  FF 1   │         │  FF 0   │
+  └─────────┘         └─────────┘         └─────────┘
+</code></pre>
+<section id="complete-worked-example-3-bit-synchronous-down-counter" class="level3">
+<h3 class="anchored" data-anchor-id="complete-worked-example-3-bit-synchronous-down-counter">Complete Worked Example: 3-Bit Synchronous Down Counter</h3>
+<p>A 3-bit down counter counts backward continuously: <span class="math inline">\(7 \to 6 \to 5 \to 4 \to 3 \to 2 \to 1 \to 0 \to 7\)</span>.</p>
+<section id="step-1-complete-state-transition-d-flip-flop-table" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-complete-state-transition-d-flip-flop-table">Step 1: Complete State Transition &amp; D-Flip-Flop Table</h4>
+<p>For a D Flip-Flop, the excitation requirement is trivial: <span class="math inline">\(D_i = Q_i^+\)</span> (the required input equals the desired next state).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Present State (<span class="math inline">\(Q_2 Q_1 Q_0\)</span>)</th>
+<th>Next State (<span class="math inline">\(Q_2^+ Q_1^+ Q_0^+\)</span>)</th>
+<th>Required Inputs (<span class="math inline">\(D_2 D_1 D_0\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1 1 1</strong> (<span class="math inline">\(7_{10}\)</span>)</td>
+<td><strong>1 1 0</strong> (<span class="math inline">\(6_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=1, D_1=1, D_0=0\)</span><br></td>
+</tr>
+<tr class="even">
+<td><strong>1 1 0</strong> (<span class="math inline">\(6_{10}\)</span>)</td>
+<td><strong>1 0 1</strong> (<span class="math inline">\(5_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=1, D_1=0, D_0=1\)</span><br></td>
+</tr>
+<tr class="odd">
+<td><strong>1 0 1</strong> (<span class="math inline">\(5_{10}\)</span>)</td>
+<td><strong>1 0 0</strong> (<span class="math inline">\(4_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=1, D_1=0, D_0=0\)</span><br></td>
+</tr>
+<tr class="even">
+<td><strong>1 0 0</strong> (<span class="math inline">\(4_{10}\)</span>)</td>
+<td><strong>0 1 1</strong> (<span class="math inline">\(3_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=0, D_1=1, D_0=1\)</span><br></td>
+</tr>
+<tr class="odd">
+<td><strong>0 1 1</strong> (<span class="math inline">\(3_{10}\)</span>)</td>
+<td><strong>0 1 0</strong> (<span class="math inline">\(2_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=0, D_1=1, D_0=0\)</span><br></td>
+</tr>
+<tr class="even">
+<td><strong>0 1 0</strong> (<span class="math inline">\(2_{10}\)</span>)</td>
+<td><strong>0 0 1</strong> (<span class="math inline">\(1_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=0, D_1=0, D_0=1\)</span><br></td>
+</tr>
+<tr class="odd">
+<td><strong>0 0 1</strong> (<span class="math inline">\(1_{10}\)</span>)</td>
+<td><strong>0 0 0</strong> (<span class="math inline">\(0_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=0, D_1=0, D_0=0\)</span><br></td>
+</tr>
+<tr class="even">
+<td><strong>0 0 0</strong> (<span class="math inline">\(0_{10}\)</span>)</td>
+<td><strong>1 1 1</strong> (<span class="math inline">\(7_{10}\)</span>)</td>
+<td><span class="math inline">\(D_2=1, D_1=1, D_0=1\)</span><br></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-2-k-map-minimizations-for-next-state-logic" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-k-map-minimizations-for-next-state-logic">Step 2: K-Map Minimizations for Next-State Logic</h4>
+<section id="equation-for-d_0" class="level5">
+<h5 class="anchored" data-anchor-id="equation-for-d_0">1. Equation for <span class="math inline">\(D_0\)</span>:</h5>
+<p><span class="math inline">\(D_0 = 1\)</span> for minterms <span class="math inline">\(m(0, 2, 4, 6)\)</span>.</p>
+<p><span class="math display">\[D_0 = \bar{Q}_0\]</span></p>
+</section>
+<section id="equation-for-d_1" class="level5">
+<h5 class="anchored" data-anchor-id="equation-for-d_1">2. Equation for <span class="math inline">\(D_1\)</span>:</h5>
+<p><span class="math inline">\(D_1 = 1\)</span> for minterms <span class="math inline">\(m(0, 3, 4, 7)\)</span>.</p>
+<p><span class="math display">\[D_1 = Q_1 Q_0 + \bar{Q}_1 \bar{Q}_0 = \overline{Q_1 \oplus Q_0}\]</span></p>
+</section>
+<section id="equation-for-d_2" class="level5">
+<h5 class="anchored" data-anchor-id="equation-for-d_2">3. Equation for <span class="math inline">\(D_2\)</span>:</h5>
+<p><span class="math inline">\(D_2 = 1\)</span> for minterms <span class="math inline">\(m(0, 5, 6, 7)\)</span>.</p>
+<p><span class="math display">\[D_2 = Q_2 Q_1 + Q_2 Q_0 + \bar{Q}_2 \bar{Q}_1 \bar{Q}_0\]</span></p>
+</section>
+</section>
+</section>
+</section>
+<section id="specialized-sequential-counters" class="level2">
+<h2 class="anchored" data-anchor-id="specialized-sequential-counters">3. Specialized Sequential Counters</h2>
+<pre class="text"><code>                           COUNTER TAXONOMY
+                                  │
+    ┌─────────────────────────────┼─────────────────────────────┐
+    ▼                             ▼                             ▼
+Ring Counter              Johnson Counter                  BCD Counter
+(1-Hot Encoded)        (Twisted Ring: 2N States)        (Mod-10 Decimal)
+</code></pre>
+<section id="ring-counter" class="level3">
+<h3 class="anchored" data-anchor-id="ring-counter">1. Ring Counter</h3>
+<p>A shift register where the output of the last stage (<span class="math inline">\(Q_{N-1}\)</span>) is fed directly back into the input of the first stage (<span class="math inline">\(D_0\)</span>).</p>
+<pre class="text"><code>       ┌────────────────────────────────────────────────────────┐
+       │                                                        │
+       ▼                                                        │
+  ┌─────────┐  Q0   ┌─────────┐  Q1   ┌─────────┐  Q2   ┌─────────┐
+  │   FF0   ├──────►│   FF1   ├──────►│   FF2   ├──────►│   FF3   ├───► Q3
+  └─────────┘       └─────────┘       └─────────┘       └─────────┘
+</code></pre>
+<ul>
+<li><p><strong>Characteristics:</strong> An <span class="math inline">\(N\)</span>-bit Ring Counter yields exactly <span class="math inline">\(N\)</span> unique states.</p></li>
+<li><p><strong>One-Hot Encoding:</strong> Exactly one bit is active (<span class="math inline">\(1\)</span>) at any given time.</p></li>
+<li><p><strong>4-Bit Sequence:</strong> <span class="math inline">\(1000 \to 0100 \to 0010 \to 0001 \to 1000\)</span>.</p></li>
+<li><p><strong>Application:</strong> Generating non-overlapping timing states (<span class="math inline">\(T_0, T_1, T_2, T_3\)</span>) for CPU control units.</p></li>
+</ul>
+</section>
+<section id="johnson-twisted-ring-counter" class="level3">
+<h3 class="anchored" data-anchor-id="johnson-twisted-ring-counter">2. Johnson (Twisted Ring) Counter</h3>
+<p>A shift register where the <strong>inverted output</strong> of the last stage (<span class="math inline">\(\bar{Q}_{N-1}\)</span>) is fed back into <span class="math inline">\(D_0\)</span>.</p>
+<pre class="text"><code>       ┌──────────────────────────────────────────────────┐
+       │                                                  │
+       │  ┌───────────────────────────────────────────────┼────────┐
+       │  │                                               │        │
+       ▼  ▼                                               │        │
+  ┌─────────┐  Q0   ┌─────────┐  Q1   ┌─────────┐  Q2   ┌─┴──────┐ │
+  │   FF0   ├──────►│   FF1   ├──────►│   FF2   ├──────►│  FF3   │ │
+  │         │       │         │       │         │       │     Q3̄ ┼─┘
+  └─────────┘       └─────────┘       └─────────┘       └────────┘
+</code></pre>
+<ul>
+<li><p><strong>Characteristics:</strong> An <span class="math inline">\(N\)</span>-bit Johnson Counter yields <span class="math inline">\(2N\)</span> unique states.</p></li>
+<li><p><strong>Gray Code Property:</strong> Consecutive state transitions differ by only 1 bit.</p></li>
+<li><p><strong>4-Bit Sequence (8 States):</strong></p></li>
+</ul>
+<p><span class="math display">\[0000 \to 1000 \to 1100 \to 1110 \to 1111 \to 0111 \to 0011 \to 0001 \to 0000\]</span></p>
+</section>
+<section id="bcd-binary-coded-decimal-mod-10-counter" class="level3">
+<h3 class="anchored" data-anchor-id="bcd-binary-coded-decimal-mod-10-counter">3. BCD (Binary Coded Decimal / Mod-10) Counter</h3>
+<p>Counts decimal digits from <span class="math inline">\(0000_2\)</span> (<span class="math inline">\(0_{10}\)</span>) to <span class="math inline">\(1001_2\)</span> (<span class="math inline">\(9_{10}\)</span>) and resets to <span class="math inline">\(0000_2\)</span> on the <span class="math inline">\(10^{\text{th}}\)</span> pulse.</p>
+<section id="multi-digit-cascading-architecture" class="level4">
+<h4 class="anchored" data-anchor-id="multi-digit-cascading-architecture">Multi-Digit Cascading Architecture</h4>
+<p>To build a 2-digit counter (<span class="math inline">\(00 \to 99\)</span>), the Units counter signals the Tens counter to increment whenever the Units digit hits <span class="math inline">\(9\)</span> (<span class="math inline">\(1001_2\)</span>).</p>
+<pre class="text"><code>                  UNITS BCD COUNTER (0-9)            TENS BCD COUNTER (0-9)
+                   ┌──────────────────┐               ┌──────────────────┐
+  CLK ────────────►│                  │               │                  │
+                   │  Q3  Q2  Q1  Q0  │               │  Q3  Q2  Q1  Q0  │
+                   └─┬─────────────┬──┘               └────────▲─────────┘
+                     │             │                           │
+                     └───[ AND ]───┴─────── Enable ────────────┘
+                    (Detects Q3·Q0 = 1001₂ = 9)
+</code></pre>
+</section>
+</section>
+<section id="counter-types-comparison-table" class="level3">
+<h3 class="anchored" data-anchor-id="counter-types-comparison-table">Counter Types Comparison Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Standard Binary Counter</th>
+<th>Ring Counter</th>
+<th>Johnson Counter</th>
+<th>BCD Counter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Flip-Flops Needed (<span class="math inline">\(N\)</span>)</strong></td>
+<td><span class="math inline">\(\lceil \log_2(\text{States}) \rceil\)</span><br></td>
+<td><span class="math inline">\(N\)</span><br></td>
+<td><span class="math inline">\(N\)</span><br></td>
+<td><span class="math inline">\(4\)</span> per decade digit</td>
+</tr>
+<tr class="even">
+<td><strong>Total States Supported</strong></td>
+<td><span class="math inline">\(2^N\)</span><br></td>
+<td><span class="math inline">\(N\)</span><br></td>
+<td><span class="math inline">\(2N\)</span><br></td>
+<td><span class="math inline">\(10\)</span> per digit</td>
+</tr>
+<tr class="odd">
+<td><strong>Encoding Type</strong></td>
+<td>Binary positional</td>
+<td>One-Hot</td>
+<td>Gray-code-like</td>
+<td>BCD (<span class="math inline">\(0-9\)</span>)</td>
+</tr>
+<tr class="even">
+<td><strong>Feedback Connection</strong></td>
+<td>Next-State Logic</td>
+<td><span class="math inline">\(D_0 = Q_{N-1}\)</span><br></td>
+<td><span class="math inline">\(D_0 = \bar{Q}_{N-1}\)</span><br></td>
+<td>Modulo-10 Reset Logic</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="registers-memory-array-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="registers-memory-array-architecture">4. Registers &amp; Memory Array Architecture</h2>
+<p>A <strong>Register</strong> is an array of <span class="math inline">\(N\)</span> flip-flops sharing a common clock line and Write Enable (<span class="math inline">\(WE\)</span>) signal, capable of reading and storing <span class="math inline">\(N\)</span> bits simultaneously.</p>
+<pre class="text"><code>                     Parallel Data In (D3..D0)
+                         │   │   │   │
+                         ▼   ▼   ▼   ▼
+                      ┌─────────────────┐
+     Write Enable ───►│ 4-Bit Register  │◄─── Common Clock
+                      └────────┬────────┘
+                               │
+                               ▼
+                    Parallel Output (Q3..Q0)
+</code></pre>
+<section id="memory-system-definitions" class="level3">
+<h3 class="anchored" data-anchor-id="memory-system-definitions">Memory System Definitions</h3>
+<ol type="1">
+<li><p><strong>Address Space (<span class="math inline">\(2^k\)</span>):</strong> The total number of unique, addressable locations in a memory block with <span class="math inline">\(k\)</span> address lines.</p></li>
+<li><p><strong>Addressability (<span class="math inline">\(M\)</span>):</strong> The number of stored data bits per unique address location (e.g., <span class="math inline">\(M = 8\)</span> for byte-addressable memory).</p></li>
+<li><p><strong>Total Memory Capacity:</strong></p></li>
+</ol>
+<p><span class="math display">\[\text{Capacity} = 2^k \times M \text{ bits}\]</span></p>
+</section>
+<section id="memory-readwrite-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="memory-readwrite-architecture">Memory Read/Write Architecture</h3>
+<p>To access a specific row in a memory array:</p>
+<ul>
+<li><p><strong>Writing:</strong> An <strong>Address Decoder</strong> converts <span class="math inline">\(k\)</span> address lines into <span class="math inline">\(2^k\)</span> word lines (<span class="math inline">\(WL\)</span>), activating a single target row of flip-flops when <span class="math inline">\(WE = 1\)</span>.</p></li>
+<li><p><strong>Reading:</strong> A <strong>Multiplexer (MUX)</strong> selects the bit output of the decoded row to drive the data output bus.</p></li>
+</ul>
+<pre class="text"><code>  Address (k bits) ──► [ Address Decoder ] ──► Word Line (WL) Select
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ 2ᵏ × M Register │ ◄── Write Enable (WE)
+                    │     Matrix      │
+                    └────────┬────────┘
+                             │
+                             ▼
+  Read Out Bus ◄────── [ MUX Array ]
+</code></pre>
+</section>
+</section>
+<section id="shift-registers-applications" class="level2">
+<h2 class="anchored" data-anchor-id="shift-registers-applications">5. Shift Registers &amp; Applications</h2>
+<p>A <strong>Shift Register</strong> cascades flip-flops so that data moves by one bit position per clock cycle, either to the left or right.</p>
+<pre class="text"><code>   Serial In ──►[ D-FF 3 ]──►[ D-FF 2 ]──►[ D-FF 1 ]──►[ D-FF 0 ]──► Serial Out
+</code></pre>
+<section id="arithmetic-shifting-rules" class="level3">
+<h3 class="anchored" data-anchor-id="arithmetic-shifting-rules">Arithmetic Shifting Rules</h3>
+<p>Bit shifts provide an ultra-fast hardware mechanism for multiplying or dividing integers by powers of 2:</p>
+<ul>
+<li><strong>Logical Shift Left (<span class="math inline">\(LSL\)</span> by <span class="math inline">\(n\)</span> bits):</strong> Shifts bits toward the MSB and inserts zeros at the LSB.</li>
+</ul>
+<p><span class="math display">\[\text{Value}_{\text{new}} = \text{Value}_{\text{old}} \times 2^n\]</span></p>
+<ul>
+<li><strong>Logical Shift Right (<span class="math inline">\(LSR\)</span> by <span class="math inline">\(n\)</span> bits):</strong> Shifts bits toward the LSB and inserts zeros at the MSB.</li>
+</ul>
+<p><span class="math display">\[\text{Value}_{\text{new}} = \lfloor \text{Value}_{\text{old}} / 2^n \rfloor\]</span></p>
+<section id="mathematical-example-value-5_10-0101_2" class="level4">
+<h4 class="anchored" data-anchor-id="mathematical-example-value-5_10-0101_2">Mathematical Example (Value = <span class="math inline">\(5_{10} = 0101_2\)</span>)</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Binary Value</th>
+<th>Decimal Value</th>
+<th>Arithmetic Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Initial Register</strong></td>
+<td><code>0 1 0 1</code></td>
+<td><span class="math inline">\(5\)</span></td>
+<td>Base value</td>
+</tr>
+<tr class="even">
+<td><strong>Shift Left (<span class="math inline">\(LSL\)</span> 1)</strong></td>
+<td><code>1 0 1 0</code></td>
+<td><span class="math inline">\(10\)</span></td>
+<td><span class="math inline">\(5 \times 2^1 = 10\)</span><br></td>
+</tr>
+<tr class="odd">
+<td><strong>Shift Right (<span class="math inline">\(LSR\)</span> 1)</strong></td>
+<td><code>0 0 1 0</code></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(\lfloor 5 / 2^1 \rfloor = 2\)</span><br></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="parallel-in-serial-out-piso-shift-register" class="level3">
+<h3 class="anchored" data-anchor-id="parallel-in-serial-out-piso-shift-register">Parallel-In / Serial-Out (PISO) Shift Register</h3>
+<p>A <span class="math inline">\(Load/\overline{Shift}\)</span> control line switches a multiplexer at each flip-flop input:</p>
+<ul>
+<li><p>When <span class="math inline">\(Load = 1\)</span>: Loads all <span class="math inline">\(N\)</span> data bits in parallel during a single clock cycle.</p></li>
+<li><p>When <span class="math inline">\(Load = 0\)</span>: Shifts data serially out one bit per clock cycle.</p></li>
+</ul>
+<pre class="text"><code>                  Parallel Data Line (D_i)
+                            │
+                            ▼
+                     ┌─────────────┐
+   Serial Input ────►│ MUX (Load/  ├────► D-Flip-Flop ────► Shifted Out
+   From Prev FF      │    Shift)   │
+                     └─────────────┘
+</code></pre>
+<blockquote class="blockquote">
+<p><strong>REAL-WORLD APPLICATION:</strong> The Serial Peripheral Interface (SPI) protocol uses bidirectional shift registers to stream data between microcontrollers and sensors using a single data wire.</p>
+</blockquote>
+</section>
+</section>
+<section id="executive-summary-quick-recap" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary-quick-recap">6. Executive Summary / Quick Recap</h2>
+<ol type="1">
+<li><p><strong>State Minimization:</strong> Decouple internal states from external outputs to design circuits with the minimal number of flip-flops (<span class="math inline">\(\lceil \log_2 N \rceil\)</span>).</p></li>
+<li><p><strong>Synchronous Counters:</strong> Avoid ripple delays by connecting a common clock line to all flip-flops simultaneously.</p></li>
+<li><p><strong>Specialized Counters:</strong></p></li>
+</ol>
+<ul>
+<li><p><strong>Ring Counter:</strong> <span class="math inline">\(N\)</span> states, one-hot encoded.</p></li>
+<li><p><strong>Johnson Counter:</strong> <span class="math inline">\(2N\)</span> states, Gray code sequence.</p></li>
+<li><p><strong>BCD Counter:</strong> Counts <span class="math inline">\(0-9\)</span> (Mod-10), cascading via <span class="math inline">\(Q_3 \cdot Q_0\)</span> active-high signals.</p></li>
+</ul>
+<ol start="4" type="1">
+<li><p><strong>Memory Blocks:</strong> Built using <span class="math inline">\(2^k\)</span> rows of registers, accessed via a <span class="math inline">\(k\)</span>-to-<span class="math inline">\(2^k\)</span> Address Decoder and MUX read/write circuitry.</p></li>
+<li><p><strong>Shift Registers:</strong> Shift Left multiplies by 2; Shift Right divides by 2. PISO mode converts parallel data into serial bitstreams.</p></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cs3031\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
