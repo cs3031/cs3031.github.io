@@ -2,20 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-7 – CSD [CS3031]</title>
+<title>CircuitVerse Interactive Simulations – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -33,20 +36,20 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./universal_gates.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2f904ce0f39301baecb09c48ad690999.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-303c5975805164d195c888eb1d514ae1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-2f904ce0f39301baecb09c48ad690999.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -75,39 +78,10 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -249,10 +223,8 @@ window.Quarto = {
         changeGiscusTheme();
       }
     };
-    const authorPrefersDark = false;
+    const authorPrefersDark = true;
     const darkModeDefault = authorPrefersDark;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
     // Dark / light mode switch
     window.quartoToggleColorScheme = () => {
@@ -278,7 +250,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week-7.html">Week-7</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basic_gates.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./basic_gates.html">Basic Gates</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -312,87 +284,127 @@ window.Quarto = {
  <span class="menu-text">About the Course</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">CircuitVerse Simulations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./basic_gates.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Basic Gates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./universal_gates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Universal Gates using NAND &amp; NOR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./adders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Adders</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekwise Summary Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-1</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-2</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-3</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-4</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-5</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-6</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-7.html" class="sidebar-item-text sidebar-link active">
+  <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-7</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-8</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-9</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-10.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-10</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-11</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-12</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Digital Logics For GATE</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
@@ -417,236 +429,253 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#week-7-introduction-to-sequential-logic-memory-elements" id="toc-week-7-introduction-to-sequential-logic-memory-elements" class="nav-link active" data-scroll-target="#week-7-introduction-to-sequential-logic-memory-elements">Week 7: Introduction to Sequential Logic &amp; Memory Elements</a>
+  <li><a href="#basic-logic-gates" id="toc-basic-logic-gates" class="nav-link active" data-scroll-target="#basic-logic-gates">1. Basic Logic Gates</a>
   <ul class="collapse">
-  <li><a href="#combinational-vs.-sequential-logic" id="toc-combinational-vs.-sequential-logic" class="nav-link" data-scroll-target="#combinational-vs.-sequential-logic">1. Combinational vs.&nbsp;Sequential Logic</a>
-  <ul class="collapse">
-  <li><a href="#example-of-sequential-behavior-the-counter" id="toc-example-of-sequential-behavior-the-counter" class="nav-link" data-scroll-target="#example-of-sequential-behavior-the-counter">Example of Sequential Behavior: The Counter</a></li>
-  </ul></li>
-  <li><a href="#fundamental-storage-cross-coupled-inverters-sram" id="toc-fundamental-storage-cross-coupled-inverters-sram" class="nav-link" data-scroll-target="#fundamental-storage-cross-coupled-inverters-sram">2. Fundamental Storage: Cross-Coupled Inverters &amp; SRAM</a>
-  <ul class="collapse">
-  <li><a href="#static-ram-sram-cell" id="toc-static-ram-sram-cell" class="nav-link" data-scroll-target="#static-ram-sram-cell">Static RAM (SRAM) Cell</a></li>
-  </ul></li>
-  <li><a href="#the-rs-reset-set-latch" id="toc-the-rs-reset-set-latch" class="nav-link" data-scroll-target="#the-rs-reset-set-latch">3. The RS (Reset-Set) Latch</a>
-  <ul class="collapse">
-  <li><a href="#nand-based-rs-latch-truth-table" id="toc-nand-based-rs-latch-truth-table" class="nav-link" data-scroll-target="#nand-based-rs-latch-truth-table">NAND-Based RS Latch Truth Table</a></li>
-  </ul></li>
-  <li><a href="#the-gated-d-latch" id="toc-the-gated-d-latch" class="nav-link" data-scroll-target="#the-gated-d-latch">4. The Gated D-Latch</a>
-  <ul class="collapse">
-  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a></li>
-  <li><a href="#level-sensitive-operation" id="toc-level-sensitive-operation" class="nav-link" data-scroll-target="#level-sensitive-operation">Level-Sensitive Operation</a></li>
-  </ul></li>
-  <li><a href="#clocks-and-edge-triggered-flip-flops" id="toc-clocks-and-edge-triggered-flip-flops" class="nav-link" data-scroll-target="#clocks-and-edge-triggered-flip-flops">5. Clocks and Edge-Triggered Flip-Flops</a>
-  <ul class="collapse">
-  <li><a href="#the-clock-signal" id="toc-the-clock-signal" class="nav-link" data-scroll-target="#the-clock-signal">The Clock Signal</a></li>
-  <li><a href="#the-d-flip-flop-master-slave-configuration" id="toc-the-d-flip-flop-master-slave-configuration" class="nav-link" data-scroll-target="#the-d-flip-flop-master-slave-configuration">The D Flip-Flop (Master-Slave Configuration)</a></li>
-  </ul></li>
-  <li><a href="#the-jk-flip-flop" id="toc-the-jk-flip-flop" class="nav-link" data-scroll-target="#the-jk-flip-flop">6. The JK Flip-Flop</a>
-  <ul class="collapse">
-  <li><a href="#architecture-1" id="toc-architecture-1" class="nav-link" data-scroll-target="#architecture-1">Architecture</a></li>
-  <li><a href="#jk-flip-flop-modes-of-operation" id="toc-jk-flip-flop-modes-of-operation" class="nav-link" data-scroll-target="#jk-flip-flop-modes-of-operation">JK Flip-Flop Modes of Operation</a></li>
-  </ul></li>
+  <li><a href="#and-gate" id="toc-and-gate" class="nav-link" data-scroll-target="#and-gate">1.1 AND Gate</a></li>
+  <li><a href="#or-gate" id="toc-or-gate" class="nav-link" data-scroll-target="#or-gate">1.2 OR Gate</a></li>
+  <li><a href="#not-gate" id="toc-not-gate" class="nav-link" data-scroll-target="#not-gate">1.3 NOT Gate</a></li>
+  <li><a href="#xor-gate" id="toc-xor-gate" class="nav-link" data-scroll-target="#xor-gate">1.4 XOR Gate</a></li>
+  <li><a href="#nor-gate" id="toc-nor-gate" class="nav-link" data-scroll-target="#nor-gate">1.5 NOR Gate</a></li>
+  <li><a href="#nand-gate" id="toc-nand-gate" class="nav-link" data-scroll-target="#nand-gate">1.6 NAND Gate</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basic_gates.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./basic_gates.html">Basic Gates</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">CircuitVerse Interactive Simulations</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="week-7-introduction-to-sequential-logic-memory-elements" class="level1">
-<h1>Week 7: Introduction to Sequential Logic &amp; Memory Elements</h1>
-<section id="combinational-vs.-sequential-logic" class="level2">
-<h2 class="anchored" data-anchor-id="combinational-vs.-sequential-logic">1. Combinational vs.&nbsp;Sequential Logic</h2>
-<ul>
-<li><p><strong>Combinational Logic:</strong> “Memoryless” circuits where the output is strictly a function of the <em>current</em> inputs. Examples include adders, comparators, multiplexers, and decoders.</p></li>
-<li><p><strong>Sequential Logic:</strong> Circuits with “memory” where the current output depends on both the <em>current</em> inputs and the <em>previous</em> outputs (state).</p></li>
-</ul>
-<section id="example-of-sequential-behavior-the-counter" class="level3">
-<h3 class="anchored" data-anchor-id="example-of-sequential-behavior-the-counter">Example of Sequential Behavior: The Counter</h3>
-<p>A 3-bit up-counter cycles from <span class="math inline">\(000\)</span> (<span class="math inline">\(0_{10}\)</span>) to <span class="math inline">\(111\)</span> (<span class="math inline">\(7_{10}\)</span>) and wraps around. The next output (e.g., <span class="math inline">\(4\)</span>) is entirely determined by the previous output (<span class="math inline">\(3\)</span>), establishing a temporal state dependency not found in combinational circuits.</p>
-<hr>
-</section>
-</section>
-<section id="fundamental-storage-cross-coupled-inverters-sram" class="level2">
-<h2 class="anchored" data-anchor-id="fundamental-storage-cross-coupled-inverters-sram">2. Fundamental Storage: Cross-Coupled Inverters &amp; SRAM</h2>
-<p>The most basic storage element is formed by cross-coupling two NOT gates (inverters), where the output of each gate feeds the input of the other.</p>
-<pre><code>       ┌───────[NOT 1]◄──────┐
-       │                     │
-       ▼                     │
-(Q) ◄──┴───────►[NOT 2]──────┴──► (Q̄)
-</code></pre>
-<ul>
-<li><p><strong>Stable States:</strong> The circuit holds one of two stable states indefinitely as long as it is powered:</p></li>
-<li><p>State 0: <span class="math inline">\(Q = 0, \bar{Q} = 1\)</span></p></li>
-<li><p>State 1: <span class="math inline">\(Q = 1, \bar{Q} = 0\)</span></p></li>
-<li><p><strong>Limitation:</strong> It lacks a direct control mechanism to reliably write or change the stored state. Forcing a change can lead to transient oscillation or metastability.</p></li>
-</ul>
-<section id="static-ram-sram-cell" class="level3">
-<h3 class="anchored" data-anchor-id="static-ram-sram-cell">Static RAM (SRAM) Cell</h3>
-<p>SRAM cells build upon cross-coupled inverters by adding access transistors controlled by a <strong>Word Line (WL)</strong> and data pathways called <strong>Bit Lines (BL)</strong>.</p>
-<ul>
-<li><p>When <span class="math inline">\(WL = 0\)</span>, the cell is isolated and holds its memory state.</p></li>
-<li><p>When <span class="math inline">\(WL = 1\)</span>, the cell is connected to the Bit Lines, allowing reading or overwriting of the stored bit (<span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span>).</p></li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="the-rs-reset-set-latch" class="level2">
-<h2 class="anchored" data-anchor-id="the-rs-reset-set-latch">3. The RS (Reset-Set) Latch</h2>
-<p>The RS (or SR) Latch adds control inputs to the cross-coupled structure, replacing inverters with NAND (or NOR) gates.</p>
-<section id="nand-based-rs-latch-truth-table" class="level3">
-<h3 class="anchored" data-anchor-id="nand-based-rs-latch-truth-table">NAND-Based RS Latch Truth Table</h3>
+</header>
+
+
+<section id="basic-logic-gates" class="level2">
+<h2 class="anchored" data-anchor-id="basic-logic-gates">1. Basic Logic Gates</h2>
+<section id="and-gate" class="level3">
+<h3 class="anchored" data-anchor-id="and-gate">1.1 AND Gate</h3>
+<p>The <strong>AND gate</strong> outputs <code>1</code> (HIGH) only when <strong>all</strong> of its inputs are <code>1</code>.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
-<th><span class="math inline">\(S\)</span> (Set)</th>
-<th><span class="math inline">\(R\)</span> (Reset)</th>
-<th>Next State (<span class="math inline">\(Q_{next}\)</span>)</th>
-<th>Action</th>
+<th style="text-align: center;">Input A</th>
+<th style="text-align: center;">Input B</th>
+<th style="text-align: center;">Output (Y = A · B)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>1</td>
-<td><span class="math inline">\(Q_{current}\)</span></td>
-<td><strong>Hold / Memory:</strong> Retains previous state.</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
 </tr>
 <tr class="even">
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td><strong>Set:</strong> Forces output <span class="math inline">\(Q = 1\)</span>.</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
 </tr>
 <tr class="odd">
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td><strong>Reset:</strong> Forces output <span class="math inline">\(Q = 0\)</span>.</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
 </tr>
 <tr class="even">
-<td><strong>0</strong></td>
-<td><strong>0</strong></td>
-<td><strong>Invalid</strong></td>
-<td><strong>Forbidden State:</strong> Forces both <span class="math inline">\(Q = 1\)</span> and <span class="math inline">\(\bar{Q} = 1\)</span>.</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li><strong>The Forbidden State:</strong> Setting both <span class="math inline">\(S=0\)</span> and <span class="math inline">\(R=0\)</span> violates the fundamental assumption that <span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span> must be logical complements. Furthermore, if both inputs transition back to <span class="math inline">\(1\)</span> simultaneously, the circuit enters a metastable, oscillating state where the final settled value is non-deterministic, relying entirely on microscopic variations in gate propagation delays.</li>
-</ul>
+<iframe src="https://circuitverse.org/users/464938/projects/and-d9b6f574-775c-41b4-a06e-76780ed8e552/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
 </section>
-</section>
-<section id="the-gated-d-latch" class="level2">
-<h2 class="anchored" data-anchor-id="the-gated-d-latch">4. The Gated D-Latch</h2>
-<p>To prevent the forbidden <span class="math inline">\(S=0, R=0\)</span> state and add explicit control over <em>when</em> data is written, the RS Latch is modified into a <strong>Gated D-Latch</strong>.</p>
-<section id="architecture" class="level3">
-<h3 class="anchored" data-anchor-id="architecture">Architecture</h3>
-<ol type="1">
-<li><p>A single Data input (<span class="math inline">\(D\)</span>) is used.</p></li>
-<li><p><span class="math inline">\(D\)</span> is fed directly to the Set input, while an inverted version (<span class="math inline">\(\bar{D}\)</span>) is fed to the Reset input. This guarantees <span class="math inline">\(S\)</span> and <span class="math inline">\(R\)</span> are always complementary, preventing the <span class="math inline">\(00\)</span> forbidden state.</p></li>
-<li><p>A <strong>Write Enable (WE)</strong> or Clock input gates the incoming data.</p></li>
-</ol>
-</section>
-<section id="level-sensitive-operation" class="level3">
-<h3 class="anchored" data-anchor-id="level-sensitive-operation">Level-Sensitive Operation</h3>
-<ul>
-<li><p><strong>Enabled / Open (<span class="math inline">\(WE = 1\)</span>):</strong> The output <span class="math inline">\(Q\)</span> continuously mirrors the input <span class="math inline">\(D\)</span> (<span class="math inline">\(Q_{next} = D\)</span>).</p></li>
-<li><p><strong>Disabled / Closed (<span class="math inline">\(WE = 0\)</span>):</strong> The latch isolates the input and <strong>holds</strong> its previous state, regardless of how <span class="math inline">\(D\)</span> fluctuates.</p></li>
-<li><p><strong>Limitation (Asynchronicity):</strong> Because it is <em>level-sensitive</em>, any glitch or fluctuation on the <span class="math inline">\(D\)</span> line while <span class="math inline">\(WE = 1\)</span> will asynchronously ripple directly to the output <span class="math inline">\(Q\)</span>, creating timing and synchronization vulnerabilities in complex circuits.</p></li>
-</ul>
-</section>
-</section>
-<section id="clocks-and-edge-triggered-flip-flops" class="level2">
-<h2 class="anchored" data-anchor-id="clocks-and-edge-triggered-flip-flops">5. Clocks and Edge-Triggered Flip-Flops</h2>
-<p>To solve the synchronization issues of level-sensitive latches, sequential circuits utilize <strong>Clocks</strong> and <strong>Edge-Triggered Flip-Flops</strong>.</p>
-<section id="the-clock-signal" class="level3">
-<h3 class="anchored" data-anchor-id="the-clock-signal">The Clock Signal</h3>
-<p>A clock is an oscillating input signal oscillating between logic HIGH and logic LOW at a predetermined frequency.</p>
-<ul>
-<li><p><strong>Rising Edge (Positive Edge):</strong> The instantaneous transition from LOW (<span class="math inline">\(0\)</span>) to HIGH (<span class="math inline">\(1\)</span>).</p></li>
-<li><p><strong>Falling Edge (Negative Edge):</strong> The transition from HIGH (<span class="math inline">\(1\)</span>) to LOW (<span class="math inline">\(0\)</span>).</p></li>
-</ul>
-</section>
-<section id="the-d-flip-flop-master-slave-configuration" class="level3">
-<h3 class="anchored" data-anchor-id="the-d-flip-flop-master-slave-configuration">The D Flip-Flop (Master-Slave Configuration)</h3>
-<p>A D Flip-Flop is <strong>edge-sensitive</strong> (not level-sensitive). It is constructed by cascading two D-Latches in series with opposite clock polarities.</p>
-<pre><code>  Data (D) ──►[ Master D-Latch ]──(Q_L1)──►[ Slave D-Latch ]──► Output (Q)
-                     ▲                             ▲
-  Clock ─────────────┴───────────[NOT]─────────────┘
-</code></pre>
-<ul>
-<li><p><strong>Operation (Positive Edge Trigger):</strong></p></li>
-<li><p>When <span class="math inline">\(CLK = 0\)</span>: Master is enabled and tracks <span class="math inline">\(D\)</span>. Slave is disabled.</p></li>
-<li><p>At the <strong>Rising Edge</strong> (<span class="math inline">\(CLK \to 1\)</span>): Master locks its value, taking a rapid “snapshot” of <span class="math inline">\(D\)</span>. Slave becomes enabled and passes this locked snapshot to the final output <span class="math inline">\(Q\)</span>.</p></li>
-<li><p><strong>Result:</strong> Data <span class="math inline">\(D\)</span> is copied to <span class="math inline">\(Q\)</span> <em>only</em> at the precise instant of the clock edge. At all other times, <span class="math inline">\(Q\)</span> holds its value, guaranteeing perfect synchronicity.</p></li>
-</ul>
-</section>
-</section>
-<section id="the-jk-flip-flop" class="level2">
-<h2 class="anchored" data-anchor-id="the-jk-flip-flop">6. The JK Flip-Flop</h2>
-<p>The <strong>JK Flip-Flop</strong> resolves the RS Latch’s forbidden state problem while restoring the two-input flexibility lost in the single-input D Flip-Flop.</p>
-<section id="architecture-1" class="level3">
-<h3 class="anchored" data-anchor-id="architecture-1">Architecture</h3>
-<p>The JK Flip-Flop builds upon the edge-triggered SR framework by feeding the outputs <span class="math inline">\(Q\)</span> and <span class="math inline">\(\bar{Q}\)</span> back into the input NAND gates.</p>
-</section>
-<section id="jk-flip-flop-modes-of-operation" class="level3">
-<h3 class="anchored" data-anchor-id="jk-flip-flop-modes-of-operation">JK Flip-Flop Modes of Operation</h3>
+<section id="or-gate" class="level3">
+<h3 class="anchored" data-anchor-id="or-gate">1.2 OR Gate</h3>
+<p>The <strong>OR gate</strong> outputs <code>1</code> (HIGH) when <strong>at least one of its inputs is <code>1</code></strong>.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
-<th><span class="math inline">\(J\)</span></th>
-<th><span class="math inline">\(K\)</span></th>
-<th>Next State (<span class="math inline">\(Q_{next}\)</span>)</th>
-<th>Action Description</th>
+<th>Input A</th>
+<th>Input B</th>
+<th>Output (Y = A + B)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
 <td>0</td>
-<td><span class="math inline">\(Q_{current}\)</span></td>
-<td><strong>Memory / Hold:</strong> Output is retained.</td>
+<td>0</td>
 </tr>
 <tr class="even">
 <td>0</td>
 <td>1</td>
-<td>0</td>
-<td><strong>Reset:</strong> Forces output <span class="math inline">\(Q\)</span> to <span class="math inline">\(0\)</span>.</td>
+<td>1</td>
 </tr>
 <tr class="odd">
 <td>1</td>
 <td>0</td>
 <td>1</td>
-<td><strong>Set:</strong> Forces output <span class="math inline">\(Q\)</span> to <span class="math inline">\(1\)</span>.</td>
 </tr>
 <tr class="even">
 <td>1</td>
 <td>1</td>
-<td><span class="math inline">\(\bar{Q}_{current}\)</span></td>
-<td><strong>Toggle:</strong> Output flips its current state (0 to 1, or 1 to 0). <em>(Solves the SR forbidden state)</em>.</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
-
-
+<iframe src="https://circuitverse.org/users/464938/projects/or-950f929e-f825-486d-a66a-4fa6bbd03d22/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
 </section>
+<section id="not-gate" class="level3">
+<h3 class="anchored" data-anchor-id="not-gate">1.3 NOT Gate</h3>
+<p>The <strong>NOT gate</strong> has a single input and outputs the <strong>opposite</strong> of the input. If the input is <code>1</code>, the output is <code>0</code>, and vice versa.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Output (Y = A̅)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<iframe src="https://circuitverse.org/users/464938/projects/not-7acc852e-13c8-4210-a6fc-87ebdaa8a1fb/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
+</section>
+<section id="xor-gate" class="level3">
+<h3 class="anchored" data-anchor-id="xor-gate">1.4 XOR Gate</h3>
+<p>The <strong>XOR (Exclusive-OR) gate</strong> outputs <code>1</code> when <strong>exactly one of its inputs is <code>1</code></strong>. It outputs <code>0</code> when both inputs are the same.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Output (Y = A ⊕ B)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<iframe src="https://circuitverse.org/users/464938/projects/xor-797259e1-86c8-457f-a29d-ffeeb3de0b9c/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
+</section>
+<section id="nor-gate" class="level3">
+<h3 class="anchored" data-anchor-id="nor-gate">1.5 NOR Gate</h3>
+<p>The <strong>NOR gate</strong> is the combination of an <strong>OR gate followed by a NOT gate</strong>. It outputs <code>1</code> only when <strong>all of its inputs are <code>0</code></strong>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Output (Y = (A + B)̅)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<iframe src="https://circuitverse.org/users/464938/projects/nor-d476cb3c-edcb-42b4-b8fe-ebc0955fa1cb/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
+</section>
+<section id="nand-gate" class="level3">
+<h3 class="anchored" data-anchor-id="nand-gate">1.6 NAND Gate</h3>
+<p>The <strong>NAND gate</strong> is the combination of an <strong>AND gate followed by a NOT gate</strong>. It outputs <code>0</code> only when <strong>all of its inputs are <code>1</code></strong>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Output (Y = (A · B)̅)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<iframe src="https://circuitverse.org/users/464938/projects/nand-11b6b49c-c8cf-46c7-aea7-5be1217aefdd/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
+
+
 </section>
 </section>
 
@@ -1064,6 +1093,18 @@ window.Quarto = {
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="About the Course">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">About the Course</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./universal_gates.html" class="pagination-link" aria-label="Universal Gates using NAND &amp; NOR">
+        <span class="nav-page-text">Universal Gates using NAND &amp; NOR</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

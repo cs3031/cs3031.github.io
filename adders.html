@@ -2,20 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – CSD [CS3031]</title>
+<title>adders – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -33,20 +36,20 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./Week-1.html" rel="next">
+<link href="./universal_gates.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2f904ce0f39301baecb09c48ad690999.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-303c5975805164d195c888eb1d514ae1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-2f904ce0f39301baecb09c48ad690999.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -75,10 +78,39 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -220,10 +252,8 @@ ul.task-list li input[type="checkbox"] {
         changeGiscusTheme();
       }
     };
-    const authorPrefersDark = false;
+    const authorPrefersDark = true;
     const darkModeDefault = authorPrefersDark;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
     // Dark / light mode switch
     window.quartoToggleColorScheme = () => {
@@ -249,9 +279,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      CSD [CS3031]
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basic_gates.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./adders.html">Adders</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -285,87 +313,127 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">About the Course</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">CircuitVerse Simulations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./basic_gates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Basic Gates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./universal_gates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Universal Gates using NAND &amp; NOR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./adders.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Adders</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Weekwise Summary Notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-1</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-2</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-3</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-4</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-5</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-6</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-7</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-8</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-9</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-10.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-10</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-11</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week-12</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Digital Logics For GATE</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
@@ -385,35 +453,248 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#adders" id="toc-adders" class="nav-link active" data-scroll-target="#adders">3. Adders</a>
+  <ul class="collapse">
+  <li><a href="#half-adder" id="toc-half-adder" class="nav-link" data-scroll-target="#half-adder">3.1 Half Adder</a>
+  <ul class="collapse">
+  <li><a href="#boolean-expressions" id="toc-boolean-expressions" class="nav-link" data-scroll-target="#boolean-expressions">Boolean Expressions</a></li>
+  <li><a href="#truth-table" id="toc-truth-table" class="nav-link" data-scroll-target="#truth-table">Truth Table</a></li>
+  <li><a href="#logic-implementation" id="toc-logic-implementation" class="nav-link" data-scroll-target="#logic-implementation">Logic Implementation</a></li>
+  </ul></li>
+  <li><a href="#full-adder" id="toc-full-adder" class="nav-link" data-scroll-target="#full-adder">3.2 Full Adder</a>
+  <ul class="collapse">
+  <li><a href="#boolean-expressions-1" id="toc-boolean-expressions-1" class="nav-link" data-scroll-target="#boolean-expressions-1">Boolean Expressions</a></li>
+  <li><a href="#truth-table-1" id="toc-truth-table-1" class="nav-link" data-scroll-target="#truth-table-1">Truth Table</a></li>
+  <li><a href="#full-adder-using-two-half-adders" id="toc-full-adder-using-two-half-adders" class="nav-link" data-scroll-target="#full-adder-using-two-half-adders">Full Adder using Two Half Adders</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basic_gates.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./adders.html">Adders</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="adders" class="level1">
+<h1>3. Adders</h1>
+<p>Adders are <strong>combinational logic circuits</strong> used to perform binary addition. The two basic types of adders are <strong>Half Adder</strong> and <strong>Full Adder</strong>.</p>
+<section id="half-adder" class="level2">
+<h2 class="anchored" data-anchor-id="half-adder">3.1 Half Adder</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/half-adder-530ddf20-fbea-47e5-8a63-8e9ad64ed12e/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
+<p>A <strong>Half Adder</strong> is a combinational circuit that adds two single-bit binary inputs, <code>A</code> and <code>B</code>.</p>
+<p>It produces two outputs:</p>
+<ul>
+<li><strong>Sum (S)</strong> — the result of the binary addition.</li>
+<li><strong>Carry (C)</strong> — the carry generated when both inputs are <code>1</code>.</li>
+</ul>
+<section id="boolean-expressions" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-expressions">Boolean Expressions</h3>
+<p>The <strong>Sum</strong> is produced using an XOR gate:</p>
+<p><span class="math display">\[
+S = A \oplus B
+\]</span></p>
+<p>The <strong>Carry</strong> is produced using an AND gate:</p>
+<p><span class="math display">\[
+C = A \cdot B
+\]</span></p>
+</section>
+<section id="truth-table" class="level3">
+<h3 class="anchored" data-anchor-id="truth-table">Truth Table</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Sum (S)</th>
+<th>Carry (C)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="logic-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="logic-implementation">Logic Implementation</h3>
+<p>A Half Adder can be implemented using:</p>
+<p><span class="math display">\[
+\boxed{S = A \oplus B}
+\]</span></p>
+<p><span class="math display">\[
+\boxed{C = A \cdot B}
+\]</span></p>
+<p>Therefore, a Half Adder requires <strong>one XOR gate and one AND gate</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="full-adder" class="level2">
+<h2 class="anchored" data-anchor-id="full-adder">3.2 Full Adder</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/full-adder-c44fb600-ba3b-42b4-ab40-1c2d5454ee4e/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+</iframe>
+<p>A <strong>Full Adder</strong> is a combinational circuit that adds <strong>three single-bit binary inputs</strong>:</p>
+<ul>
+<li><code>A</code></li>
+<li><code>B</code></li>
+<li><code>Cᵢₙ</code> (Carry-in)</li>
+</ul>
+<p>It produces two outputs:</p>
+<ul>
+<li><strong>Sum (S)</strong></li>
+<li><strong>Cₒᵤₜ</strong> (Carry-out)</li>
+</ul>
+<section id="boolean-expressions-1" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-expressions-1">Boolean Expressions</h3>
+<p>The Sum output is:</p>
+<p><span class="math display">\[
+S = A \oplus B \oplus C_{in}
+\]</span></p>
+<p>The Carry-out output is:</p>
+<p><span class="math display">\[
+C_{out} = AB + C_{in}(A \oplus B)
+\]</span></p>
+<p>It can also be written as:</p>
+<p><span class="math display">\[
+C_{out} = AB + AC_{in} + BC_{in}
+\]</span></p>
+</section>
+<section id="truth-table-1" class="level3">
+<h3 class="anchored" data-anchor-id="truth-table-1">Truth Table</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Carry-in (Cᵢₙ)</th>
+<th>Sum (S)</th>
+<th>Carry-out (Cₒᵤₜ)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="full-adder-using-two-half-adders" class="level3">
+<h3 class="anchored" data-anchor-id="full-adder-using-two-half-adders">Full Adder using Two Half Adders</h3>
+<p>A Full Adder can be constructed using <strong>two Half Adders and one OR gate</strong>.</p>
+<p>First Half Adder:</p>
+<p><span class="math display">\[
+S_1 = A \oplus B
+\]</span></p>
+<p><span class="math display">\[
+C_1 = A \cdot B
+\]</span></p>
+<p>Second Half Adder:</p>
+<p><span class="math display">\[
+S = S_1 \oplus C_{in}
+\]</span></p>
+<p><span class="math display">\[
+C_2 = S_1 \cdot C_{in}
+\]</span></p>
+<p>Finally, the two carry outputs are combined using an OR gate:</p>
+<p><span class="math display">\[
+C_{out} = C_1 + C_2
+\]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+\boxed{S = A \oplus B \oplus C_{in}}
+\]</span></p>
+<p><span class="math display">\[
+\boxed{C_{out} = AB + C_{in}(A \oplus B)}
+\]</span></p>
+<p>A Full Adder can therefore be implemented using <strong>two Half Adders and one OR gate</strong>.</p>
 
 
-<p>About this site</p>
-
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -829,6 +1110,18 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./universal_gates.html" class="pagination-link" aria-label="Universal Gates using NAND &amp; NOR">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Universal Gates using NAND &amp; NOR</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Week-1.html" class="pagination-link" aria-label="Week-1">
+        <span class="nav-page-text">Week-1</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
