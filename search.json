@@ -557,7 +557,7 @@
     "text": "A universal gate is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are NAND and NOR.\n\n\n\n\nThe NAND gate is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.\n\n\nTo construct a NOT gate, connect both inputs of a NAND gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NAND } A\n\\]\n\\[\nY = \\overline{A \\cdot A} = \\overline{A}\n\\]\n\n\n\nA NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.\nFormula:\n\\[\nY = \\overline{\\overline{A \\cdot B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\n\n\n\nUsing De Morgan’s theorem, an OR gate can be constructed using three NAND gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} \\cdot \\overline{B}}\n\\]\n\\[\nY = A + B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NAND gates.\n\n\n\n\n\n\n\nThe NOR gate is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.\n\n\nTo construct a NOT gate, connect both inputs of a NOR gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NOR } A\n\\]\n\\[\nY = \\overline{A + A} = \\overline{A}\n\\]\n\n\n\nA NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.\nFormula:\n\\[\nY = \\overline{\\overline{A + B}}\n\\]\n\\[\nY = A + B\n\\]\n\n\n\nUsing De Morgan’s theorem, an AND gate can be constructed using three NOR gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} + \\overline{B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NOR gates.\nThis demonstrates why NAND and NOR are called universal gates.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Universal Gates using NAND & NOR"
+      "2. Universal Gates"
     ]
   },
   {
@@ -568,7 +568,7 @@
     "text": "A universal gate is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are NAND and NOR.\n\n\n\n\nThe NAND gate is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.\n\n\nTo construct a NOT gate, connect both inputs of a NAND gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NAND } A\n\\]\n\\[\nY = \\overline{A \\cdot A} = \\overline{A}\n\\]\n\n\n\nA NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.\nFormula:\n\\[\nY = \\overline{\\overline{A \\cdot B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\n\n\n\nUsing De Morgan’s theorem, an OR gate can be constructed using three NAND gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} \\cdot \\overline{B}}\n\\]\n\\[\nY = A + B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NAND gates.\n\n\n\n\n\n\n\nThe NOR gate is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.\n\n\nTo construct a NOT gate, connect both inputs of a NOR gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NOR } A\n\\]\n\\[\nY = \\overline{A + A} = \\overline{A}\n\\]\n\n\n\nA NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.\nFormula:\n\\[\nY = \\overline{\\overline{A + B}}\n\\]\n\\[\nY = A + B\n\\]\n\n\n\nUsing De Morgan’s theorem, an AND gate can be constructed using three NOR gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} + \\overline{B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NOR gates.\nThis demonstrates why NAND and NOR are called universal gates.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Universal Gates using NAND & NOR"
+      "2. Universal Gates"
     ]
   },
   {
@@ -781,6 +781,17 @@
     ]
   },
   {
+    "objectID": "overview.html",
+    "href": "overview.html",
+    "title": "Digital Logic Circuits",
+    "section": "",
+    "text": "Digital Logic Circuits\nDigital Logic Circuits\n│\n├── 1. Basic Logic Gates\n│   │\n│   ├── 1.1 AND\n│   ├── 1.2 OR\n│   ├── 1.3 NOT\n│   ├── 1.4 XOR\n│   ├── 1.5 NOR\n│   └── 1.6 NAND\n│\n├── 2. Universal Gates\n│   │\n│   ├── 2.1 NOT, AND, OR using NAND\n│   └── 2.2 NOT, AND, OR using NOR\n│\n├── 3. Combinational Logic Circuits\n│   │\n│   ├── 3.1 Adders\n│   ├── 3.2 Subtractors\n│   ├── 3.3 Multiplexers\n│   ├── 3.4 Demultiplexers\n│   ├── 3.5 Encoders\n│   ├── 3.6 Decoders\n│   ├── 3.7 Comparators\n│   └── 3.8 Code Converters\n│\n└── 4. Sequential Logic Circuits\n    │\n    ├── 4.1 Latches\n    ├── 4.2 Flip-Flops\n    ├── 4.3 Counters\n    └── 4.4 Shift Registers",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "0. Overview"
+    ]
+  },
+  {
     "objectID": "Week-8.html",
     "href": "Week-8.html",
     "title": "Week 8: Advanced Flip-Flops & Sequential Circuit Design",
@@ -843,7 +854,7 @@
     "text": "The AND gate outputs 1 (HIGH) only when all of its inputs are 1.\n\n\n\nInput A\nInput B\nOutput (Y = A · B)\n\n\n\n\n0\n0\n0\n\n\n0\n1\n0\n\n\n1\n0\n0\n\n\n1\n1\n1\n\n\n\n\n\n\n\n\nThe OR gate outputs 1 (HIGH) when at least one of its inputs is 1.\n\n\n\nInput A\nInput B\nOutput (Y = A + B)\n\n\n\n\n0\n0\n0\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n1\n\n\n\n\n\n\n\n\nThe NOT gate has a single input and outputs the opposite of the input. If the input is 1, the output is 0, and vice versa.\n\n\n\nInput A\nOutput (Y = A̅)\n\n\n\n\n0\n1\n\n\n1\n0\n\n\n\n\n\n\n\n\nThe XOR (Exclusive-OR) gate outputs 1 when exactly one of its inputs is 1. It outputs 0 when both inputs are the same.\n\n\n\nInput A\nInput B\nOutput (Y = A ⊕ B)\n\n\n\n\n0\n0\n0\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n0\n\n\n\n\n\n\n\n\nThe NOR gate is the combination of an OR gate followed by a NOT gate. It outputs 1 only when all of its inputs are 0.\n\n\n\nInput A\nInput B\nOutput (Y = (A + B)̅)\n\n\n\n\n0\n0\n1\n\n\n0\n1\n0\n\n\n1\n0\n0\n\n\n1\n1\n0\n\n\n\n\n\n\n\n\nThe NAND gate is the combination of an AND gate followed by a NOT gate. It outputs 0 only when all of its inputs are 1.\n\n\n\nInput A\nInput B\nOutput (Y = (A · B)̅)\n\n\n\n\n0\n0\n1\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n0",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Basic Gates"
+      "1. Basic Logic Gates"
     ]
   },
   {
@@ -854,7 +865,7 @@
     "text": "The AND gate outputs 1 (HIGH) only when all of its inputs are 1.\n\n\n\nInput A\nInput B\nOutput (Y = A · B)\n\n\n\n\n0\n0\n0\n\n\n0\n1\n0\n\n\n1\n0\n0\n\n\n1\n1\n1\n\n\n\n\n\n\n\n\nThe OR gate outputs 1 (HIGH) when at least one of its inputs is 1.\n\n\n\nInput A\nInput B\nOutput (Y = A + B)\n\n\n\n\n0\n0\n0\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n1\n\n\n\n\n\n\n\n\nThe NOT gate has a single input and outputs the opposite of the input. If the input is 1, the output is 0, and vice versa.\n\n\n\nInput A\nOutput (Y = A̅)\n\n\n\n\n0\n1\n\n\n1\n0\n\n\n\n\n\n\n\n\nThe XOR (Exclusive-OR) gate outputs 1 when exactly one of its inputs is 1. It outputs 0 when both inputs are the same.\n\n\n\nInput A\nInput B\nOutput (Y = A ⊕ B)\n\n\n\n\n0\n0\n0\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n0\n\n\n\n\n\n\n\n\nThe NOR gate is the combination of an OR gate followed by a NOT gate. It outputs 1 only when all of its inputs are 0.\n\n\n\nInput A\nInput B\nOutput (Y = (A + B)̅)\n\n\n\n\n0\n0\n1\n\n\n0\n1\n0\n\n\n1\n0\n0\n\n\n1\n1\n0\n\n\n\n\n\n\n\n\nThe NAND gate is the combination of an AND gate followed by a NOT gate. It outputs 0 only when all of its inputs are 1.\n\n\n\nInput A\nInput B\nOutput (Y = (A · B)̅)\n\n\n\n\n0\n0\n1\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n0",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Basic Gates"
+      "1. Basic Logic Gates"
     ]
   },
   {
@@ -1155,7 +1166,7 @@
     "href": "index.html",
     "title": "Computer Systems Design",
     "section": "",
-    "text": "Faculty: Ayon Chakraborty, Assistant Professor , Computer science and Engineering, IIT Madras\nCourse Link: https://study.iitm.ac.in/ds/course_pages/BSCS3031.html\nBSCS3031 · Computer Science and Engineering\n## Course Information",
+    "text": "Course Code\nBSCS3031\n\n\nCourse Name\nComputer Systems Design\n\n\nCourse Link\nhttps://study.iitm.ac.in/ds/course_pages/BSCS3031.html\n\n\nPre-requisites\nNone\n\n\nCo-requisites\nBSCS3005 — Programming in C",
     "crumbs": [
       "About the Course"
     ]
@@ -1178,7 +1189,7 @@
     "text": "Adders are combinational logic circuits used to perform binary addition. The two basic types of adders are Half Adder and Full Adder.\n\n\n\n\nA Half Adder is a combinational circuit that adds two single-bit binary inputs, A and B.\nIt produces two outputs:\n\nSum (S) — the result of the binary addition.\nCarry (C) — the carry generated when both inputs are 1.\n\n\n\nThe Sum is produced using an XOR gate:\n\\[\nS = A \\oplus B\n\\]\nThe Carry is produced using an AND gate:\n\\[\nC = A \\cdot B\n\\]\n\n\n\n\n\n\nInput A\nInput B\nSum (S)\nCarry (C)\n\n\n\n\n0\n0\n0\n0\n\n\n0\n1\n1\n0\n\n\n1\n0\n1\n0\n\n\n1\n1\n0\n1\n\n\n\n\n\n\nA Half Adder can be implemented using:\n\\[\n\\boxed{S = A \\oplus B}\n\\]\n\\[\n\\boxed{C = A \\cdot B}\n\\]\nTherefore, a Half Adder requires one XOR gate and one AND gate.\n\n\n\n\n\n\n\nA Full Adder is a combinational circuit that adds three single-bit binary inputs:\n\nA\nB\nCᵢₙ (Carry-in)\n\nIt produces two outputs:\n\nSum (S)\nCₒᵤₜ (Carry-out)\n\n\n\nThe Sum output is:\n\\[\nS = A \\oplus B \\oplus C_{in}\n\\]\nThe Carry-out output is:\n\\[\nC_{out} = AB + C_{in}(A \\oplus B)\n\\]\nIt can also be written as:\n\\[\nC_{out} = AB + AC_{in} + BC_{in}\n\\]\n\n\n\n\n\n\nInput A\nInput B\nCarry-in (Cᵢₙ)\nSum (S)\nCarry-out (Cₒᵤₜ)\n\n\n\n\n0\n0\n0\n0\n0\n\n\n0\n0\n1\n1\n0\n\n\n0\n1\n0\n1\n0\n\n\n0\n1\n1\n0\n1\n\n\n1\n0\n0\n1\n0\n\n\n1\n0\n1\n0\n1\n\n\n1\n1\n0\n0\n1\n\n\n1\n1\n1\n1\n1\n\n\n\n\n\n\nA Full Adder can be constructed using two Half Adders and one OR gate.\nFirst Half Adder:\n\\[\nS_1 = A \\oplus B\n\\]\n\\[\nC_1 = A \\cdot B\n\\]\nSecond Half Adder:\n\\[\nS = S_1 \\oplus C_{in}\n\\]\n\\[\nC_2 = S_1 \\cdot C_{in}\n\\]\nFinally, the two carry outputs are combined using an OR gate:\n\\[\nC_{out} = C_1 + C_2\n\\]\nTherefore:\n\\[\n\\boxed{S = A \\oplus B \\oplus C_{in}}\n\\]\n\\[\n\\boxed{C_{out} = AB + C_{in}(A \\oplus B)}\n\\]\nA Full Adder can therefore be implemented using two Half Adders and one OR gate.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Adders"
+      "3. Combinational Logic Circuits"
     ]
   },
   {
@@ -1189,7 +1200,7 @@
     "text": "A Half Adder is a combinational circuit that adds two single-bit binary inputs, A and B.\nIt produces two outputs:\n\nSum (S) — the result of the binary addition.\nCarry (C) — the carry generated when both inputs are 1.\n\n\n\nThe Sum is produced using an XOR gate:\n\\[\nS = A \\oplus B\n\\]\nThe Carry is produced using an AND gate:\n\\[\nC = A \\cdot B\n\\]\n\n\n\n\n\n\nInput A\nInput B\nSum (S)\nCarry (C)\n\n\n\n\n0\n0\n0\n0\n\n\n0\n1\n1\n0\n\n\n1\n0\n1\n0\n\n\n1\n1\n0\n1\n\n\n\n\n\n\nA Half Adder can be implemented using:\n\\[\n\\boxed{S = A \\oplus B}\n\\]\n\\[\n\\boxed{C = A \\cdot B}\n\\]\nTherefore, a Half Adder requires one XOR gate and one AND gate.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Adders"
+      "3. Combinational Logic Circuits"
     ]
   },
   {
@@ -1200,7 +1211,7 @@
     "text": "A Full Adder is a combinational circuit that adds three single-bit binary inputs:\n\nA\nB\nCᵢₙ (Carry-in)\n\nIt produces two outputs:\n\nSum (S)\nCₒᵤₜ (Carry-out)\n\n\n\nThe Sum output is:\n\\[\nS = A \\oplus B \\oplus C_{in}\n\\]\nThe Carry-out output is:\n\\[\nC_{out} = AB + C_{in}(A \\oplus B)\n\\]\nIt can also be written as:\n\\[\nC_{out} = AB + AC_{in} + BC_{in}\n\\]\n\n\n\n\n\n\nInput A\nInput B\nCarry-in (Cᵢₙ)\nSum (S)\nCarry-out (Cₒᵤₜ)\n\n\n\n\n0\n0\n0\n0\n0\n\n\n0\n0\n1\n1\n0\n\n\n0\n1\n0\n1\n0\n\n\n0\n1\n1\n0\n1\n\n\n1\n0\n0\n1\n0\n\n\n1\n0\n1\n0\n1\n\n\n1\n1\n0\n0\n1\n\n\n1\n1\n1\n1\n1\n\n\n\n\n\n\nA Full Adder can be constructed using two Half Adders and one OR gate.\nFirst Half Adder:\n\\[\nS_1 = A \\oplus B\n\\]\n\\[\nC_1 = A \\cdot B\n\\]\nSecond Half Adder:\n\\[\nS = S_1 \\oplus C_{in}\n\\]\n\\[\nC_2 = S_1 \\cdot C_{in}\n\\]\nFinally, the two carry outputs are combined using an OR gate:\n\\[\nC_{out} = C_1 + C_2\n\\]\nTherefore:\n\\[\n\\boxed{S = A \\oplus B \\oplus C_{in}}\n\\]\n\\[\n\\boxed{C_{out} = AB + C_{in}(A \\oplus B)}\n\\]\nA Full Adder can therefore be implemented using two Half Adders and one OR gate.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "Adders"
+      "3. Combinational Logic Circuits"
     ]
   }
 ]
