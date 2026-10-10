@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CircuitVerse Interactive Simulations – CSD [CS3031]</title>
+<title>subtractors – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,27 +29,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./adders.html" rel="next">
-<link href="./basic_gates.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../circuitverse/5.multiplexers.html" rel="next">
+<link href="../circuitverse/3.adders.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -279,7 +279,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./universal_gates.html">2. Universal Gates</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuitverse/0.overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="../circuitverse/4.subtractors.html">4. Subtractors</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -294,7 +294,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">CSD [CS3031]</a> 
+      <a href="../">CSD [CS3031]</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -309,8 +309,80 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-12</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -324,132 +396,44 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/0.overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">0. Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./basic_gates.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/1.basic_gates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Basic Logic Gates</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./universal_gates.html" class="sidebar-item-text sidebar-link active">
+  <a href="../circuitverse/2.universal_gates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Universal Gates</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./adders.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Combinational Logic Circuits</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Weekwise Summary Notes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-1</span></a>
+  <a href="../circuitverse/3.adders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Adders</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-2</span></a>
+  <a href="../circuitverse/4.subtractors.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">4. Subtractors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-3</span></a>
+  <a href="../circuitverse/5.multiplexers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Multiplexers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-4</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-5</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-6</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-7</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-8</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-9</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-10</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-11</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-12</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
- <span class="menu-text">Digital Logics For GATE</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Number_Systems.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Number Systems</span></a>
+  <a href="../circuitverse/6.demultiplexers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Demultiplexers</span></a>
   </div>
 </li>
       </ul>
@@ -464,120 +448,217 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#universal-gates" id="toc-universal-gates" class="nav-link active" data-scroll-target="#universal-gates">2. Universal Gates</a>
+  <li><a href="#subtractors" id="toc-subtractors" class="nav-link active" data-scroll-target="#subtractors">4. Subtractors</a>
   <ul class="collapse">
-  <li><a href="#not-and-or-gates-using-nand" id="toc-not-and-or-gates-using-nand" class="nav-link" data-scroll-target="#not-and-or-gates-using-nand">2.1 NOT, AND, OR Gates using NAND</a></li>
-  <li><a href="#not-and-or-gates-using-nor" id="toc-not-and-or-gates-using-nor" class="nav-link" data-scroll-target="#not-and-or-gates-using-nor">2.2 NOT, AND, OR Gates using NOR</a></li>
+  <li><a href="#half-subtractor" id="toc-half-subtractor" class="nav-link" data-scroll-target="#half-subtractor">4.1 Half Subtractor</a>
+  <ul class="collapse">
+  <li><a href="#boolean-expressions" id="toc-boolean-expressions" class="nav-link" data-scroll-target="#boolean-expressions">Boolean Expressions</a></li>
+  <li><a href="#truth-table" id="toc-truth-table" class="nav-link" data-scroll-target="#truth-table">Truth Table</a></li>
+  <li><a href="#logic-implementation" id="toc-logic-implementation" class="nav-link" data-scroll-target="#logic-implementation">Logic Implementation</a></li>
+  </ul></li>
+  <li><a href="#full-subtractor" id="toc-full-subtractor" class="nav-link" data-scroll-target="#full-subtractor">4.2 Full Subtractor</a>
+  <ul class="collapse">
+  <li><a href="#boolean-expressions-1" id="toc-boolean-expressions-1" class="nav-link" data-scroll-target="#boolean-expressions-1">Boolean Expressions</a></li>
+  <li><a href="#truth-table-1" id="toc-truth-table-1" class="nav-link" data-scroll-target="#truth-table-1">Truth Table</a></li>
+  <li><a href="#full-subtractor-using-two-half-subtractors" id="toc-full-subtractor-using-two-half-subtractors" class="nav-link" data-scroll-target="#full-subtractor-using-two-half-subtractors">Full Subtractor using Two Half Subtractors</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./universal_gates.html">2. Universal Gates</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">CircuitVerse Interactive Simulations</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuitverse/0.overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="../circuitverse/4.subtractors.html">4. Subtractors</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
-
-
-<section id="universal-gates" class="level2">
-<h2 class="anchored" data-anchor-id="universal-gates">2. Universal Gates</h2>
-<p>A <strong>universal gate</strong> is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are <strong>NAND</strong> and <strong>NOR</strong>.</p>
-<section id="not-and-or-gates-using-nand" class="level3">
-<h3 class="anchored" data-anchor-id="not-and-or-gates-using-nand">2.1 NOT, AND, OR Gates using NAND</h3>
-<iframe src="https://circuitverse.org/users/464938/projects/not-and-or-using-nand-615f6b53-5f1f-49a3-bb2d-9100916c7d1a/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+<section id="subtractors" class="level1">
+<h1>4. Subtractors</h1>
+<p>Subtractors are <strong>combinational logic circuits</strong> used to perform binary subtraction. The two basic types of subtractors are <strong>Half Subtractor</strong> and <strong>Full Subtractor</strong>.</p>
+<section id="half-subtractor" class="level2">
+<h2 class="anchored" data-anchor-id="half-subtractor">4.1 Half Subtractor</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/half-subtractor-131d0421-dd4b-4065-8310-b57f28bafef4/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=false&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
 </iframe>
-<p>The <strong>NAND gate</strong> is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.</p>
-<section id="not-gate-using-nand" class="level4">
-<h4 class="anchored" data-anchor-id="not-gate-using-nand">NOT Gate using NAND</h4>
-<p>To construct a NOT gate, connect both inputs of a NAND gate to the same input <code>A</code>.</p>
-<p><strong>Formula:</strong></p>
-<p><span class="math display">\[
-Y = A \text{ NAND } A
-\]</span></p>
-<p><span class="math display">\[
-Y = \overline{A \cdot A} = \overline{A}
-\]</span></p>
+<p>A <strong>Half Subtractor</strong> is a combinational circuit that subtracts two single-bit binary inputs: <code>A</code> (Minuend) and <code>B</code> (Subtrahend).</p>
+<p>It produces two outputs:</p>
+<ul>
+<li><strong>Difference (D)</strong> — the result of the binary subtraction.</li>
+<li><strong>Borrow (B)</strong> — the borrow generated when <code>A</code> is less than <code>B</code>.</li>
+</ul>
+<section id="boolean-expressions" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-expressions">Boolean Expressions</h3>
+<p>The <strong>Difference</strong> is produced using an XOR gate:</p>
+<p><span class="math display">\[D = A \oplus B\]</span></p>
+<p>The <strong>Borrow</strong> is produced using a NOT gate and an AND gate:</p>
+<p><span class="math display">\[B = \overline{A} \cdot B\]</span></p>
 </section>
-<section id="and-gate-using-nand" class="level4">
-<h4 class="anchored" data-anchor-id="and-gate-using-nand">AND Gate using NAND</h4>
-<p>A NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.</p>
-<p><strong>Formula:</strong></p>
-<p><span class="math display">\[
-Y = \overline{\overline{A \cdot B}}
-\]</span></p>
-<p><span class="math display">\[
-Y = A \cdot B
-\]</span></p>
+<section id="truth-table" class="level3">
+<h3 class="anchored" data-anchor-id="truth-table">Truth Table</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Difference (D)</th>
+<th>Borrow (B)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="or-gate-using-nand" class="level4">
-<h4 class="anchored" data-anchor-id="or-gate-using-nand">OR Gate using NAND</h4>
-<p>Using De Morgan’s theorem, an OR gate can be constructed using three NAND gates.</p>
-<p><strong>Formula:</strong></p>
-<p><span class="math display">\[
-Y = \overline{\overline{A} \cdot \overline{B}}
-\]</span></p>
-<p><span class="math display">\[
-Y = A + B
-\]</span></p>
-<p>Thus, <strong>NOT, AND, and OR gates can all be implemented using only NAND gates</strong>.</p>
+<section id="logic-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="logic-implementation">Logic Implementation</h3>
+<p>A Half Subtractor can be implemented using:</p>
+<p><span class="math display">\[\boxed{D = A \oplus B}\]</span></p>
+<p><span class="math display">\[\boxed{B = \overline{A} \cdot B}\]</span></p>
+<p>Therefore, a Half Subtractor requires <strong>one XOR gate, one NOT gate, and one AND gate</strong>.</p>
 <hr>
 </section>
 </section>
-<section id="not-and-or-gates-using-nor" class="level3">
-<h3 class="anchored" data-anchor-id="not-and-or-gates-using-nor">2.2 NOT, AND, OR Gates using NOR</h3>
-<iframe src="https://circuitverse.org/users/464938/projects/not-or-and-using-nor-09bba0a2-f563-40c4-b79c-0bd870dc2cf6/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+<section id="full-subtractor" class="level2">
+<h2 class="anchored" data-anchor-id="full-subtractor">4.2 Full Subtractor</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/full-subtractor-36338e7e-341d-4aa5-b515-3d6d7fdbeb6a/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=false&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
 </iframe>
-<p>The <strong>NOR gate</strong> is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.</p>
-<section id="not-gate-using-nor" class="level4">
-<h4 class="anchored" data-anchor-id="not-gate-using-nor">NOT Gate using NOR</h4>
-<p>To construct a NOT gate, connect both inputs of a NOR gate to the same input <code>A</code>.</p>
-<p><strong>Formula:</strong></p>
-<p><span class="math display">\[
-Y = A \text{ NOR } A
-\]</span></p>
-<p><span class="math display">\[
-Y = \overline{A + A} = \overline{A}
-\]</span></p>
+<p>A <strong>Full Subtractor</strong> is a combinational circuit that subtracts <strong>three single-bit binary inputs</strong>:</p>
+<ul>
+<li><code>A</code> (Minuend)</li>
+<li><code>B</code> (Subtrahend)</li>
+<li><code>Bᵢₙ</code> (Borrow-in)</li>
+</ul>
+<p>It produces two outputs:</p>
+<ul>
+<li><strong>Difference (D)</strong></li>
+<li><strong>Bₒᵤₜ</strong> (Borrow-out)</li>
+</ul>
+<section id="boolean-expressions-1" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-expressions-1">Boolean Expressions</h3>
+<p>The Difference output is:</p>
+<p><span class="math display">\[D = A \oplus B \oplus B_{in}\]</span></p>
+<p>The Borrow-out output is:</p>
+<p><span class="math display">\[B_{out} = \overline{A}B + \overline{A}B_{in} + BB_{in}\]</span></p>
+<p>It can also be written using XOR and AND forms as:</p>
+<p><span class="math display">\[B_{out} = \overline{A}B + (\overline{A \oplus B})B_{in}\]</span></p>
 </section>
-<section id="or-gate-using-nor" class="level4">
-<h4 class="anchored" data-anchor-id="or-gate-using-nor">OR Gate using NOR</h4>
-<p>A NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.</p>
-<p><strong>Formula:</strong></p>
-<p><span class="math display">\[
-Y = \overline{\overline{A + B}}
-\]</span></p>
-<p><span class="math display">\[
-Y = A + B
-\]</span></p>
+<section id="truth-table-1" class="level3">
+<h3 class="anchored" data-anchor-id="truth-table-1">Truth Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Input A</th>
+<th>Input B</th>
+<th>Borrow-in (Bᵢₙ)</th>
+<th>Difference (D)</th>
+<th>Borrow-out (Bₒᵤₜ)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="and-gate-using-nor" class="level4">
-<h4 class="anchored" data-anchor-id="and-gate-using-nor">AND Gate using NOR</h4>
-<p>Using De Morgan’s theorem, an AND gate can be constructed using three NOR gates.</p>
-<p><strong>Formula:</strong></p>
-<p><span class="math display">\[
-Y = \overline{\overline{A} + \overline{B}}
-\]</span></p>
-<p><span class="math display">\[
-Y = A \cdot B
-\]</span></p>
-<p>Thus, <strong>NOT, AND, and OR gates can all be implemented using only NOR gates</strong>.</p>
-<p>This demonstrates why <strong>NAND and NOR are called universal gates</strong>.</p>
+<section id="full-subtractor-using-two-half-subtractors" class="level3">
+<h3 class="anchored" data-anchor-id="full-subtractor-using-two-half-subtractors">Full Subtractor using Two Half Subtractors</h3>
+<p>A Full Subtractor can be constructed using <strong>two Half Subtractors and one OR gate</strong>.</p>
+<p>First Half Subtractor:</p>
+<p><span class="math display">\[D_1 = A \oplus B\]</span></p>
+<p><span class="math display">\[B_1 = \overline{A} \cdot B\]</span></p>
+<p>Second Half Subtractor:</p>
+<p><span class="math display">\[D = D_1 \oplus B_{in}\]</span></p>
+<p><span class="math display">\[B_2 = \overline{D_1} \cdot B_{in}\]</span></p>
+<p>Finally, the two borrow outputs are combined using an OR gate:</p>
+<p><span class="math display">\[B_{out} = B_1 + B_2\]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[\boxed{D = A \oplus B \oplus B_{in}}\]</span></p>
+<p><span class="math display">\[\boxed{B_{out} = \overline{A}B + (\overline{A \oplus B})B_{in}}\]</span></p>
+<p>A Full Subtractor can therefore be implemented using <strong>two Half Subtractors, one NOT gate, and one OR gate</strong>.</p>
 
 
 </section>
@@ -1000,13 +1081,13 @@ Y = A \cdot B
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./basic_gates.html" class="pagination-link" aria-label="1. Basic Logic Gates">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1. Basic Logic Gates</span>
+      <a href="../circuitverse/3.adders.html" class="pagination-link" aria-label="3. Adders">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3. Adders</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./adders.html" class="pagination-link" aria-label="3. Combinational Logic Circuits">
-        <span class="nav-page-text">3. Combinational Logic Circuits</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../circuitverse/5.multiplexers.html" class="pagination-link" aria-label="5. Multiplexers">
+        <span class="nav-page-text">5. Multiplexers</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>adders – CSD [CS3031]</title>
+<title>demultiplexers – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,27 +29,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./Week-1.html" rel="next">
-<link href="./universal_gates.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../circuitverse/5.multiplexers.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -279,7 +278,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./adders.html">3. Combinational Logic Circuits</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuitverse/0.overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="../circuitverse/6.demultiplexers.html">6. Demultiplexers</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -294,7 +293,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">CSD [CS3031]</a> 
+      <a href="../">CSD [CS3031]</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -309,8 +308,80 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-12</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -324,132 +395,44 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/0.overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">0. Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./basic_gates.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/1.basic_gates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Basic Logic Gates</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./universal_gates.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/2.universal_gates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Universal Gates</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./adders.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">3. Combinational Logic Circuits</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Weekwise Summary Notes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-1</span></a>
+  <a href="../circuitverse/3.adders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Adders</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-2</span></a>
+  <a href="../circuitverse/4.subtractors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Subtractors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-3</span></a>
+  <a href="../circuitverse/5.multiplexers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Multiplexers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-4</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-5</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-6</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-7</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-8</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-9</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-10</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-11</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-12</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
- <span class="menu-text">Digital Logics For GATE</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Number_Systems.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Number Systems</span></a>
+  <a href="../circuitverse/6.demultiplexers.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">6. Demultiplexers</span></a>
   </div>
 </li>
       </ul>
@@ -464,64 +447,59 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#adders" id="toc-adders" class="nav-link active" data-scroll-target="#adders">3. Adders</a>
+  <li><a href="#demultiplexers" id="toc-demultiplexers" class="nav-link active" data-scroll-target="#demultiplexers">6. Demultiplexers</a>
   <ul class="collapse">
-  <li><a href="#half-adder" id="toc-half-adder" class="nav-link" data-scroll-target="#half-adder">3.1 Half Adder</a>
+  <li><a href="#to-2-demultiplexer" id="toc-to-2-demultiplexer" class="nav-link" data-scroll-target="#to-2-demultiplexer">6.1 1-to-2 Demultiplexer</a>
   <ul class="collapse">
   <li><a href="#boolean-expressions" id="toc-boolean-expressions" class="nav-link" data-scroll-target="#boolean-expressions">Boolean Expressions</a></li>
   <li><a href="#truth-table" id="toc-truth-table" class="nav-link" data-scroll-target="#truth-table">Truth Table</a></li>
   <li><a href="#logic-implementation" id="toc-logic-implementation" class="nav-link" data-scroll-target="#logic-implementation">Logic Implementation</a></li>
   </ul></li>
-  <li><a href="#full-adder" id="toc-full-adder" class="nav-link" data-scroll-target="#full-adder">3.2 Full Adder</a>
+  <li><a href="#to-4-demultiplexer" id="toc-to-4-demultiplexer" class="nav-link" data-scroll-target="#to-4-demultiplexer">6.2 1-to-4 Demultiplexer</a>
   <ul class="collapse">
   <li><a href="#boolean-expressions-1" id="toc-boolean-expressions-1" class="nav-link" data-scroll-target="#boolean-expressions-1">Boolean Expressions</a></li>
   <li><a href="#truth-table-1" id="toc-truth-table-1" class="nav-link" data-scroll-target="#truth-table-1">Truth Table</a></li>
-  <li><a href="#full-adder-using-two-half-adders" id="toc-full-adder-using-two-half-adders" class="nav-link" data-scroll-target="#full-adder-using-two-half-adders">Full Adder using Two Half Adders</a></li>
+  <li><a href="#logic-implementation-1" id="toc-logic-implementation-1" class="nav-link" data-scroll-target="#logic-implementation-1">Logic Implementation</a></li>
   </ul></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./adders.html">3. Combinational Logic Circuits</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuitverse/0.overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="../circuitverse/6.demultiplexers.html">6. Demultiplexers</a></li></ol></nav></header>
 
 
 
 
 
-<section id="adders" class="level1">
-<h1>3. Adders</h1>
-<p>Adders are <strong>combinational logic circuits</strong> used to perform binary addition. The two basic types of adders are <strong>Half Adder</strong> and <strong>Full Adder</strong>.</p>
-<section id="half-adder" class="level2">
-<h2 class="anchored" data-anchor-id="half-adder">3.1 Half Adder</h2>
-<iframe src="https://circuitverse.org/users/464938/projects/half-adder-530ddf20-fbea-47e5-8a63-8e9ad64ed12e/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+<section id="demultiplexers" class="level1">
+<h1>6. Demultiplexers</h1>
+<p>Demultiplexers (DEMUX) are <strong>combinational logic circuits</strong> used to route a single input data line to one of multiple output lines. The selection of a particular output line is determined by a set of <strong>select lines</strong>. If there are <span class="math inline">\(n\)</span> select lines, the demultiplexer can direct the input to <span class="math inline">\(2^n\)</span> possible outputs. Because of this behavior, a demultiplexer is commonly referred to as a <strong>data distributor</strong>.</p>
+<section id="to-2-demultiplexer" class="level2">
+<h2 class="anchored" data-anchor-id="to-2-demultiplexer">6.1 1-to-2 Demultiplexer</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/1-to-2-demultiplexer-634c9884-1089-4cc3-8141-9cde565c01e2/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=false&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
 </iframe>
-<p>A <strong>Half Adder</strong> is a combinational circuit that adds two single-bit binary inputs, <code>A</code> and <code>B</code>.</p>
-<p>It produces two outputs:</p>
+<p>A <strong>1-to-2 Demultiplexer</strong> has one data input (<code>D</code>), one select line (<code>S</code>), and two output lines (<code>Y₀</code> and <code>Y₁</code>).</p>
 <ul>
-<li><strong>Sum (S)</strong> — the result of the binary addition.</li>
-<li><strong>Carry (C)</strong> — the carry generated when both inputs are <code>1</code>.</li>
+<li>When <code>S = 0</code>, the input <code>D</code> is routed to <code>Y₀</code> (while <code>Y₁ = 0</code>).</li>
+<li>When <code>S = 1</code>, the input <code>D</code> is routed to <code>Y₁</code> (while <code>Y₀ = 0</code>).</li>
 </ul>
 <section id="boolean-expressions" class="level3">
 <h3 class="anchored" data-anchor-id="boolean-expressions">Boolean Expressions</h3>
-<p>The <strong>Sum</strong> is produced using an XOR gate:</p>
-<p><span class="math display">\[
-S = A \oplus B
-\]</span></p>
-<p>The <strong>Carry</strong> is produced using an AND gate:</p>
-<p><span class="math display">\[
-C = A \cdot B
-\]</span></p>
+<p>The output <code>Y₀</code> is produced using a NOT gate and an AND gate:</p>
+<p><span class="math display">\[Y_0 = \overline{S} \cdot D\]</span></p>
+<p>The output <code>Y₁</code> is produced using an AND gate:</p>
+<p><span class="math display">\[Y_1 = S \cdot D\]</span></p>
 </section>
 <section id="truth-table" class="level3">
 <h3 class="anchored" data-anchor-id="truth-table">Truth Table</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Input A</th>
-<th>Input B</th>
-<th>Sum (S)</th>
-<th>Carry (C)</th>
+<th>Select (S)</th>
+<th>Input (D)</th>
+<th>Output <span class="math inline">\(Y_0\)</span></th>
+<th>Output <span class="math inline">\(Y_1\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -540,7 +518,7 @@ C = A \cdot B
 <tr class="odd">
 <td>1</td>
 <td>0</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 </tr>
 <tr class="even">
@@ -554,79 +532,57 @@ C = A \cdot B
 </section>
 <section id="logic-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="logic-implementation">Logic Implementation</h3>
-<p>A Half Adder can be implemented using:</p>
-<p><span class="math display">\[
-\boxed{S = A \oplus B}
-\]</span></p>
-<p><span class="math display">\[
-\boxed{C = A \cdot B}
-\]</span></p>
-<p>Therefore, a Half Adder requires <strong>one XOR gate and one AND gate</strong>.</p>
+<p>A 1-to-2 Demultiplexer can be implemented using:</p>
+<p><span class="math display">\[\boxed{Y_0 = \overline{S} \cdot D}\]</span></p>
+<p><span class="math display">\[\boxed{Y_1 = S \cdot D}\]</span></p>
+<p>Therefore, a 1-to-2 Demultiplexer requires <strong>two AND gates and one NOT gate</strong>.</p>
 <hr>
 </section>
 </section>
-<section id="full-adder" class="level2">
-<h2 class="anchored" data-anchor-id="full-adder">3.2 Full Adder</h2>
-<iframe src="https://circuitverse.org/users/464938/projects/full-adder-c44fb600-ba3b-42b4-ab40-1c2d5454ee4e/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+<section id="to-4-demultiplexer" class="level2">
+<h2 class="anchored" data-anchor-id="to-4-demultiplexer">6.2 1-to-4 Demultiplexer</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/1-to-4-demultiplexer-fe665b9b-4988-4b91-bd39-88f2cde5a7bb/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=false&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
 </iframe>
-<p>A <strong>Full Adder</strong> is a combinational circuit that adds <strong>three single-bit binary inputs</strong>:</p>
-<ul>
-<li><code>A</code></li>
-<li><code>B</code></li>
-<li><code>Cᵢₙ</code> (Carry-in)</li>
-</ul>
-<p>It produces two outputs:</p>
-<ul>
-<li><strong>Sum (S)</strong></li>
-<li><strong>Cₒᵤₜ</strong> (Carry-out)</li>
-</ul>
+<p>A <strong>1-to-4 Demultiplexer</strong> has one data input (<code>D</code>), two select lines (<code>S₁</code>, <code>S₀</code>), and four outputs (<code>Y₀</code>, <code>Y₁</code>, <code>Y₂</code>, <code>Y₃</code>). The select lines decode to determine which of the four output lines receives the data input <code>D</code>.</p>
 <section id="boolean-expressions-1" class="level3">
 <h3 class="anchored" data-anchor-id="boolean-expressions-1">Boolean Expressions</h3>
-<p>The Sum output is:</p>
-<p><span class="math display">\[
-S = A \oplus B \oplus C_{in}
-\]</span></p>
-<p>The Carry-out output is:</p>
-<p><span class="math display">\[
-C_{out} = AB + C_{in}(A \oplus B)
-\]</span></p>
-<p>It can also be written as:</p>
-<p><span class="math display">\[
-C_{out} = AB + AC_{in} + BC_{in}
-\]</span></p>
+<p>The output expressions for each line are:</p>
+<p><span class="math display">\[Y_0 = \overline{S_1} \, \overline{S_0} \cdot D\]</span></p>
+<p><span class="math display">\[Y_1 = \overline{S_1} S_0 \cdot D\]</span></p>
+<p><span class="math display">\[Y_2 = S_1 \, \overline{S_0} \cdot D\]</span></p>
+<p><span class="math display">\[Y_3 = S_1 S_0 \cdot D\]</span></p>
 </section>
 <section id="truth-table-1" class="level3">
 <h3 class="anchored" data-anchor-id="truth-table-1">Truth Table</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Input A</th>
-<th>Input B</th>
-<th>Carry-in (Cᵢₙ)</th>
-<th>Sum (S)</th>
-<th>Carry-out (Cₒᵤₜ)</th>
+<th>Select <span class="math inline">\(S_1\)</span></th>
+<th>Select <span class="math inline">\(S_0\)</span></th>
+<th>Input (D)</th>
+<th>Output <span class="math inline">\(Y_0\)</span></th>
+<th>Output <span class="math inline">\(Y_1\)</span></th>
+<th>Output <span class="math inline">\(Y_2\)</span></th>
+<th>Output <span class="math inline">\(Y_3\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
 <td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>0</td>
 <td>1</td>
 <td>1</td>
 <td>0</td>
-</tr>
-<tr class="odd">
 <td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
 <td>0</td>
 </tr>
 <tr class="even">
@@ -635,67 +591,39 @@ C_{out} = AB + AC_{in} + BC_{in}
 <td>1</td>
 <td>0</td>
 <td>1</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr class="odd">
 <td>1</td>
 <td>0</td>
+<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>1</td>
 <td>0</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr class="odd">
 <td>1</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
+<td>0</td>
 <td>1</td>
 </tr>
 </tbody>
 </table>
+<p><em>(Note: When Input <code>D</code> is <code>0</code>, all outputs remain <code>0</code> regardless of the select lines).</em></p>
 </section>
-<section id="full-adder-using-two-half-adders" class="level3">
-<h3 class="anchored" data-anchor-id="full-adder-using-two-half-adders">Full Adder using Two Half Adders</h3>
-<p>A Full Adder can be constructed using <strong>two Half Adders and one OR gate</strong>.</p>
-<p>First Half Adder:</p>
-<p><span class="math display">\[
-S_1 = A \oplus B
-\]</span></p>
-<p><span class="math display">\[
-C_1 = A \cdot B
-\]</span></p>
-<p>Second Half Adder:</p>
-<p><span class="math display">\[
-S = S_1 \oplus C_{in}
-\]</span></p>
-<p><span class="math display">\[
-C_2 = S_1 \cdot C_{in}
-\]</span></p>
-<p>Finally, the two carry outputs are combined using an OR gate:</p>
-<p><span class="math display">\[
-C_{out} = C_1 + C_2
-\]</span></p>
-<p>Therefore:</p>
-<p><span class="math display">\[
-\boxed{S = A \oplus B \oplus C_{in}}
-\]</span></p>
-<p><span class="math display">\[
-\boxed{C_{out} = AB + C_{in}(A \oplus B)}
-\]</span></p>
-<p>A Full Adder can therefore be implemented using <strong>two Half Adders and one OR gate</strong>.</p>
+<section id="logic-implementation-1" class="level3">
+<h3 class="anchored" data-anchor-id="logic-implementation-1">Logic Implementation</h3>
+<p>A 1-to-4 Demultiplexer can be constructed using a 2-to-4 decoder combined with AND gates, or directly implemented using:</p>
+<p><span class="math display">\[\boxed{Y_0 = \overline{S_1} \, \overline{S_0} D}\]</span></p>
+<p><span class="math display">\[\boxed{Y_1 = \overline{S_1} S_0 D}\]</span></p>
+<p><span class="math display">\[\boxed{Y_2 = S_1 \, \overline{S_0} D}\]</span></p>
+<p><span class="math display">\[\boxed{Y_3 = S_1 S_2 D}\]</span></p>
+<p>A 1-to-4 Demultiplexer can therefore be implemented using <strong>four 3-input AND gates and two NOT gates</strong>.</p>
 
 
 </section>
@@ -1118,14 +1046,11 @@ C_{out} = C_1 + C_2
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./universal_gates.html" class="pagination-link" aria-label="2. Universal Gates">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2. Universal Gates</span>
+      <a href="../circuitverse/5.multiplexers.html" class="pagination-link" aria-label="5. Multiplexers">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">5. Multiplexers</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Week-1.html" class="pagination-link" aria-label="Week-1">
-        <span class="nav-page-text">Week-1</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

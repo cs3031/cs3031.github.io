@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CircuitVerse Interactive Simulations – CSD [CS3031]</title>
+<title>multiplexers – CSD [CS3031]</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,27 +29,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./universal_gates.html" rel="next">
-<link href="./overview.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../circuitverse/6.demultiplexers.html" rel="next">
+<link href="../circuitverse/4.subtractors.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9983afd30699919a179699271d58ff18.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-2bc82dfeb9f699239f8ed2044f4409cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -78,6 +78,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -250,7 +279,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./basic_gates.html">1. Basic Logic Gates</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuitverse/0.overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="../circuitverse/5.multiplexers.html">5. Multiplexers</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -265,7 +294,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">CSD [CS3031]</a> 
+      <a href="../">CSD [CS3031]</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -280,8 +309,80 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week-12</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -295,132 +396,44 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/0.overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">0. Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./basic_gates.html" class="sidebar-item-text sidebar-link active">
+  <a href="../circuitverse/1.basic_gates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Basic Logic Gates</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./universal_gates.html" class="sidebar-item-text sidebar-link">
+  <a href="../circuitverse/2.universal_gates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Universal Gates</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./adders.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Combinational Logic Circuits</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Weekwise Summary Notes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-1</span></a>
+  <a href="../circuitverse/3.adders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Adders</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-2</span></a>
+  <a href="../circuitverse/4.subtractors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Subtractors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-3</span></a>
+  <a href="../circuitverse/5.multiplexers.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">5. Multiplexers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Week-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-4</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-5</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-6</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-7</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-8</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-9</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-10</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-11</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Week-12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-12</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
- <span class="menu-text">Digital Logics For GATE</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Number_Systems.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Number Systems</span></a>
+  <a href="../circuitverse/6.demultiplexers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Demultiplexers</span></a>
   </div>
 </li>
       </ul>
@@ -435,253 +448,140 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#basic-logic-gates" id="toc-basic-logic-gates" class="nav-link active" data-scroll-target="#basic-logic-gates">1. Basic Logic Gates</a>
+  <li><a href="#multiplexers" id="toc-multiplexers" class="nav-link active" data-scroll-target="#multiplexers">5. Multiplexers</a>
   <ul class="collapse">
-  <li><a href="#and-gate" id="toc-and-gate" class="nav-link" data-scroll-target="#and-gate">1.1 AND Gate</a></li>
-  <li><a href="#or-gate" id="toc-or-gate" class="nav-link" data-scroll-target="#or-gate">1.2 OR Gate</a></li>
-  <li><a href="#not-gate" id="toc-not-gate" class="nav-link" data-scroll-target="#not-gate">1.3 NOT Gate</a></li>
-  <li><a href="#xor-gate" id="toc-xor-gate" class="nav-link" data-scroll-target="#xor-gate">1.4 XOR Gate</a></li>
-  <li><a href="#nor-gate" id="toc-nor-gate" class="nav-link" data-scroll-target="#nor-gate">1.5 NOR Gate</a></li>
-  <li><a href="#nand-gate" id="toc-nand-gate" class="nav-link" data-scroll-target="#nand-gate">1.6 NAND Gate</a></li>
+  <li><a href="#to-1-multiplexer" id="toc-to-1-multiplexer" class="nav-link" data-scroll-target="#to-1-multiplexer">5.1 2-to-1 Multiplexer</a>
+  <ul class="collapse">
+  <li><a href="#boolean-expression" id="toc-boolean-expression" class="nav-link" data-scroll-target="#boolean-expression">Boolean Expression</a></li>
+  <li><a href="#truth-table" id="toc-truth-table" class="nav-link" data-scroll-target="#truth-table">Truth Table</a></li>
+  <li><a href="#logic-implementation" id="toc-logic-implementation" class="nav-link" data-scroll-target="#logic-implementation">Logic Implementation</a></li>
+  </ul></li>
+  <li><a href="#to-1-multiplexer-1" id="toc-to-1-multiplexer-1" class="nav-link" data-scroll-target="#to-1-multiplexer-1">5.2 4-to-1 Multiplexer</a>
+  <ul class="collapse">
+  <li><a href="#boolean-expression-1" id="toc-boolean-expression-1" class="nav-link" data-scroll-target="#boolean-expression-1">Boolean Expression</a></li>
+  <li><a href="#truth-table-1" id="toc-truth-table-1" class="nav-link" data-scroll-target="#truth-table-1">Truth Table</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="./basic_gates.html">1. Basic Logic Gates</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">CircuitVerse Interactive Simulations</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuitverse/0.overview.html">CircuitVerse Simulations</a></li><li class="breadcrumb-item"><a href="../circuitverse/5.multiplexers.html">5. Multiplexers</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
-
-
-<section id="basic-logic-gates" class="level2">
-<h2 class="anchored" data-anchor-id="basic-logic-gates">1. Basic Logic Gates</h2>
-<section id="and-gate" class="level3">
-<h3 class="anchored" data-anchor-id="and-gate">1.1 AND Gate</h3>
-<p>The <strong>AND gate</strong> outputs <code>1</code> (HIGH) only when <strong>all</strong> of its inputs are <code>1</code>.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Input A</th>
-<th style="text-align: center;">Input B</th>
-<th style="text-align: center;">Output (Y = A · B)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
-<iframe src="https://circuitverse.org/users/464938/projects/and-d9b6f574-775c-41b4-a06e-76780ed8e552/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+<section id="multiplexers" class="level1">
+<h1>5. Multiplexers</h1>
+<p>Multiplexers (MUX) are <strong>combinational logic circuits</strong> designed to select one of many input lines and forward the selected input onto a single output line. Because of this behavior, a multiplexer is commonly referred to as a <strong>data selector</strong>.</p>
+<p>The selection of a particular input line is controlled by a set of <strong>select lines</strong>. If there are <span class="math inline">\(n\)</span> select lines, the multiplexer can handle up to <span class="math inline">\(2^n\)</span> inputs.</p>
+<hr>
+<section id="to-1-multiplexer" class="level2">
+<h2 class="anchored" data-anchor-id="to-1-multiplexer">5.1 2-to-1 Multiplexer</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/2-to-1-multiplexer-c1c475cd-b0ae-4fd1-a130-381893ac0a4c/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=false&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
 </iframe>
+<p>A <strong>2-to-1 Multiplexer</strong> has two data inputs (<code>D₀</code> and <code>D₁</code>), one select line (<code>S</code>), and a single output (<code>Y</code>).</p>
+<ul>
+<li>When <code>S = 0</code>, the output <code>Y</code> equals <code>D₀</code>.</li>
+<li>When <code>S = 1</code>, the output <code>Y</code> equals <code>D₁</code>.</li>
+</ul>
+<section id="boolean-expression" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-expression">Boolean Expression</h3>
+<p><span class="math display">\[Y = \overline{S} \cdot D_0 + S \cdot D_1\]</span></p>
 </section>
-<section id="or-gate" class="level3">
-<h3 class="anchored" data-anchor-id="or-gate">1.2 OR Gate</h3>
-<p>The <strong>OR gate</strong> outputs <code>1</code> (HIGH) when <strong>at least one of its inputs is <code>1</code></strong>.</p>
+<section id="truth-table" class="level3">
+<h3 class="anchored" data-anchor-id="truth-table">Truth Table</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Input A</th>
-<th>Input B</th>
-<th>Output (Y = A + B)</th>
+<th>Select Line (S)</th>
+<th>Input <span class="math inline">\(D_0\)</span></th>
+<th>Input <span class="math inline">\(D_1\)</span></th>
+<th>Output (Y)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
 <td>0</td>
+<td>X</td>
 <td>0</td>
 </tr>
 <tr class="even">
 <td>0</td>
 <td>1</td>
+<td>X</td>
 <td>1</td>
 </tr>
 <tr class="odd">
 <td>1</td>
+<td>X</td>
 <td>0</td>
-<td>1</td>
+<td>0</td>
 </tr>
 <tr class="even">
 <td>1</td>
+<td>X</td>
 <td>1</td>
 <td>1</td>
 </tr>
 </tbody>
 </table>
-<iframe src="https://circuitverse.org/users/464938/projects/or-950f929e-f825-486d-a66a-4fa6bbd03d22/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
-</iframe>
+<p><em>(Note: <code>X</code> represents a “don’t care” state)</em></p>
 </section>
-<section id="not-gate" class="level3">
-<h3 class="anchored" data-anchor-id="not-gate">1.3 NOT Gate</h3>
-<p>The <strong>NOT gate</strong> has a single input and outputs the <strong>opposite</strong> of the input. If the input is <code>1</code>, the output is <code>0</code>, and vice versa.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Input A</th>
-<th>Output (Y = A̅)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<iframe src="https://circuitverse.org/users/464938/projects/not-7acc852e-13c8-4210-a6fc-87ebdaa8a1fb/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
-</iframe>
+<section id="logic-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="logic-implementation">Logic Implementation</h3>
+<p>A 2-to-1 Multiplexer can be implemented using <strong>two AND gates, one OR gate, and one NOT gate</strong>:</p>
+<p><span class="math display">\[\boxed{Y = \overline{S}D_0 + SD_1}\]</span></p>
+<hr>
 </section>
-<section id="xor-gate" class="level3">
-<h3 class="anchored" data-anchor-id="xor-gate">1.4 XOR Gate</h3>
-<p>The <strong>XOR (Exclusive-OR) gate</strong> outputs <code>1</code> when <strong>exactly one of its inputs is <code>1</code></strong>. It outputs <code>0</code> when both inputs are the same.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Input A</th>
-<th>Input B</th>
-<th>Output (Y = A ⊕ B)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>1</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<iframe src="https://circuitverse.org/users/464938/projects/xor-797259e1-86c8-457f-a29d-ffeeb3de0b9c/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
-</iframe>
 </section>
-<section id="nor-gate" class="level3">
-<h3 class="anchored" data-anchor-id="nor-gate">1.5 NOR Gate</h3>
-<p>The <strong>NOR gate</strong> is the combination of an <strong>OR gate followed by a NOT gate</strong>. It outputs <code>1</code> only when <strong>all of its inputs are <code>0</code></strong>.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Input A</th>
-<th>Input B</th>
-<th>Output (Y = (A + B)̅)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>1</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<iframe src="https://circuitverse.org/users/464938/projects/nor-d476cb3c-edcb-42b4-b8fe-ebc0955fa1cb/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
+<section id="to-1-multiplexer-1" class="level2">
+<h2 class="anchored" data-anchor-id="to-1-multiplexer-1">5.2 4-to-1 Multiplexer</h2>
+<iframe src="https://circuitverse.org/users/464938/projects/4-to-1-multiplexer-1ede1a38-c0b4-47fe-bdcd-3d5584a0d91e/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=false&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
 </iframe>
+<p>A <strong>4-to-1 Multiplexer</strong> has four data inputs (<code>D₀</code>, <code>D₁</code>, <code>D₂,</code> <code>D₃</code>), two select lines (<code>S₁</code>, <code>S₀</code>), and a single output (<code>Y</code>). The select lines decode to choose which input is routed to the output.</p>
+<section id="boolean-expression-1" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-expression-1">Boolean Expression</h3>
+<p><span class="math display">\[Y = \overline{S_1} \, \overline{S_0} D_0 + \overline{S_1} S_0 D_1 + S_1 \, \overline{S_0} D_2 + S_1 S_0 D_3\]</span></p>
 </section>
-<section id="nand-gate" class="level3">
-<h3 class="anchored" data-anchor-id="nand-gate">1.6 NAND Gate</h3>
-<p>The <strong>NAND gate</strong> is the combination of an <strong>AND gate followed by a NOT gate</strong>. It outputs <code>0</code> only when <strong>all of its inputs are <code>1</code></strong>.</p>
+<section id="truth-table-1" class="level3">
+<h3 class="anchored" data-anchor-id="truth-table-1">Truth Table</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Input A</th>
-<th>Input B</th>
-<th>Output (Y = (A · B)̅)</th>
+<th>Select <span class="math inline">\(S_1\)</span></th>
+<th>Select <span class="math inline">\(S_0\)</span></th>
+<th>Selected Output (Y)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
 <td>0</td>
-<td>1</td>
+<td><span class="math inline">\(D_0\)</span></td>
 </tr>
 <tr class="even">
 <td>0</td>
 <td>1</td>
-<td>1</td>
+<td><span class="math inline">\(D_1\)</span></td>
 </tr>
 <tr class="odd">
 <td>1</td>
 <td>0</td>
-<td>1</td>
+<td><span class="math inline">\(D_2\)</span></td>
 </tr>
 <tr class="even">
 <td>1</td>
 <td>1</td>
-<td>0</td>
+<td><span class="math inline">\(D_3\)</span></td>
 </tr>
 </tbody>
 </table>
-<iframe src="https://circuitverse.org/users/464938/projects/nand-11b6b49c-c8cf-46c7-aea7-5be1217aefdd/simulator/embed?theme=default&amp;display_title=true&amp;clock_time=true&amp;fullscreen=true&amp;zoom_in_out=true" style="border-width:; border-style: dashed; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500" width="500" allowfullscreen="">
-</iframe>
 
 
+</section>
 </section>
 </section>
 
@@ -1101,13 +1001,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./overview.html" class="pagination-link" aria-label="0. Overview">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">0. Overview</span>
+      <a href="../circuitverse/4.subtractors.html" class="pagination-link" aria-label="4. Subtractors">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">4. Subtractors</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./universal_gates.html" class="pagination-link" aria-label="2. Universal Gates">
-        <span class="nav-page-text">2. Universal Gates</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../circuitverse/6.demultiplexers.html" class="pagination-link" aria-label="6. Demultiplexers">
+        <span class="nav-page-text">6. Demultiplexers</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
