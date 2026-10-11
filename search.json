@@ -192,7 +192,7 @@
     "href": "circuitverse/0.overview.html",
     "title": "Digital Logic Circuits",
     "section": "",
-    "text": "Digital Logic Circuits\nDigital Logic Circuits\n│\n├── 1. Basic Logic Gates\n│   │\n│   ├── 1.1 AND\n│   ├── 1.2 OR\n│   ├── 1.3 NOT\n│   ├── 1.4 XOR\n│   ├── 1.5 NOR\n│   └── 1.6 NAND\n│\n├── 2. Universal Gates\n│   │\n│   ├── 2.1 NOT, AND, OR using NAND\n│   └── 2.2 NOT, AND, OR using NOR\n│\n├── 3. Adders\n│   │\n│   ├── 3.1 Half Adder  \n│   └── 3.2 Full Adder  \n│\n├── 4. Subtractors\n│   │\n│   ├── 4.1 Half Subtractors  \n│   └── 4.2 Full Subtractors  \n│\n├── 5. Multiplexers\n│   │\n│   ├── 5.1  2-to-1 Mux  \n│   └── 5.2  4-to-1 Mux  \n│\n├── 6. Demultiplexers\n│   │\n│   ├── 6.1 1-to-2 Mux  \n│   └── 6.2 1-to-4 Mux  \n│\n├── 3. Combinational Logic Circuits\n│   │\n│   ├── 3.1 Adders\n│   ├── 3.2 Subtractors\n│   ├── 3.3 Multiplexers\n│   ├── 3.4 Demultiplexers\n│   ├── 3.5 Encoders\n│   ├── 3.6 Decoders\n│   ├── 3.7 Comparators\n│   └── 3.8 Code Converters\n│\n└── 4. Sequential Logic Circuits\n    │\n    ├── 4.1 Latches\n    ├── 4.2 Flip-Flops\n    ├── 4.3 Counters\n    └── 4.4 Shift Registers",
+    "text": "Digital Logic Circuits\nDigital Logic Circuits\n│\n├── 1. Basic Logic Gates\n│   │\n│   ├── 1.1 AND\n│   ├── 1.2 OR\n│   ├── 1.3 NOT\n│   ├── 1.4 XOR\n│   ├── 1.5 NOR\n│   └── 1.6 NAND\n│\n├── 2. Universal Gates\n│   │\n│   ├── 2.1 NOT, AND, OR using NAND\n│   └── 2.2 NOT, AND, OR using NOR\n│\n├── 3. Adders\n│   │\n│   ├── 3.1 Half Adder  \n│   └── 3.2 Full Adder  \n│\n├── 4. Subtractors\n│   │\n│   ├── 4.1 Half Subtractors  \n│   └── 4.2 Full Subtractors  \n│\n├── 5. Multiplexers\n│   │\n│   ├── 5.1  2-to-1 Mux  \n│   └── 5.2  4-to-1 Mux  \n│\n├── 6. Demultiplexers\n│   │\n│   ├── 6.1  1-to-2 Mux  \n│   └── 6.2  1-to-4 Mux  \n│\n├── 7. Decoders\n│   │\n│   ├── 7.1  2-to-4 Mux  \n│   └── 7.2  3-to-8 Mux  \n│\n├── 8. Comparators\n│   │\n│   ├── 8.1  1-Bit Magnitude Comparator  \n│   ├── 8.2  1-Bit Equality Comparator (XOR and XNOR Gates)  \n│   └── 8.3  N-Bit Equality Comparator (3-Bit Example)  \n│\n├── 3. Combinational Logic Circuits\n│   │\n│   ├── 3.1 Adders\n│   ├── 3.2 Subtractors\n│   ├── 3.3 Multiplexers\n│   ├── 3.4 Demultiplexers\n│   ├── 3.5 Encoders\n│   ├── 3.6 Decoders\n│   ├── 3.7 Comparators\n│   └── 3.8 Code Converters\n│\n└── 4. Sequential Logic Circuits\n    │\n    ├── 4.1 Latches\n    ├── 4.2 Flip-Flops\n    ├── 4.3 Counters\n    └── 4.4 Shift Registers",
     "crumbs": [
       "CircuitVerse Simulations",
       "0. Overview"
@@ -232,36 +232,69 @@
     ]
   },
   {
-    "objectID": "circuitverse/5.multiplexers.html",
-    "href": "circuitverse/5.multiplexers.html",
-    "title": "5. Multiplexers",
+    "objectID": "circuitverse/8.comparators.html",
+    "href": "circuitverse/8.comparators.html",
+    "title": "8. Comparators",
     "section": "",
-    "text": "Multiplexers (MUX) are combinational logic circuits designed to select one of many input lines and forward the selected input onto a single output line. Because of this behavior, a multiplexer is commonly referred to as a data selector.\nThe selection of a particular input line is controlled by a set of select lines. If there are \\(n\\) select lines, the multiplexer can handle up to \\(2^n\\) inputs.\n\n\n\n\n\nA 2-to-1 Multiplexer has two data inputs (D₀ and D₁), one select line (S), and a single output (Y).\n\nWhen S = 0, the output Y equals D₀.\nWhen S = 1, the output Y equals D₁.\n\n\n\n\\[Y = \\overline{S} \\cdot D_0 + S \\cdot D_1\\]\n\n\n\n\n\n\nSelect Line (S)\nInput \\(D_0\\)\nInput \\(D_1\\)\nOutput (Y)\n\n\n\n\n0\n0\nX\n0\n\n\n0\n1\nX\n1\n\n\n1\nX\n0\n0\n\n\n1\nX\n1\n1\n\n\n\n(Note: X represents a “don’t care” state)\n\n\n\nA 2-to-1 Multiplexer can be implemented using two AND gates, one OR gate, and one NOT gate:\n\\[\\boxed{Y = \\overline{S}D_0 + SD_1}\\]\n\n\n\n\n\n\n\nA 4-to-1 Multiplexer has four data inputs (D₀, D₁, D₂, D₃), two select lines (S₁, S₀), and a single output (Y). The select lines decode to choose which input is routed to the output.\n\n\n\\[Y = \\overline{S_1} \\, \\overline{S_0} D_0 + \\overline{S_1} S_0 D_1 + S_1 \\, \\overline{S_0} D_2 + S_1 S_0 D_3\\]\n\n\n\n\n\n\nSelect \\(S_1\\)\nSelect \\(S_0\\)\nSelected Output (Y)\n\n\n\n\n0\n0\n\\(D_0\\)\n\n\n0\n1\n\\(D_1\\)\n\n\n1\n0\n\\(D_2\\)\n\n\n1\n1\n\\(D_3\\)",
+    "text": "Comparators are combinational logic circuits used to compare the relative magnitude or equality of two binary numbers.\n\n\n\n\nA 1-Bit Magnitude Comparator is a combinational circuit that compares two single-bit binary inputs, A and B, to determine their relative magnitude.\nIt produces three mutually exclusive outputs:\n\n\\(A &gt; B\\) — active when \\(A\\) is greater than \\(B\\).\n\\(A &lt; B\\) — active when \\(A\\) is less than \\(B\\).\n\\(A = B\\) — active when \\(A\\) and \\(B\\) are equal.\n\n\n\nThe logic expressions for each condition are:\n\\[(A &gt; B) = A \\cdot \\overline{B}\\]\n\\[(A &lt; B) = \\overline{A} \\cdot B\\]\n\\[(A = B) = \\overline{A \\oplus B} = A \\cdot B + \\overline{A} \\cdot \\overline{B}\\]\n\n\n\n\n\n\nInput A\nInput B\n\\(A &gt; B\\)\n\\(A &lt; B\\)\n\\(A = B\\)\n\n\n\n\n0\n0\n0\n0\n1\n\n\n0\n1\n0\n1\n0\n\n\n1\n0\n1\n0\n0\n\n\n1\n1\n0\n0\n1\n\n\n\n\n\n\nA 1-bit magnitude comparator requires two NOT gates, two AND gates, and one XNOR gate (or equivalent logic) to generate all three comparison outputs.\n\n\n\n\n\n\n\nA 1-bit equality check can be implemented using either an XOR gate or an XNOR gate, depending on how the output convention is defined:\n\nXOR Gate (Inequality Detector):\n\\(0 = A \\text{ \\& } B \\text{ are equal}\\)\n\\(1 = A \\text{ \\& } B \\text{ are not equal}\\)\n\n\\[Y_{XOR} = A \\oplus B\\]\n\nXNOR Gate (Equality Detector):\n\\(1 = A \\text{ \\& } B \\text{ are equal}\\)\n\\(0 = A \\text{ \\& } B \\text{ are not equal}\\)\n\n\\[Y_{XNOR} = \\overline{A \\oplus B}\\]\n\n\n\n\n\n\n\n\n\n\n\nInput A\nInput B\nXOR (\\(A \\oplus B\\)) [Inequality]\nXNOR (\\(\\overline{A \\oplus B}\\)) [Equality]\n\n\n\n\n0\n0\n0\n1\n\n\n0\n1\n1\n0\n\n\n1\n0\n1\n0\n\n\n1\n1\n0\n1\n\n\n\n\n\n\n\\[\\boxed{Y_{XOR} = A \\oplus B}\\]\n\\[\\boxed{Y_{XNOR} = \\overline{A \\oplus B}}\\]\n\n\n\n\n\n\n\nAn N-Bit Equality Comparator compares two \\(n\\)-bit binary numbers (\\(A\\) and \\(B\\)) and outputs a 1 if and only if all corresponding bits are equal.\nFor a 3-Bit Equality Comparator, the inputs consist of two 3-bit numbers:\n\n\\(A = A_2 A_1 A_0\\)\n\\(B = B_2 B_1 B_0\\)\n\nIt produces a single output:\n\n\\(E\\) (Equality Output) — active (1) when \\(A_2 = B_2\\), \\(A_1 = B_1\\), and \\(A_0 = B_0\\) simultaneously.\n\n\n\nEach bit position is compared using an XNOR gate:\n\\[E_2 = A_2 \\odot B_2 = \\overline{A_2 \\oplus B_2}\\]\n\\[E_1 = A_1 \\odot B_1 = \\overline{A_1 \\oplus B_1}\\]\n\\[E_0 = A_0 \\odot B_0 = \\overline{A_0 \\oplus B_0}\\]\nThe final equality output is obtained by passing all individual bit comparison results through an AND gate:\n\\[E = E_2 \\cdot E_1 \\cdot E_0\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(A_2 A_1 A_0\\)\n\\(B_2 B_1 B_0\\)\n\\(E_2\\) (\\(A_2 \\odot B_2\\))\n\\(E_1\\) (\\(A_1 \\odot B_1\\))\n\\(E_0\\) (\\(A_0 \\odot B_0\\))\nEquality Output (\\(E\\))\n\n\n\n\n000\n000\n1\n1\n1\n1\n\n\n000\n001\n1\n1\n0\n0\n\n\n101\n101\n1\n1\n1\n1\n\n\n110\n011\n0\n0\n0\n0\n\n\n\n\n\n\nA 3-bit equality comparator can be constructed using three XNOR gates and one 3-input AND gate.\nTherefore:\n\\[\\boxed{E = (A_2 \\odot B_2) \\cdot (A_1 \\odot B_1) \\cdot (A_0 \\odot B_0)}\\]",
     "crumbs": [
       "CircuitVerse Simulations",
-      "5. Multiplexers"
+      "8. Comparators"
     ]
   },
   {
-    "objectID": "circuitverse/5.multiplexers.html#to-1-multiplexer",
-    "href": "circuitverse/5.multiplexers.html#to-1-multiplexer",
-    "title": "5. Multiplexers",
+    "objectID": "circuitverse/8.comparators.html#bit-magnitude-comparator",
+    "href": "circuitverse/8.comparators.html#bit-magnitude-comparator",
+    "title": "8. Comparators",
     "section": "",
-    "text": "A 2-to-1 Multiplexer has two data inputs (D₀ and D₁), one select line (S), and a single output (Y).\n\nWhen S = 0, the output Y equals D₀.\nWhen S = 1, the output Y equals D₁.\n\n\n\n\\[Y = \\overline{S} \\cdot D_0 + S \\cdot D_1\\]\n\n\n\n\n\n\nSelect Line (S)\nInput \\(D_0\\)\nInput \\(D_1\\)\nOutput (Y)\n\n\n\n\n0\n0\nX\n0\n\n\n0\n1\nX\n1\n\n\n1\nX\n0\n0\n\n\n1\nX\n1\n1\n\n\n\n(Note: X represents a “don’t care” state)\n\n\n\nA 2-to-1 Multiplexer can be implemented using two AND gates, one OR gate, and one NOT gate:\n\\[\\boxed{Y = \\overline{S}D_0 + SD_1}\\]",
+    "text": "A 1-Bit Magnitude Comparator is a combinational circuit that compares two single-bit binary inputs, A and B, to determine their relative magnitude.\nIt produces three mutually exclusive outputs:\n\n\\(A &gt; B\\) — active when \\(A\\) is greater than \\(B\\).\n\\(A &lt; B\\) — active when \\(A\\) is less than \\(B\\).\n\\(A = B\\) — active when \\(A\\) and \\(B\\) are equal.\n\n\n\nThe logic expressions for each condition are:\n\\[(A &gt; B) = A \\cdot \\overline{B}\\]\n\\[(A &lt; B) = \\overline{A} \\cdot B\\]\n\\[(A = B) = \\overline{A \\oplus B} = A \\cdot B + \\overline{A} \\cdot \\overline{B}\\]\n\n\n\n\n\n\nInput A\nInput B\n\\(A &gt; B\\)\n\\(A &lt; B\\)\n\\(A = B\\)\n\n\n\n\n0\n0\n0\n0\n1\n\n\n0\n1\n0\n1\n0\n\n\n1\n0\n1\n0\n0\n\n\n1\n1\n0\n0\n1\n\n\n\n\n\n\nA 1-bit magnitude comparator requires two NOT gates, two AND gates, and one XNOR gate (or equivalent logic) to generate all three comparison outputs.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "5. Multiplexers"
+      "8. Comparators"
     ]
   },
   {
-    "objectID": "circuitverse/5.multiplexers.html#to-1-multiplexer-1",
-    "href": "circuitverse/5.multiplexers.html#to-1-multiplexer-1",
-    "title": "5. Multiplexers",
+    "objectID": "circuitverse/8.comparators.html#bit-equality-comparator-xor-and-xnor-gates",
+    "href": "circuitverse/8.comparators.html#bit-equality-comparator-xor-and-xnor-gates",
+    "title": "8. Comparators",
     "section": "",
-    "text": "A 4-to-1 Multiplexer has four data inputs (D₀, D₁, D₂, D₃), two select lines (S₁, S₀), and a single output (Y). The select lines decode to choose which input is routed to the output.\n\n\n\\[Y = \\overline{S_1} \\, \\overline{S_0} D_0 + \\overline{S_1} S_0 D_1 + S_1 \\, \\overline{S_0} D_2 + S_1 S_0 D_3\\]\n\n\n\n\n\n\nSelect \\(S_1\\)\nSelect \\(S_0\\)\nSelected Output (Y)\n\n\n\n\n0\n0\n\\(D_0\\)\n\n\n0\n1\n\\(D_1\\)\n\n\n1\n0\n\\(D_2\\)\n\n\n1\n1\n\\(D_3\\)",
+    "text": "A 1-bit equality check can be implemented using either an XOR gate or an XNOR gate, depending on how the output convention is defined:\n\nXOR Gate (Inequality Detector):\n\\(0 = A \\text{ \\& } B \\text{ are equal}\\)\n\\(1 = A \\text{ \\& } B \\text{ are not equal}\\)\n\n\\[Y_{XOR} = A \\oplus B\\]\n\nXNOR Gate (Equality Detector):\n\\(1 = A \\text{ \\& } B \\text{ are equal}\\)\n\\(0 = A \\text{ \\& } B \\text{ are not equal}\\)\n\n\\[Y_{XNOR} = \\overline{A \\oplus B}\\]\n\n\n\n\n\n\n\n\n\n\n\nInput A\nInput B\nXOR (\\(A \\oplus B\\)) [Inequality]\nXNOR (\\(\\overline{A \\oplus B}\\)) [Equality]\n\n\n\n\n0\n0\n0\n1\n\n\n0\n1\n1\n0\n\n\n1\n0\n1\n0\n\n\n1\n1\n0\n1\n\n\n\n\n\n\n\\[\\boxed{Y_{XOR} = A \\oplus B}\\]\n\\[\\boxed{Y_{XNOR} = \\overline{A \\oplus B}}\\]",
     "crumbs": [
       "CircuitVerse Simulations",
-      "5. Multiplexers"
+      "8. Comparators"
+    ]
+  },
+  {
+    "objectID": "circuitverse/8.comparators.html#n-bit-equality-comparator-3-bit-example",
+    "href": "circuitverse/8.comparators.html#n-bit-equality-comparator-3-bit-example",
+    "title": "8. Comparators",
+    "section": "",
+    "text": "An N-Bit Equality Comparator compares two \\(n\\)-bit binary numbers (\\(A\\) and \\(B\\)) and outputs a 1 if and only if all corresponding bits are equal.\nFor a 3-Bit Equality Comparator, the inputs consist of two 3-bit numbers:\n\n\\(A = A_2 A_1 A_0\\)\n\\(B = B_2 B_1 B_0\\)\n\nIt produces a single output:\n\n\\(E\\) (Equality Output) — active (1) when \\(A_2 = B_2\\), \\(A_1 = B_1\\), and \\(A_0 = B_0\\) simultaneously.\n\n\n\nEach bit position is compared using an XNOR gate:\n\\[E_2 = A_2 \\odot B_2 = \\overline{A_2 \\oplus B_2}\\]\n\\[E_1 = A_1 \\odot B_1 = \\overline{A_1 \\oplus B_1}\\]\n\\[E_0 = A_0 \\odot B_0 = \\overline{A_0 \\oplus B_0}\\]\nThe final equality output is obtained by passing all individual bit comparison results through an AND gate:\n\\[E = E_2 \\cdot E_1 \\cdot E_0\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(A_2 A_1 A_0\\)\n\\(B_2 B_1 B_0\\)\n\\(E_2\\) (\\(A_2 \\odot B_2\\))\n\\(E_1\\) (\\(A_1 \\odot B_1\\))\n\\(E_0\\) (\\(A_0 \\odot B_0\\))\nEquality Output (\\(E\\))\n\n\n\n\n000\n000\n1\n1\n1\n1\n\n\n000\n001\n1\n1\n0\n0\n\n\n101\n101\n1\n1\n1\n1\n\n\n110\n011\n0\n0\n0\n0\n\n\n\n\n\n\nA 3-bit equality comparator can be constructed using three XNOR gates and one 3-input AND gate.\nTherefore:\n\\[\\boxed{E = (A_2 \\odot B_2) \\cdot (A_1 \\odot B_1) \\cdot (A_0 \\odot B_0)}\\]",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "8. Comparators"
+    ]
+  },
+  {
+    "objectID": "circuitverse/2.universal_gates.html",
+    "href": "circuitverse/2.universal_gates.html",
+    "title": "CircuitVerse Interactive Simulations",
+    "section": "",
+    "text": "A universal gate is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are NAND and NOR.\n\n\n\n\nThe NAND gate is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.\n\n\nTo construct a NOT gate, connect both inputs of a NAND gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NAND } A\n\\]\n\\[\nY = \\overline{A \\cdot A} = \\overline{A}\n\\]\n\n\n\nA NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.\nFormula:\n\\[\nY = \\overline{\\overline{A \\cdot B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\n\n\n\nUsing De Morgan’s theorem, an OR gate can be constructed using three NAND gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} \\cdot \\overline{B}}\n\\]\n\\[\nY = A + B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NAND gates.\n\n\n\n\n\n\n\nThe NOR gate is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.\n\n\nTo construct a NOT gate, connect both inputs of a NOR gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NOR } A\n\\]\n\\[\nY = \\overline{A + A} = \\overline{A}\n\\]\n\n\n\nA NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.\nFormula:\n\\[\nY = \\overline{\\overline{A + B}}\n\\]\n\\[\nY = A + B\n\\]\n\n\n\nUsing De Morgan’s theorem, an AND gate can be constructed using three NOR gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} + \\overline{B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NOR gates.\nThis demonstrates why NAND and NOR are called universal gates.",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "2. Universal Gates"
+    ]
+  },
+  {
+    "objectID": "circuitverse/2.universal_gates.html#universal-gates",
+    "href": "circuitverse/2.universal_gates.html#universal-gates",
+    "title": "CircuitVerse Interactive Simulations",
+    "section": "",
+    "text": "A universal gate is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are NAND and NOR.\n\n\n\n\nThe NAND gate is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.\n\n\nTo construct a NOT gate, connect both inputs of a NAND gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NAND } A\n\\]\n\\[\nY = \\overline{A \\cdot A} = \\overline{A}\n\\]\n\n\n\nA NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.\nFormula:\n\\[\nY = \\overline{\\overline{A \\cdot B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\n\n\n\nUsing De Morgan’s theorem, an OR gate can be constructed using three NAND gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} \\cdot \\overline{B}}\n\\]\n\\[\nY = A + B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NAND gates.\n\n\n\n\n\n\n\nThe NOR gate is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.\n\n\nTo construct a NOT gate, connect both inputs of a NOR gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NOR } A\n\\]\n\\[\nY = \\overline{A + A} = \\overline{A}\n\\]\n\n\n\nA NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.\nFormula:\n\\[\nY = \\overline{\\overline{A + B}}\n\\]\n\\[\nY = A + B\n\\]\n\n\n\nUsing De Morgan’s theorem, an AND gate can be constructed using three NOR gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} + \\overline{B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NOR gates.\nThis demonstrates why NAND and NOR are called universal gates.",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "2. Universal Gates"
     ]
   },
   {
@@ -647,25 +680,69 @@
     ]
   },
   {
-    "objectID": "circuitverse/2.universal_gates.html",
-    "href": "circuitverse/2.universal_gates.html",
-    "title": "CircuitVerse Interactive Simulations",
+    "objectID": "circuitverse/7.decoders.html",
+    "href": "circuitverse/7.decoders.html",
+    "title": "7. Decoders",
     "section": "",
-    "text": "A universal gate is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are NAND and NOR.\n\n\n\n\nThe NAND gate is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.\n\n\nTo construct a NOT gate, connect both inputs of a NAND gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NAND } A\n\\]\n\\[\nY = \\overline{A \\cdot A} = \\overline{A}\n\\]\n\n\n\nA NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.\nFormula:\n\\[\nY = \\overline{\\overline{A \\cdot B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\n\n\n\nUsing De Morgan’s theorem, an OR gate can be constructed using three NAND gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} \\cdot \\overline{B}}\n\\]\n\\[\nY = A + B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NAND gates.\n\n\n\n\n\n\n\nThe NOR gate is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.\n\n\nTo construct a NOT gate, connect both inputs of a NOR gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NOR } A\n\\]\n\\[\nY = \\overline{A + A} = \\overline{A}\n\\]\n\n\n\nA NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.\nFormula:\n\\[\nY = \\overline{\\overline{A + B}}\n\\]\n\\[\nY = A + B\n\\]\n\n\n\nUsing De Morgan’s theorem, an AND gate can be constructed using three NOR gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} + \\overline{B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NOR gates.\nThis demonstrates why NAND and NOR are called universal gates.",
+    "text": "Decoders are combinational logic circuits that convert binary information from \\(n\\) input lines to a maximum of \\(2^n\\) unique output lines.\n\n\n\n\nA 2-to-4 Decoder is a combinational circuit that takes two single-bit binary inputs, A and B.\nIt produces four mutually exclusive outputs:\n\n\\(Y_0\\) — active when inputs are 00\n\\(Y_1\\) — active when inputs are 01\n\\(Y_2\\) — active when inputs are 10\n\\(Y_3\\) — active when inputs are 11\n\n\n\nEach output corresponds to a specific minterm of the inputs:\n\\[Y_0 = \\overline{A} \\cdot \\overline{B}\\]\n\\[Y_1 = \\overline{A} \\cdot B\\]\n\\[Y_2 = A \\cdot \\overline{B}\\]\n\\[Y_3 = A \\cdot B\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInput A\nInput B\nOutput \\(Y_0\\)\nOutput \\(Y_1\\)\nOutput \\(Y_2\\)\nOutput \\(Y_3\\)\n\n\n\n\n0\n0\n1\n0\n0\n0\n\n\n0\n1\n0\n1\n0\n0\n\n\n1\n0\n0\n0\n1\n0\n\n\n1\n1\n0\n0\n0\n1\n\n\n\n\n\n\nA 2-to-4 decoder can be implemented using:\n\\[\\boxed{Y_0 = \\overline{A} \\cdot \\overline{B}, \\quad Y_1 = \\overline{A} \\cdot B, \\quad Y_2 = A \\cdot \\overline{B}, \\quad Y_3 = A \\cdot B}\\]\nTherefore, a 2-to-4 decoder requires two NOT gates and four AND gates.\n\n\n\n\n\n\n\nA 3-to-8 Decoder is a combinational circuit that takes three single-bit binary inputs:\n\nA\nB\nC\n\nIt produces eight mutually exclusive outputs:\n\n\\(Y_0\\) to \\(Y_7\\)\n\n\n\nThe output expressions represent each of the eight minterms for three variables:\n\\[Y_0 = \\overline{A} \\cdot \\overline{B} \\cdot \\overline{C}\\]\n\\[Y_1 = \\overline{A} \\cdot \\overline{B} \\cdot C\\]\n\\[Y_2 = \\overline{A} \\cdot B \\cdot \\overline{C}\\]\n\\[Y_3 = \\overline{A} \\cdot B \\cdot C\\]\n\\[Y_4 = A \\cdot \\overline{B} \\cdot \\overline{C}\\]\n\\[Y_5 = A \\cdot \\overline{B} \\cdot C\\]\n\\[Y_6 = A \\cdot B \\cdot \\overline{C}\\]\n\\[Y_7 = A \\cdot B \\cdot C\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInput A\nInput B\nInput C\n\\(Y_0\\)\n\\(Y_1\\)\n\\(Y_2\\)\n\\(Y_3\\)\n\\(Y_4\\)\n\\(Y_5\\)\n\\(Y_6\\)\n\\(Y_7\\)\n\n\n\n\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n\n\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n\n\n0\n1\n0\n0\n0\n1\n0\n0\n0\n0\n0\n\n\n0\n1\n1\n0\n0\n0\n1\n0\n0\n0\n0\n\n\n1\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n\n\n1\n0\n1\n0\n0\n0\n0\n0\n1\n0\n0\n\n\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n\n\n1\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n\n\n\n\n\n\nLarger decoders can be constructed using smaller decoders combined with enable inputs. For instance, a 3-to-8 decoder can be built using two 2-to-4 decoders with Enable inputs and an inverter.\nUsing the most significant input bit (\\(A\\)) as the enable selector:\nWhen \\(A = 0\\):\n\\[\\text{First 2-to-4 decoder is enabled, generating outputs } Y_0 \\text{ through } Y_3.\\]\nWhen \\(A = 1\\):\n\\[\\text{Second 2-to-4 decoder is enabled, generating outputs } Y_4 \\text{ through } Y_7.\\]\nTherefore, a 3-to-8 decoder can be efficiently implemented using two 2-to-4 decoders and one NOT gate.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "2. Universal Gates"
+      "7. Decoders"
     ]
   },
   {
-    "objectID": "circuitverse/2.universal_gates.html#universal-gates",
-    "href": "circuitverse/2.universal_gates.html#universal-gates",
-    "title": "CircuitVerse Interactive Simulations",
+    "objectID": "circuitverse/7.decoders.html#to-4-decoder",
+    "href": "circuitverse/7.decoders.html#to-4-decoder",
+    "title": "7. Decoders",
     "section": "",
-    "text": "A universal gate is a logic gate that can be used by itself to implement all the basic logic gates. The two universal gates are NAND and NOR.\n\n\n\n\nThe NAND gate is a universal gate because NOT, AND, and OR gates can be constructed using only NAND gates.\n\n\nTo construct a NOT gate, connect both inputs of a NAND gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NAND } A\n\\]\n\\[\nY = \\overline{A \\cdot A} = \\overline{A}\n\\]\n\n\n\nA NAND gate followed by another NAND gate used as a NOT gate produces an AND operation.\nFormula:\n\\[\nY = \\overline{\\overline{A \\cdot B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\n\n\n\nUsing De Morgan’s theorem, an OR gate can be constructed using three NAND gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} \\cdot \\overline{B}}\n\\]\n\\[\nY = A + B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NAND gates.\n\n\n\n\n\n\n\nThe NOR gate is also a universal gate because NOT, AND, and OR gates can be constructed using only NOR gates.\n\n\nTo construct a NOT gate, connect both inputs of a NOR gate to the same input A.\nFormula:\n\\[\nY = A \\text{ NOR } A\n\\]\n\\[\nY = \\overline{A + A} = \\overline{A}\n\\]\n\n\n\nA NOR gate followed by another NOR gate used as a NOT gate produces an OR operation.\nFormula:\n\\[\nY = \\overline{\\overline{A + B}}\n\\]\n\\[\nY = A + B\n\\]\n\n\n\nUsing De Morgan’s theorem, an AND gate can be constructed using three NOR gates.\nFormula:\n\\[\nY = \\overline{\\overline{A} + \\overline{B}}\n\\]\n\\[\nY = A \\cdot B\n\\]\nThus, NOT, AND, and OR gates can all be implemented using only NOR gates.\nThis demonstrates why NAND and NOR are called universal gates.",
+    "text": "A 2-to-4 Decoder is a combinational circuit that takes two single-bit binary inputs, A and B.\nIt produces four mutually exclusive outputs:\n\n\\(Y_0\\) — active when inputs are 00\n\\(Y_1\\) — active when inputs are 01\n\\(Y_2\\) — active when inputs are 10\n\\(Y_3\\) — active when inputs are 11\n\n\n\nEach output corresponds to a specific minterm of the inputs:\n\\[Y_0 = \\overline{A} \\cdot \\overline{B}\\]\n\\[Y_1 = \\overline{A} \\cdot B\\]\n\\[Y_2 = A \\cdot \\overline{B}\\]\n\\[Y_3 = A \\cdot B\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInput A\nInput B\nOutput \\(Y_0\\)\nOutput \\(Y_1\\)\nOutput \\(Y_2\\)\nOutput \\(Y_3\\)\n\n\n\n\n0\n0\n1\n0\n0\n0\n\n\n0\n1\n0\n1\n0\n0\n\n\n1\n0\n0\n0\n1\n0\n\n\n1\n1\n0\n0\n0\n1\n\n\n\n\n\n\nA 2-to-4 decoder can be implemented using:\n\\[\\boxed{Y_0 = \\overline{A} \\cdot \\overline{B}, \\quad Y_1 = \\overline{A} \\cdot B, \\quad Y_2 = A \\cdot \\overline{B}, \\quad Y_3 = A \\cdot B}\\]\nTherefore, a 2-to-4 decoder requires two NOT gates and four AND gates.",
     "crumbs": [
       "CircuitVerse Simulations",
-      "2. Universal Gates"
+      "7. Decoders"
+    ]
+  },
+  {
+    "objectID": "circuitverse/7.decoders.html#to-8-decoder",
+    "href": "circuitverse/7.decoders.html#to-8-decoder",
+    "title": "7. Decoders",
+    "section": "",
+    "text": "A 3-to-8 Decoder is a combinational circuit that takes three single-bit binary inputs:\n\nA\nB\nC\n\nIt produces eight mutually exclusive outputs:\n\n\\(Y_0\\) to \\(Y_7\\)\n\n\n\nThe output expressions represent each of the eight minterms for three variables:\n\\[Y_0 = \\overline{A} \\cdot \\overline{B} \\cdot \\overline{C}\\]\n\\[Y_1 = \\overline{A} \\cdot \\overline{B} \\cdot C\\]\n\\[Y_2 = \\overline{A} \\cdot B \\cdot \\overline{C}\\]\n\\[Y_3 = \\overline{A} \\cdot B \\cdot C\\]\n\\[Y_4 = A \\cdot \\overline{B} \\cdot \\overline{C}\\]\n\\[Y_5 = A \\cdot \\overline{B} \\cdot C\\]\n\\[Y_6 = A \\cdot B \\cdot \\overline{C}\\]\n\\[Y_7 = A \\cdot B \\cdot C\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInput A\nInput B\nInput C\n\\(Y_0\\)\n\\(Y_1\\)\n\\(Y_2\\)\n\\(Y_3\\)\n\\(Y_4\\)\n\\(Y_5\\)\n\\(Y_6\\)\n\\(Y_7\\)\n\n\n\n\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n\n\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n\n\n0\n1\n0\n0\n0\n1\n0\n0\n0\n0\n0\n\n\n0\n1\n1\n0\n0\n0\n1\n0\n0\n0\n0\n\n\n1\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n\n\n1\n0\n1\n0\n0\n0\n0\n0\n1\n0\n0\n\n\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n\n\n1\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n\n\n\n\n\n\nLarger decoders can be constructed using smaller decoders combined with enable inputs. For instance, a 3-to-8 decoder can be built using two 2-to-4 decoders with Enable inputs and an inverter.\nUsing the most significant input bit (\\(A\\)) as the enable selector:\nWhen \\(A = 0\\):\n\\[\\text{First 2-to-4 decoder is enabled, generating outputs } Y_0 \\text{ through } Y_3.\\]\nWhen \\(A = 1\\):\n\\[\\text{Second 2-to-4 decoder is enabled, generating outputs } Y_4 \\text{ through } Y_7.\\]\nTherefore, a 3-to-8 decoder can be efficiently implemented using two 2-to-4 decoders and one NOT gate.",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "7. Decoders"
+    ]
+  },
+  {
+    "objectID": "circuitverse/5.multiplexers.html",
+    "href": "circuitverse/5.multiplexers.html",
+    "title": "5. Multiplexers",
+    "section": "",
+    "text": "Multiplexers (MUX) are combinational logic circuits designed to select one of many input lines and forward the selected input onto a single output line. Because of this behavior, a multiplexer is commonly referred to as a data selector.\nThe selection of a particular input line is controlled by a set of select lines. If there are \\(n\\) select lines, the multiplexer can handle up to \\(2^n\\) inputs.\n\n\n\n\n\nA 2-to-1 Multiplexer has two data inputs (D₀ and D₁), one select line (S), and a single output (Y).\n\nWhen S = 0, the output Y equals D₀.\nWhen S = 1, the output Y equals D₁.\n\n\n\n\\[Y = \\overline{S} \\cdot D_0 + S \\cdot D_1\\]\n\n\n\n\n\n\nSelect Line (S)\nInput \\(D_0\\)\nInput \\(D_1\\)\nOutput (Y)\n\n\n\n\n0\n0\nX\n0\n\n\n0\n1\nX\n1\n\n\n1\nX\n0\n0\n\n\n1\nX\n1\n1\n\n\n\n(Note: X represents a “don’t care” state)\n\n\n\nA 2-to-1 Multiplexer can be implemented using two AND gates, one OR gate, and one NOT gate:\n\\[\\boxed{Y = \\overline{S}D_0 + SD_1}\\]\n\n\n\n\n\n\n\nA 4-to-1 Multiplexer has four data inputs (D₀, D₁, D₂, D₃), two select lines (S₁, S₀), and a single output (Y). The select lines decode to choose which input is routed to the output.\n\n\n\\[Y = \\overline{S_1} \\, \\overline{S_0} D_0 + \\overline{S_1} S_0 D_1 + S_1 \\, \\overline{S_0} D_2 + S_1 S_0 D_3\\]\n\n\n\n\n\n\nSelect \\(S_1\\)\nSelect \\(S_0\\)\nSelected Output (Y)\n\n\n\n\n0\n0\n\\(D_0\\)\n\n\n0\n1\n\\(D_1\\)\n\n\n1\n0\n\\(D_2\\)\n\n\n1\n1\n\\(D_3\\)",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "5. Multiplexers"
+    ]
+  },
+  {
+    "objectID": "circuitverse/5.multiplexers.html#to-1-multiplexer",
+    "href": "circuitverse/5.multiplexers.html#to-1-multiplexer",
+    "title": "5. Multiplexers",
+    "section": "",
+    "text": "A 2-to-1 Multiplexer has two data inputs (D₀ and D₁), one select line (S), and a single output (Y).\n\nWhen S = 0, the output Y equals D₀.\nWhen S = 1, the output Y equals D₁.\n\n\n\n\\[Y = \\overline{S} \\cdot D_0 + S \\cdot D_1\\]\n\n\n\n\n\n\nSelect Line (S)\nInput \\(D_0\\)\nInput \\(D_1\\)\nOutput (Y)\n\n\n\n\n0\n0\nX\n0\n\n\n0\n1\nX\n1\n\n\n1\nX\n0\n0\n\n\n1\nX\n1\n1\n\n\n\n(Note: X represents a “don’t care” state)\n\n\n\nA 2-to-1 Multiplexer can be implemented using two AND gates, one OR gate, and one NOT gate:\n\\[\\boxed{Y = \\overline{S}D_0 + SD_1}\\]",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "5. Multiplexers"
+    ]
+  },
+  {
+    "objectID": "circuitverse/5.multiplexers.html#to-1-multiplexer-1",
+    "href": "circuitverse/5.multiplexers.html#to-1-multiplexer-1",
+    "title": "5. Multiplexers",
+    "section": "",
+    "text": "A 4-to-1 Multiplexer has four data inputs (D₀, D₁, D₂, D₃), two select lines (S₁, S₀), and a single output (Y). The select lines decode to choose which input is routed to the output.\n\n\n\\[Y = \\overline{S_1} \\, \\overline{S_0} D_0 + \\overline{S_1} S_0 D_1 + S_1 \\, \\overline{S_0} D_2 + S_1 S_0 D_3\\]\n\n\n\n\n\n\nSelect \\(S_1\\)\nSelect \\(S_0\\)\nSelected Output (Y)\n\n\n\n\n0\n0\n\\(D_0\\)\n\n\n0\n1\n\\(D_1\\)\n\n\n1\n0\n\\(D_2\\)\n\n\n1\n1\n\\(D_3\\)",
+    "crumbs": [
+      "CircuitVerse Simulations",
+      "5. Multiplexers"
     ]
   },
   {

@@ -22,15 +22,19 @@
   </url>
   <url>
     <loc>https://cs3031.github.io/circuitverse/0.overview.html</loc>
-    <lastmod>2026-10-10T21:46:46.373Z</lastmod>
+    <lastmod>2026-10-11T07:48:11.627Z</lastmod>
   </url>
   <url>
     <loc>https://cs3031.github.io/circuitverse/6.demultiplexers.html</loc>
     <lastmod>2026-10-10T21:40:00.428Z</lastmod>
   </url>
   <url>
-    <loc>https://cs3031.github.io/circuitverse/5.multiplexers.html</loc>
-    <lastmod>2026-10-10T21:39:55.692Z</lastmod>
+    <loc>https://cs3031.github.io/circuitverse/8.comparators.html</loc>
+    <lastmod>2026-10-11T07:11:17.793Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cs3031.github.io/circuitverse/2.universal_gates.html</loc>
+    <lastmod>2026-10-04T11:47:55.292Z</lastmod>
   </url>
   <url>
     <loc>https://cs3031.github.io/circuitverse/1.basic_gates.html</loc>
@@ -61,8 +65,12 @@
     <lastmod>2026-09-20T17:26:57.840Z</lastmod>
   </url>
   <url>
-    <loc>https://cs3031.github.io/circuitverse/2.universal_gates.html</loc>
-    <lastmod>2026-10-04T11:47:55.292Z</lastmod>
+    <loc>https://cs3031.github.io/circuitverse/7.decoders.html</loc>
+    <lastmod>2026-10-11T06:31:06.700Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cs3031.github.io/circuitverse/5.multiplexers.html</loc>
+    <lastmod>2026-10-10T21:39:55.692Z</lastmod>
   </url>
   <url>
     <loc>https://cs3031.github.io/circuitverse/4.subtractors.html</loc>
