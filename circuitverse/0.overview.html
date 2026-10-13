@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../circuitverse/1.basic_gates.html" rel="next">
+<link href="../circuitverse/5.multiplexers.html" rel="next">
 <link href="../Week-12.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -290,12 +290,35 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Week-1</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Week-2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Week-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week-2</span></a>
+ <span class="menu-text">W2-Notes</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../circuitverse/1.basic_gates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Basic Logic Gates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../circuitverse/2.universal_gates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Universal Gates</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Week-3.html" class="sidebar-item-text sidebar-link">
@@ -308,6 +331,35 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Week-4</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Week-4</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">W4-Notes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../circuitverse/3.adders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Adders</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../circuitverse/4.subtractors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subtractors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Week-5.html" class="sidebar-item-text sidebar-link">
@@ -358,13 +410,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">CircuitVerse Simulations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../circuitverse/0.overview.html" class="sidebar-item-text sidebar-link active">
@@ -502,23 +554,27 @@ ul.task-list li input[type="checkbox"] {
 │   ├── 9.1  Display Pin Labelling and Layout
 │   └── 9.2  Mapping Specification &amp; Truth Table (For Roll No)
 │
-├── 3. Combinational Logic Circuits
+├── 3-9. Combinational Logic Circuits
 │   │
-│   ├── 3.1 Adders
-│   ├── 3.2 Subtractors
-│   ├── 3.3 Multiplexers
-│   ├── 3.4 Demultiplexers
-│   ├── 3.5 Encoders
-│   ├── 3.6 Decoders
-│   ├── 3.7 Comparators
-│   └── 3.8 Code Converters
+│   ├── 3. Adders
+│   ├── 4. Subtractors
+│   ├── 5. Multiplexers
+│   ├── 6. Demultiplexers
+│   ├── 7. Decoders
+│   ├── 8. Comparators
+│   └── 9. Seven Segment Display
 │
-└── 4. Sequential Logic Circuits
+├── 10. SR Latches
+│   │
+│   ├── 10.1  
+│   └── 10.2  
+│
+└── 20. Sequential Logic Circuits
     │
-    ├── 4.1 Latches
-    ├── 4.2 Flip-Flops
-    ├── 4.3 Counters
-    └── 4.4 Shift Registers</code></pre>
+    ├── 1 Latches
+    ├── 2 Flip-Flops
+    ├── 3 Counters
+    └── 4 Shift Registers</code></pre>
 
 
 </section>
@@ -944,8 +1000,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../circuitverse/1.basic_gates.html" class="pagination-link" aria-label="1. Basic Logic Gates">
-        <span class="nav-page-text">1. Basic Logic Gates</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../circuitverse/5.multiplexers.html" class="pagination-link" aria-label="5. Multiplexers">
+        <span class="nav-page-text">5. Multiplexers</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
