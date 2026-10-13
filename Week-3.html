@@ -544,8 +544,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#analyzing-timing-diagrams" id="toc-analyzing-timing-diagrams" class="nav-link" data-scroll-target="#analyzing-timing-diagrams">Analyzing Timing Diagrams</a></li>
   <li><a href="#handling-dont-care-conditions-x" id="toc-handling-dont-care-conditions-x" class="nav-link" data-scroll-target="#handling-dont-care-conditions-x">Handling “Don’t Care” Conditions (<span class="math inline">\(X\)</span>)</a></li>
-  <li><a href="#netlist-reduction-example" id="toc-netlist-reduction-example" class="nav-link" data-scroll-target="#netlist-reduction-example">Netlist Reduction Example</a></li>
-  <li><a href="#application-puzzle-the-3-door-light-switch-system" id="toc-application-puzzle-the-3-door-light-switch-system" class="nav-link" data-scroll-target="#application-puzzle-the-3-door-light-switch-system">Application Puzzle: The 3-Door Light Switch System</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -802,34 +800,6 @@ Row  :     m0         m1         m2         m3
 <ul>
 <li>In truth tables, <span class="math inline">\(X\)</span> terms can be set flexibly to either <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> during simplification to maximize term cancellation.</li>
 </ul>
-<hr>
-</section>
-<section id="netlist-reduction-example" class="level3">
-<h3 class="anchored" data-anchor-id="netlist-reduction-example">Netlist Reduction Example</h3>
-<p>Analyzing a given multi-gate netlist yields:</p>
-<p><span class="math display">\[F = X_1 X_2 + \bar{X}_1 X_2 + \bar{X}_1 \bar{X}_2\]</span></p>
-<p>Algebraic minimization:</p>
-<p><span class="math display">\[F = X_2(X_1 + \bar{X}_1) + \bar{X}_1 \bar{X}_2 = X_2 + \bar{X}_1 \bar{X}_2 = \bar{X}_1 + X_2\]</span></p>
-<pre><code> Unoptimized Netlist (3 AND + 1 OR)         Optimized Netlist (1 NOT + 1 OR)
-           ┌─────┐                                     ┌─────┐
- X1, X2 ──►│ AND │──┐                                  │     │
-           └─────┘  │  ┌────┐             X1 ──[NOT]──►│ OR  ├──► F
- X1̄, X2 ──►[ AND ]──┼─►│ OR │──► F                     │     │
-           [ AND ]──┘  └────┘             X2 ─────────►│     │
- X1̄, X2̄ ──►└─────┘                                     └─────┘
-</code></pre>
-<hr>
-</section>
-<section id="application-puzzle-the-3-door-light-switch-system" class="level3">
-<h3 class="anchored" data-anchor-id="application-puzzle-the-3-door-light-switch-system">Application Puzzle: The 3-Door Light Switch System</h3>
-<ul>
-<li><p><strong>Problem:</strong> A single room contains 1 light bulb and 3 independent door switches. Toggling <em>any</em> single switch must invert the light bulb’s current state.</p></li>
-<li><p><strong>System Type:</strong> Memoryless combinational logic implementing odd parity across inputs.</p></li>
-</ul>
-<pre><code>  Switches (S1, S2, S3) ──► [ Combinational Logic ] ──► Bulb State (L)
-</code></pre>
-<p>Truth Table Formulation:</p>
-<p><span class="math display">\[L(S_1, S_2, S_3) = S_1 \oplus S_2 \oplus S_3 = \sum m(1, 2, 4, 7)\]</span></p>
 <blockquote class="blockquote">
 <p>Note: These are AI summarised notes. We have tired our best to minimize the errors.<br>
 If you find any misleading information in these notes. Please report to us [sharath_b@study.iitm.ac.in], for corrections.</p>

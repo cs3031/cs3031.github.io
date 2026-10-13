@@ -538,7 +538,6 @@ window.Quarto = {
   <li><a href="#basic-definitions" id="toc-basic-definitions" class="nav-link" data-scroll-target="#basic-definitions">Basic Definitions</a></li>
   <li><a href="#operator-precedence-rules" id="toc-operator-precedence-rules" class="nav-link" data-scroll-target="#operator-precedence-rules">Operator Precedence Rules</a></li>
   <li><a href="#sum-of-products-sop-disjunctive-normal-form-dnf" id="toc-sum-of-products-sop-disjunctive-normal-form-dnf" class="nav-link" data-scroll-target="#sum-of-products-sop-disjunctive-normal-form-dnf">Sum of Products (SOP) / Disjunctive Normal Form (DNF)</a></li>
-  <li><a href="#hardware-realization-of-sop-expressions" id="toc-hardware-realization-of-sop-expressions" class="nav-link" data-scroll-target="#hardware-realization-of-sop-expressions">Hardware Realization of SOP Expressions</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -824,30 +823,13 @@ window.Quarto = {
 <p><strong>Canonical SOP Expression:</strong></p>
 <p><span class="math display">\[F(A, B, C) = \bar{A} B C + A \bar{B} \bar{C} + A B \bar{C} + A B C\]</span></p>
 <p><span class="math display">\[\text{Compact Notation: } F = \sum m(3, 4, 6, 7)\]</span></p>
-<hr>
-</section>
-</section>
-<section id="hardware-realization-of-sop-expressions" class="level3">
-<h3 class="anchored" data-anchor-id="hardware-realization-of-sop-expressions">Hardware Realization of SOP Expressions</h3>
-<p>SOP expressions map directly onto a <strong>two-level gate structure</strong>:</p>
-<ul>
-<li><p><strong>Level 1:</strong> Parallel AND gates generating individual minterm product terms.</p></li>
-<li><p><strong>Level 2:</strong> A single multi-input OR gate collecting all AND outputs.</p></li>
-</ul>
-<pre><code>  A ──[NOT]──┐
-  B ─────────┼───[ AND ]─── (ĀBC) ──┐
-  C ─────────┼───────────────┘      │
-                                    ├───[ OR ]───► Output (F)
-  A ─────────┼───────────────┐      │
-  B ──[NOT]──┼───[ AND ]─── (AB̄C̄) ──┘
-  C ──[NOT]──┘
-</code></pre>
 <blockquote class="blockquote">
 <p>Note: These are AI summarised notes. We have tired our best to minimize the errors.<br>
 If you find any misleading information in these notes. Please report to us [sharath_b@study.iitm.ac.in], for corrections.</p>
 </blockquote>
 
 
+</section>
 </section>
 </section>
 </section>
